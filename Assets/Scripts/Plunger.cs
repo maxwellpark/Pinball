@@ -20,14 +20,11 @@ public class Plunger : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && currentForce < maxForce)
         {
-            if (currentForce < maxForce)
-            {
-                lastChargeTime = Time.time;
-                chargeSlider.gameObject.SetActive(true);
-                currentForce += chargeSpeed * Time.deltaTime;
-            }
+            lastChargeTime = Time.time;
+            chargeSlider.gameObject.SetActive(true);
+            currentForce += chargeSpeed * Time.deltaTime;
         }
 
         if (Input.GetKeyUp(KeyCode.Space))

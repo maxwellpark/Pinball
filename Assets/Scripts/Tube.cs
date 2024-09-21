@@ -10,7 +10,7 @@ public class Tube : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag(Tags.Ball))
+        if (!Utils.IsBall(collision))
         {
             return;
         }

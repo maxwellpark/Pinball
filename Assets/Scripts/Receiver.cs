@@ -33,6 +33,11 @@ public abstract class ReceiverBase : MonoBehaviour
 
     protected virtual void OnExit(Collider2D collision)
     {
+        if (collision == null)
+        {
+            return;
+        }
+
         if (collision.TryGetComponent<Rigidbody2D>(out var ballRb))
         {
             ballRb.isKinematic = false;
@@ -49,7 +54,7 @@ public abstract class ReceiverBase : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag(Tags.Ball))
+        if (!Utils.IsBall(collision))
         {
             return;
         }

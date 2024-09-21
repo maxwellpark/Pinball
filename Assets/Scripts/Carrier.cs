@@ -17,7 +17,7 @@ public class Carrier : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag(Tags.Ball) || isCarrying)
+        if (!Utils.IsBall(collision) || isCarrying)
         {
             return;
         }

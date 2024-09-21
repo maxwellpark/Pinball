@@ -8,7 +8,7 @@ public class Flipper : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag(Tags.Ball))
+        if (!Utils.IsBall(collision))
         {
             return;
         }

@@ -6,7 +6,7 @@ public abstract class CollisionBehaviourBase : MonoBehaviour
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag(Tags.Ball))
+        if (!Utils.IsBall(collision))
         {
             return;
         }
