@@ -1,10 +1,12 @@
 using Events;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Camera minigameCamera;
+    [SerializeField] private TMP_Text scoreText;
 
     private static readonly EventService eventService = new();
     public static EventService EventService => eventService;
@@ -13,10 +15,26 @@ public class GameManager : Singleton<GameManager>
     private bool showControls = true;
 
     public static bool MinigameActive { get; private set; }
-    public static int Score { get; private set; }
+
+    private int score;
+    public int Score
+    {
+        get => score;
+        private set
+        {
+            score = value;
+            scoreText.SetText("Score: " + score);
+        }
+    }
+
+    public static void AddScore(int score)
+    {
+        Instance.Score += Mathf.Max(score, 0);
+    }
 
     private void Start()
     {
+        score = 0;
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
         EventService.Add<MinigameEndedEvent>(EndMinigame);
