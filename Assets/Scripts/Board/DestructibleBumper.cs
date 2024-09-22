@@ -3,6 +3,7 @@ using UnityEngine;
 public class DestructibleBumper : Bumper
 {
     [SerializeField] private int health = 3;
+    [SerializeField] private int score = 250;
 
     private SpriteRenderer spriteRenderer;
     private Color[] damageColors;
@@ -29,6 +30,7 @@ public class DestructibleBumper : Bumper
 
         if (health <= 0)
         {
+            GameManager.AddScore(score);
             Destroy(gameObject, 0.5f);
         }
     }

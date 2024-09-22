@@ -11,14 +11,17 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Camera minigameCamera;
     [SerializeField] private GameObject scoreTextContainer;
+    [SerializeField] private GameObject highScoreTextContainer;
 
     private TMP_Text scoreText;
+    private TMP_Text highScoreText;
     private GameObject ball;
     private bool showControls = true;
 
     public static bool MinigameActive { get; private set; }
 
     private int score;
+    private int highScore;
     public int Score
     {
         get => score;
@@ -26,6 +29,13 @@ public class GameManager : Singleton<GameManager>
         {
             score = value;
             scoreText.SetText("Score: " + score);
+
+            if (score > highScore)
+            {
+                highScore = score;
+                highScoreText.SetText("High score: " + highScore);
+                highScoreTextContainer.SetActive(true);
+            }
         }
     }
 
@@ -37,23 +47,30 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         scoreText = scoreTextContainer.GetComponentInChildren<TMP_Text>();
-        Score = 0;
         scoreTextContainer.SetActive(true);
+        Score = 0;
+        highScoreText = highScoreTextContainer.GetComponentInChildren<TMP_Text>();
+        highScoreTextContainer.SetActive(highScore > 0);
 
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
         EventService.Add<MinigameEndedEvent>(EndMinigame);
     }
 
+    private void DestroyBalls()
+    {
+        var balls = GameObject.FindGameObjectsWithTag(Tags.Ball);
+        foreach (var ball in balls)
+        {
+            Destroy(ball);
+        }
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            var balls = GameObject.FindGameObjectsWithTag(Tags.Ball);
-            foreach (var ball in balls)
-            {
-                Destroy(ball);
-            }
+            DestroyBalls();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -143,6 +160,7 @@ public class GameManager : Singleton<GameManager>
         minigameCamera.gameObject.SetActive(true);
         MinigameActive = true;
         scoreTextContainer.SetActive(false);
+        highScoreTextContainer.SetActive(false);
         EventService.Dispatch(new MinigameStartedEvent(onEnd));
     }
 
@@ -152,6 +170,15 @@ public class GameManager : Singleton<GameManager>
         MinigameActive = false;
         minigameCamera.gameObject.SetActive(false);
         scoreTextContainer.SetActive(true);
+        highScoreTextContainer.SetActive(highScore > 0);
+    }
+
+    // For now reference this from Floor in inspector 
+    public void GameOver()
+    {
+        Debug.Log("Game over... Score: " + Score);
+        Score = 0;
+        DestroyBalls();
     }
 }
 
