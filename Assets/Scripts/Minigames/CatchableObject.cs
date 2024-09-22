@@ -4,8 +4,7 @@ using UnityEngine;
 public class CatchableObject : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
-    private bool caught;
-    private bool missed;
+    private bool collided;
 
     private void Start()
     {
@@ -14,7 +13,7 @@ public class CatchableObject : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (caught)
+        if (collided)
         {
             return;
         }
@@ -23,14 +22,14 @@ public class CatchableObject : MonoBehaviour
         {
             //Destroy(gameObject);
             spriteRenderer.color = Color.green;
-            caught = true;
+            collided = true;
             GameManager.EventService.Dispatch<ObjectCaughtEvent>();
         }
-        else if (!missed && collision.gameObject.CompareTag(Tags.Ground))
+        else if (collision.gameObject.CompareTag(Tags.Ground))
         {
             //Destroy(gameObject);
             spriteRenderer.color = Color.red;
-            missed = true;
+            collided = true;
             GameManager.EventService.Dispatch<ObjectMissedEvent>();
         }
     }

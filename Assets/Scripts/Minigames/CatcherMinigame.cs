@@ -1,6 +1,7 @@
 using Events;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 // TODO: base class 
@@ -13,18 +14,20 @@ public class CatcherMinigame : MonoBehaviour
     [SerializeField] private float objectDropInterval = 1f;
     [SerializeField] private int objectCount = 3;
     [SerializeField] private float catcherSpeed = 5f;
-    [SerializeField] private float minX = -5f;
-    [SerializeField] private float maxX = 5f;
+    [SerializeField] private GameObject textContainer;
 
+    private TMP_Text text;
     private int objectsCaught;
     private int objectsMissed;
     private readonly List<GameObject> objects = new();
+    private bool won;
 
     private void Start()
     {
         GameManager.EventService.Add<ObjectCaughtEvent>(ObjectCaught);
         GameManager.EventService.Add<ObjectMissedEvent>(ObjectMissed);
         GameManager.EventService.Add<MinigameStartedEvent>(StartMinigame);
+        text = textContainer.GetComponentInChildren<TMP_Text>();
         container.SetActive(false);
     }
 
@@ -33,6 +36,10 @@ public class CatcherMinigame : MonoBehaviour
         container.SetActive(true);
         objectsCaught = 0;
         objectsMissed = 0;
+        won = false;
+
+        text.SetText(string.Empty);
+        textContainer.SetActive(false);
         StartCoroutine(SpawnObjects());
     }
 
@@ -78,6 +85,7 @@ public class CatcherMinigame : MonoBehaviour
         objectsCaught++;
         if (objectsCaught >= objectCount)
         {
+            won = true;
             StartCoroutine(EndAfterDelay());
         }
     }
@@ -87,12 +95,15 @@ public class CatcherMinigame : MonoBehaviour
         objectsMissed++;
         if (objectsMissed + objectsCaught >= objectCount)
         {
+            won = false;
             StartCoroutine(EndAfterDelay());
         }
     }
 
     private IEnumerator EndAfterDelay()
     {
+        textContainer.SetActive(true);
+        text.SetText(won ? "Minigame won!" : "Minigame lost!");
         yield return new WaitForSeconds(2f);
         EndMinigame();
     }

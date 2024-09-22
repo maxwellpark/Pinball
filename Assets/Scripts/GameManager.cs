@@ -107,7 +107,9 @@ public class GameManager : Singleton<GameManager>
             pix[i] = col;
         }
         var result = new Texture2D(width, height);
+#pragma warning disable UNT0017 // SetPixels invocation is slow
         result.SetPixels(pix);
+#pragma warning restore UNT0017 // SetPixels invocation is slow
         result.Apply();
         return result;
     }
