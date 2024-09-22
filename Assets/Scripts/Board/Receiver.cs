@@ -6,6 +6,8 @@ public abstract class ReceiverBase : MonoBehaviour
     [SerializeField] private float waitTime = 0.5f;
     [SerializeField] private string animationName;
 
+    protected bool isWaiting;
+
     protected virtual void OnEnter(Collider2D collision)
     {
         var transform = collision.transform;
@@ -65,7 +67,22 @@ public abstract class ReceiverBase : MonoBehaviour
     private IEnumerator Receive(Collider2D collision)
     {
         OnEnter(collision);
-        yield return new WaitForSeconds(waitTime);
+
+        // 0 means just wait until told to stop 
+        if (waitTime == 0)
+        {
+            isWaiting = true;
+
+            while (isWaiting)
+            {
+                yield return null;
+            }
+        }
+        else
+        {
+            yield return new WaitForSeconds(waitTime);
+        }
+
         OnExit(collision);
     }
 }

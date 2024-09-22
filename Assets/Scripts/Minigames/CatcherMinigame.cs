@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 // TODO: base class 
 public class CatcherMinigame : MonoBehaviour
@@ -14,6 +15,7 @@ public class CatcherMinigame : MonoBehaviour
     [SerializeField] private float objectDropInterval = 1f;
     [SerializeField] private int objectCount = 3;
     [SerializeField] private float catcherSpeed = 5f;
+    [SerializeField] private int winScore = 1000;
     [SerializeField] private GameObject textContainer;
 
     private TMP_Text text;
@@ -21,6 +23,7 @@ public class CatcherMinigame : MonoBehaviour
     private int objectsMissed;
     private readonly List<GameObject> objects = new();
     private bool won;
+    private UnityAction onEnd;
 
     private void Start()
     {
@@ -31,12 +34,13 @@ public class CatcherMinigame : MonoBehaviour
         container.SetActive(false);
     }
 
-    public void StartMinigame()
+    public void StartMinigame(MinigameStartedEvent evt)
     {
         container.SetActive(true);
         objectsCaught = 0;
         objectsMissed = 0;
         won = false;
+        onEnd = evt.OnEnd;
 
         text.SetText(string.Empty);
         textContainer.SetActive(false);
@@ -45,6 +49,7 @@ public class CatcherMinigame : MonoBehaviour
 
     private void EndMinigame()
     {
+        onEnd?.Invoke();
         GameManager.EventService.Dispatch<MinigameEndedEvent>();
         objects.ForEach(o => Destroy(o));
         objects.Clear();
@@ -94,6 +99,7 @@ public class CatcherMinigame : MonoBehaviour
         if (objectsCaught >= objectCount)
         {
             won = true;
+            GameManager.AddScore(winScore);
             StartCoroutine(EndAfterDelay());
         }
         else if (objectsMissed + objectsCaught >= objectCount)

@@ -1,6 +1,7 @@
 using Events;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -136,13 +137,13 @@ public class GameManager : Singleton<GameManager>
         return result;
     }
 
-    public void StartMinigame()
+    public void StartMinigame(UnityAction onEnd = null)
     {
         Debug.Log("Starting minigame...");
         minigameCamera.gameObject.SetActive(true);
         MinigameActive = true;
         scoreTextContainer.SetActive(false);
-        EventService.Dispatch<MinigameStartedEvent>();
+        EventService.Dispatch(new MinigameStartedEvent(onEnd));
     }
 
     private void EndMinigame()
