@@ -80,24 +80,37 @@ public class CatcherMinigame : MonoBehaviour
         }
     }
 
-    public void ObjectCaught()
+    public void ObjectLanded(bool caught)
     {
-        objectsCaught++;
+        if (caught)
+        {
+            objectsCaught++;
+        }
+        else
+        {
+            objectsMissed++;
+        }
+
         if (objectsCaught >= objectCount)
         {
             won = true;
             StartCoroutine(EndAfterDelay());
         }
-    }
-
-    public void ObjectMissed()
-    {
-        objectsMissed++;
-        if (objectsMissed + objectsCaught >= objectCount)
+        else if (objectsMissed + objectsCaught >= objectCount)
         {
             won = false;
             StartCoroutine(EndAfterDelay());
         }
+    }
+
+    public void ObjectCaught()
+    {
+        ObjectLanded(true);
+    }
+
+    public void ObjectMissed()
+    {
+        ObjectLanded(false);
     }
 
     private IEnumerator EndAfterDelay()
