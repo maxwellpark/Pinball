@@ -10,6 +10,11 @@ public class FlipperController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.MinigameActive)
+        {
+            return;
+        }
+
         var leftInput = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
         var rightInput = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
 

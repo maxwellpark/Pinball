@@ -20,6 +20,11 @@ public class Plunger : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.MinigameActive)
+        {
+            return;
+        }
+
         if (Input.GetKey(KeyCode.Space) && currentForce < maxForce)
         {
             lastChargeTime = Time.time;

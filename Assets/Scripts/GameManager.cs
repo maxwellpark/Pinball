@@ -1,25 +1,31 @@
+using Events;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] private Vector3 startPos = new(10.5f, 6.5f, 0f);
     [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private Camera minigameCamera;
+
+    private static readonly EventService eventService = new();
+    public static EventService EventService => eventService;
 
     private GameObject ball;
     private bool showControls = true;
 
+    public static bool MinigameActive { get; private set; }
+    public static int Score { get; private set; }
+
     private void Start()
     {
         ball = GameObject.FindWithTag(Tags.Ball);
+        minigameCamera.gameObject.SetActive(false);
+        EventService.Add<MinigameEndedEvent>(EndMinigame);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            //SetBallPos(startPos);
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
             var balls = GameObject.FindGameObjectsWithTag(Tags.Ball);
             foreach (var ball in balls)
             {
@@ -43,6 +49,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             showControls = !showControls;
+        }
+
+        if (!MinigameActive && Input.GetKeyDown(KeyCode.M))
+        {
+            StartMinigame();
         }
     }
 
@@ -100,9 +111,26 @@ public class GameManager : MonoBehaviour
         result.Apply();
         return result;
     }
+
+    public void StartMinigame()
+    {
+        Debug.Log("Starting minigame...");
+        minigameCamera.gameObject.SetActive(true);
+        MinigameActive = true;
+        EventService.Dispatch<MinigameStartedEvent>();
+    }
+
+    private void EndMinigame()
+    {
+        Debug.Log("Ending minigame...");
+        MinigameActive = false;
+        minigameCamera.gameObject.SetActive(false);
+    }
 }
 
 public static class Tags
 {
     public static readonly string Ball = "Ball";
+    public static readonly string Catcher = "Catcher";
+    public static readonly string Ground = "Ground";
 }
