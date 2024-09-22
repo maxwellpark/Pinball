@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] private GameObject ballPrefab;
-    [SerializeField] private Camera minigameCamera;
-    [SerializeField] private TMP_Text scoreText;
-
     private static readonly EventService eventService = new();
     public static EventService EventService => eventService;
 
+    [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private Camera minigameCamera;
+    [SerializeField] private GameObject scoreTextContainer;
+
+    private TMP_Text scoreText;
     private GameObject ball;
     private bool showControls = true;
 
@@ -34,7 +35,10 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        score = 0;
+        scoreText = scoreTextContainer.GetComponentInChildren<TMP_Text>();
+        Score = 0;
+        scoreTextContainer.SetActive(true);
+
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
         EventService.Add<MinigameEndedEvent>(EndMinigame);
@@ -137,6 +141,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Starting minigame...");
         minigameCamera.gameObject.SetActive(true);
         MinigameActive = true;
+        scoreTextContainer.SetActive(false);
         EventService.Dispatch<MinigameStartedEvent>();
     }
 
@@ -145,6 +150,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Ending minigame...");
         MinigameActive = false;
         minigameCamera.gameObject.SetActive(false);
+        scoreTextContainer.SetActive(true);
     }
 }
 

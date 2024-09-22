@@ -20,6 +20,8 @@ public class Plunger : MonoBehaviour
 
     private void Update()
     {
+        UpdateChargeSlider();
+
         if (GameManager.MinigameActive)
         {
             return;
@@ -36,8 +38,6 @@ public class Plunger : MonoBehaviour
         {
             LaunchBall();
         }
-
-        UpdateChargeSlider();
     }
 
     private void LaunchBall()
