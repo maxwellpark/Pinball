@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class DestructibleBumper : Bumper
 {
     [SerializeField] private int health = 3;
     [SerializeField] private int score = 250;
+    [SerializeField] private float damageInterval = 1f;
 
     private SpriteRenderer spriteRenderer;
     private Color[] damageColors;
@@ -25,6 +27,11 @@ public class DestructibleBumper : Bumper
     protected override void OnCollision(Collider2D collider)
     {
         base.OnCollision(collider);
+        TakeDamage();
+    }
+
+    private void TakeDamage()
+    {
         health--;
         UpdateColor();
 
@@ -32,6 +39,23 @@ public class DestructibleBumper : Bumper
         {
             GameManager.AddScore(score);
             Destroy(gameObject, 0.5f);
+        }
+    }
+
+    public void StartDamageOverTime(float duration)
+    {
+        StartCoroutine(DamageOverTime(duration));
+    }
+
+    private IEnumerator DamageOverTime(float duration)
+    {
+        var time = 0f;
+
+        while (time < duration && health > 0)
+        {
+            yield return new WaitForSeconds(damageInterval);
+            TakeDamage();
+            time += damageInterval;
         }
     }
 
