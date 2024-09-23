@@ -186,7 +186,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        var controlRect = new Rect(10, 10, 220, 140);
+        var controlRect = new Rect(10, 10, 220, 180);
         var boxStyle = new GUIStyle(GUI.skin.box);
         boxStyle.normal.background = MakeTex(2, 2, new Color(0f, 0f, 0f, 0.5f));
 
@@ -194,10 +194,12 @@ public class GameManager : Singleton<GameManager>
 
         GUI.Label(new Rect(20, 20, 200, 20), "A/D: Left/Right flipper");
         GUI.Label(new Rect(20, 40, 200, 20), "S: Both flippers");
-        GUI.Label(new Rect(20, 60, 200, 20), "Space (hold): Plunger");
-        GUI.Label(new Rect(20, 80, 200, 20), "R: Reset balls");
-        GUI.Label(new Rect(20, 100, 300, 20), "Left click: Spawn ball at mouse");
-        GUI.Label(new Rect(20, 120, 300, 20), "ESC: Toggle controls");
+        GUI.Label(new Rect(20, 60, 200, 20), "Q/E: Nudge ball left/right");
+        GUI.Label(new Rect(20, 80, 200, 20), "F: AOE explosion");
+        GUI.Label(new Rect(20, 100, 200, 20), "Space (hold): Plunger");
+        GUI.Label(new Rect(20, 120, 200, 20), "R: Reset balls");
+        GUI.Label(new Rect(20, 140, 300, 20), "Left click: Spawn ball at mouse");
+        GUI.Label(new Rect(20, 160, 300, 20), "ESC: Toggle controls");
     }
 
     private Texture2D MakeTex(int width, int height, Color col)
