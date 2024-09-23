@@ -1,3 +1,4 @@
+using Cinemachine;
 using Events;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Camera minigameCamera;
+    [SerializeField] private CinemachineVirtualCamera ballCamera;
     [SerializeField] private GameObject scoreTextContainer;
     [SerializeField] private GameObject highScoreTextContainer;
 
@@ -80,7 +82,7 @@ public class GameManager : Singleton<GameManager>
 
             if (ball == null)
             {
-                Instantiate(ballPrefab, mousePos, Quaternion.identity);
+                CreateBall(mousePos);
             }
 
             SetBallPos(mousePos);
@@ -95,6 +97,17 @@ public class GameManager : Singleton<GameManager>
         {
             StartMinigame();
         }
+    }
+
+    public GameObject CreateBall(Vector3 pos)
+    {
+        var instance = Instantiate(ballPrefab, pos, Quaternion.identity);
+
+        if (ballCamera.Follow == null)
+        {
+            ballCamera.Follow = instance.transform;
+        }
+        return instance;
     }
 
     private void SetBallPos(Vector3 pos)

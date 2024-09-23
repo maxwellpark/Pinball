@@ -42,7 +42,7 @@ public class Plunger : MonoBehaviour
 
     private void LaunchBall()
     {
-        var ball = Instantiate(ballPrefab, launchPosition.position, Quaternion.identity);
+        var ball = GameManager.Instance.CreateBall(launchPosition.position);
         var ballRb = ball.GetComponent<Rigidbody2D>();
 
         var launchDirection = (Vector2)transform.up;
