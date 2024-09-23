@@ -1,5 +1,6 @@
 using Cinemachine;
 using Events;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,11 +15,17 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private CinemachineVirtualCamera ballCamera;
     [SerializeField] private GameObject scoreTextContainer;
     [SerializeField] private GameObject highScoreTextContainer;
-    [SerializeField] private float nudgeForce = 2;
+    [SerializeField] private float nudgeForce = 2f;
+    [SerializeField] private float explosionRadius = 5f;
+    [SerializeField] private float explosionDuration = 2f;
+    [SerializeField] private float explosionIntensity = 0.5f;
+    [SerializeField] private float explosionSpeed = 50f;
 
     private TMP_Text scoreText;
     private TMP_Text highScoreText;
     private GameObject ball;
+    private Vector3 explosionPos;
+    private bool showExplosion;
     private bool showControls = true;
 
     public static bool MinigameActive { get; private set; }
@@ -109,6 +116,30 @@ public class GameManager : Singleton<GameManager>
         {
             ballRb.AddForce(Vector3.right * nudgeForce, ForceMode2D.Impulse);
         }
+
+        if (!showExplosion && Input.GetKeyDown(KeyCode.F))
+        {
+            StartCoroutine(TriggerExplosion());
+        }
+    }
+
+    private IEnumerator TriggerExplosion()
+    {
+        explosionPos = ball.transform.position;
+        showExplosion = true;
+
+        var colliders = Physics2D.OverlapCircleAll(explosionPos, explosionRadius);
+        foreach (var collider in colliders)
+        {
+            if (collider.TryGetComponent<Bumper>(out var bumper))
+            {
+                bumper.StartVibrate(explosionDuration, explosionIntensity, explosionSpeed);
+            }
+        }
+
+        yield return new WaitForSeconds(explosionDuration);
+        showExplosion = false;
+        explosionPos = Vector3.zero;
     }
 
     public GameObject CreateBall(Vector3 pos)
@@ -204,6 +235,17 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Game over... Score: " + Score);
         Score = 0;
         DestroyBalls();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!showExplosion)
+        {
+            return;
+        }
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(explosionPos, explosionRadius);
     }
 }
 
