@@ -134,6 +134,11 @@ public class GameManager : Singleton<GameManager>
             if (collider.TryGetComponent<Bumper>(out var bumper))
             {
                 bumper.StartVibrate(explosionDuration, explosionIntensity, explosionSpeed);
+
+                if (bumper is DestructibleBumper db)
+                {
+                    db.StartDamageOverTime(explosionDuration);
+                }
             }
         }
 

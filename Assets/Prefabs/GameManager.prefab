@@ -50,3 +50,7 @@ MonoBehaviour:
   scoreTextContainer: {fileID: 0}
   highScoreTextContainer: {fileID: 0}
   nudgeForce: 2
+  explosionRadius: 5
+  explosionDuration: 2
+  explosionIntensity: 0.3
+  explosionSpeed: 50

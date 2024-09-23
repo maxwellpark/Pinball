@@ -1455,26 +1455,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2202541221228133146, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2202541221228133146, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
-      propertyPath: m_Color.g
-      value: 0.5019608
-      objectReference: {fileID: 0}
     - target: {fileID: 6529300962144772527, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
       propertyPath: m_Name
       value: DestructibleBumper
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1858118764927224328, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6529300962144772527, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1486524416}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
 --- !u!4 &1159821735 stripped
 Transform:
@@ -1902,29 +1890,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!1 &1486524411 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6529300962144772527, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
-  m_PrefabInstance: {fileID: 1150352136}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1486524416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1486524411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb78503d4d9598409c77f1a8142b2db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  force: 10
-  vibrationDuration: 0.2
-  vibrationIntensity: 0.1
-  vibrationSpeed: 40
-  health: 3
-  score: 250
 --- !u!4 &1486524419 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1994825955381589604, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
@@ -3471,10 +3436,6 @@ PrefabInstance:
       propertyPath: ballCamera
       value: 
       objectReference: {fileID: 586591201}
-    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
-      propertyPath: explosionSpeed
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: minigameCamera
       value: 
