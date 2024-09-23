@@ -3471,6 +3471,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 586591201}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: nudgeForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: minigameCamera
       value: 
       objectReference: {fileID: 944448740}

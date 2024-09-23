@@ -14,6 +14,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private CinemachineVirtualCamera ballCamera;
     [SerializeField] private GameObject scoreTextContainer;
     [SerializeField] private GameObject highScoreTextContainer;
+    [SerializeField] private float nudgeForce = 2;
 
     private TMP_Text scoreText;
     private TMP_Text highScoreText;
@@ -93,9 +94,20 @@ public class GameManager : Singleton<GameManager>
             showControls = !showControls;
         }
 
-        if (!MinigameActive && Input.GetKeyDown(KeyCode.M))
+        if (ball == null || MinigameActive)
         {
-            StartMinigame();
+            return;
+        }
+
+        var ballRb = ball.GetComponent<Rigidbody2D>();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            ballRb.AddForce(Vector3.left * nudgeForce, ForceMode2D.Impulse);
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            ballRb.AddForce(Vector3.right * nudgeForce, ForceMode2D.Impulse);
         }
     }
 
