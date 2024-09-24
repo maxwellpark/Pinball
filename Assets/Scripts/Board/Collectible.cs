@@ -7,12 +7,12 @@ public class Collectible : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision))
+        if (!Utils.IsBallOrGhostBall(collision))
         {
             return;
         }
 
-        Debug.Log($"Hit collectible {name}");
+        Debug.Log($"{collision.name} hit collectible {name}");
         GameManager.AddScore(score);
         Instantiate(particlePrefab, collision.transform.position, particlePrefab.transform.rotation);
         Destroy(gameObject);

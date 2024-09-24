@@ -151,6 +151,18 @@ public class GameManager : Singleton<GameManager>
     {
         var instance = Instantiate(ballPrefab, pos, Quaternion.identity);
 
+        if (ball == null)
+        {
+            ball = instance;
+        }
+        else
+        {
+            // Tag balls after the main ball differently
+            // TODO: separate prefab 
+            instance.tag = Tags.GhostBall;
+            instance.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+        }
+
         if (ballCamera.Follow == null)
         {
             ballCamera.Follow = instance.transform;
@@ -259,6 +271,7 @@ public class GameManager : Singleton<GameManager>
 public static class Tags
 {
     public static readonly string Ball = "Ball";
+    public static readonly string GhostBall = "GhostBall";
     public static readonly string Catcher = "Catcher";
     public static readonly string Ground = "Ground";
 }

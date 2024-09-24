@@ -17,7 +17,7 @@ public class ButtonSwitch : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision) || isPressed)
+        if (!Utils.IsBallOrGhostBall(collision) || isPressed)
         {
             return;
         }
@@ -29,7 +29,7 @@ public class ButtonSwitch : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision))
+        if (!Utils.IsBallOrGhostBall(collision))
         {
             return;
         }

@@ -15,7 +15,7 @@ public abstract class BounceBehaviourBase : CollisionBehaviourBase
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!Utils.IsBall(collision))
+        if (!Utils.IsBallOrGhostBall(collision))
         {
             return;
         }
