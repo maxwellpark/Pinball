@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DestructibleBumper : Bumper
 {
@@ -9,6 +10,7 @@ public class DestructibleBumper : Bumper
 
     private SpriteRenderer spriteRenderer;
     private Color[] damageColors;
+    public event UnityAction<DestructibleBumper> OnDestroyed;
 
     protected override void Start()
     {
@@ -38,6 +40,7 @@ public class DestructibleBumper : Bumper
         if (health <= 0)
         {
             GameManager.AddScore(score);
+            OnDestroyed?.Invoke(this);
             Destroy(gameObject, 0.5f);
         }
     }
