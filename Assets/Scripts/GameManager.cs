@@ -13,13 +13,15 @@ public class GameManager : Singleton<GameManager>
     [Header("Ball")]
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private BallSaver ballSaver;
+    [SerializeField] private float nudgeForce = 2f;
+    [SerializeField] private int startingBalls = 3;
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
     [SerializeField] private Camera minigameCamera;
     [Header("UI")]
     [SerializeField] private GameObject scoreTextContainer;
     [SerializeField] private GameObject highScoreTextContainer;
-    [SerializeField] private float nudgeForce = 2f;
+    [SerializeField] private GameObject ballsTextContainer;
     [Header("Explosion")]
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionDuration = 2f;
@@ -28,6 +30,8 @@ public class GameManager : Singleton<GameManager>
 
     private TMP_Text scoreText;
     private TMP_Text highScoreText;
+    private TMP_Text ballsText;
+
     private GameObject ball;
     private Vector3 explosionPos;
     private bool showExplosion;
@@ -54,6 +58,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private int balls;
+    public int Balls
+    {
+        get => balls;
+        private set
+        {
+            balls = value;
+            ballsText.SetText("Balls: " + balls);
+        }
+    }
+
     public static void AddScore(int score)
     {
         Instance.Score += Mathf.Max(score, 0);
@@ -66,6 +81,8 @@ public class GameManager : Singleton<GameManager>
         Score = 0;
         highScoreText = highScoreTextContainer.GetComponentInChildren<TMP_Text>();
         highScoreTextContainer.SetActive(highScore > 0);
+        ballsText = ballsTextContainer.GetComponentInChildren<TMP_Text>();
+        Balls = startingBalls;
 
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
@@ -109,6 +126,11 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.B))
         {
             ballSaver.Activate();
+        }
+
+        if (Input.GetKeyDown(KeyCode.PageUp))
+        {
+            Balls++;
         }
 
         if (ball == null || MinigameActive)
@@ -159,6 +181,11 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject CreateBall(Vector3 pos)
     {
+        if (Balls < 1)
+        {
+            return null;
+        }
+
         var instance = Instantiate(ballPrefab, pos, Quaternion.identity);
 
         if (ball == null)
@@ -177,6 +204,8 @@ public class GameManager : Singleton<GameManager>
         {
             ballCamera.Follow = instance.transform;
         }
+
+        Balls--;
         return instance;
     }
 
@@ -259,11 +288,16 @@ public class GameManager : Singleton<GameManager>
     }
 
     // For now reference this from Floor in inspector 
-    public void GameOver()
+    public void LoseBall()
     {
-        Debug.Log("Game over... Score: " + Score);
-        Score = 0;
+        Debug.Log("Lost ball... Remaining: " + Balls);
         DestroyBalls();
+
+        if (Balls == 0)
+        {
+            Debug.Log("Game over... Score: " + Score);
+            Score = 0;
+        }
     }
 
     private void OnDrawGizmos()

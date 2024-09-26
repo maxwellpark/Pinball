@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using GM = GameManager;
 
 public class Plunger : MonoBehaviour
 {
@@ -20,9 +21,14 @@ public class Plunger : MonoBehaviour
 
     private void Update()
     {
+        if (GM.Instance.Balls < 1)
+        {
+            return;
+        }
+
         UpdateChargeSlider();
 
-        if (GameManager.MinigameActive)
+        if (GM.MinigameActive)
         {
             return;
         }
@@ -42,7 +48,12 @@ public class Plunger : MonoBehaviour
 
     private void LaunchBall()
     {
-        var ball = GameManager.Instance.CreateBall(launchPosition.position);
+        if (GM.Instance.Balls < 1)
+        {
+            return;
+        }
+
+        var ball = GM.Instance.CreateBall(launchPosition.position);
         var ballRb = ball.GetComponent<Rigidbody2D>();
 
         var launchDirection = (Vector2)transform.up;

@@ -7,23 +7,23 @@ public class BoxColliderDrawer : MonoBehaviour
 {
     [SerializeField] private Color color = Color.green;
 
-    public Func<bool> IsDrawing;
+    private Func<bool> isDrawing;
     private BoxCollider2D boxCollider;
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-        IsDrawing = () => true;
+        isDrawing = () => true;
     }
 
     public void SetIsDrawing(Func<bool> func)
     {
-        IsDrawing = func;
+        isDrawing = func;
     }
 
     private void OnDrawGizmos()
     {
-        if (boxCollider == null || IsDrawing == null || !IsDrawing())
+        if (boxCollider == null || isDrawing == null || !isDrawing())
         {
             return;
         }
