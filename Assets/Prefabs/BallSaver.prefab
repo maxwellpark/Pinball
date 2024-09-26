@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3455623477614709000}
   - component: {fileID: 9065743161282364961}
   - component: {fileID: 8677840672013997521}
+  - component: {fileID: 216144746941238394}
   m_Layer: 0
   m_Name: BallSaver
   m_TagString: Untagged
@@ -146,3 +147,16 @@ MonoBehaviour:
   destination: {fileID: 0}
   travelDuration: 10
   travelSpeed: 5
+--- !u!114 &216144746941238394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8973349455210808805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b175061e5f9007e4b84b5601b742d03e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0.8207547, g: 0.112273075, b: 0.64616835, a: 1}

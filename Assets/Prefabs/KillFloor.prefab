@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 42826739420534289}
   - component: {fileID: 924222754017681193}
   - component: {fileID: 8350388835585369620}
+  - component: {fileID: 7223561773723605629}
   m_Layer: 0
   m_Name: KillFloor
   m_TagString: Untagged
@@ -158,3 +159,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7223561773723605629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4279472708293272281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b175061e5f9007e4b84b5601b742d03e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 0, b: 0.03195238, a: 1}

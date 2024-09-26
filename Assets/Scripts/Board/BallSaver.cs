@@ -8,13 +8,15 @@ public class BallSaver : MonoBehaviour
     [SerializeField] private float travelSpeed = 5f;
 
     private bool isSaving;
-    private BoxCollider2D boxCollider;
 
     public bool IsActive { get; private set; }
 
     private void Start()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
+        if (TryGetComponent<BoxColliderDrawer>(out var drawer))
+        {
+            drawer.SetIsDrawing(() => IsActive);
+        }
     }
 
     public void Activate()
@@ -58,16 +60,5 @@ public class BallSaver : MonoBehaviour
         Debug.Log("[ball saver] saving ball...");
         StartCoroutine(SaveBall(collision.gameObject));
         IsActive = false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (IsActive && boxCollider != null)
-        {
-            Gizmos.color = Color.magenta;
-
-            var bounds = boxCollider.bounds;
-            Gizmos.DrawWireCube(bounds.center, bounds.size);
-        }
     }
 }
