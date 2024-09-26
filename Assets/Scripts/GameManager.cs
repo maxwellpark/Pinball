@@ -10,12 +10,17 @@ public class GameManager : Singleton<GameManager>
     private static readonly EventService eventService = new();
     public static EventService EventService => eventService;
 
+    [Header("Ball")]
     [SerializeField] private GameObject ballPrefab;
-    [SerializeField] private Camera minigameCamera;
+    [SerializeField] private BallSaver ballSaver;
+    [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
+    [SerializeField] private Camera minigameCamera;
+    [Header("UI")]
     [SerializeField] private GameObject scoreTextContainer;
     [SerializeField] private GameObject highScoreTextContainer;
     [SerializeField] private float nudgeForce = 2f;
+    [Header("Explosion")]
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionDuration = 2f;
     [SerializeField] private float explosionIntensity = 0.5f;
@@ -99,6 +104,11 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             showControls = !showControls;
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            ballSaver.Activate();
         }
 
         if (ball == null || MinigameActive)
