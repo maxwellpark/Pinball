@@ -1,6 +1,7 @@
 using Cinemachine;
 using Events;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,6 +28,10 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float explosionDuration = 2f;
     [SerializeField] private float explosionIntensity = 0.5f;
     [SerializeField] private float explosionSpeed = 50f;
+    [Header("SO's")]
+    [SerializeField] private ScoreThresholds scoreThresholds;
+
+    private readonly List<ScoreThreshold> unreachedThresholds = new();
 
     private TMP_Text scoreText;
     private TMP_Text highScoreText;
@@ -55,6 +60,33 @@ public class GameManager : Singleton<GameManager>
                 highScoreText.SetText("High score: " + highScore);
                 highScoreTextContainer.SetActive(true);
             }
+
+            var reachedThresholds = new List<ScoreThreshold>();
+
+            foreach (var threshold in unreachedThresholds)
+            {
+                if (score >= threshold.Score)
+                {
+                    Debug.Log($"Threshold {threshold.Action} reached at {threshold.Score}");
+
+                    switch (threshold.Action)
+                    {
+                        case Action.None:
+                            break;
+                        case Action.BallSaver:
+                            ballSaver.Activate();
+                            reachedThresholds.Add(threshold);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            foreach (var threshold in reachedThresholds)
+            {
+                unreachedThresholds.Remove(threshold);
+            }
         }
     }
 
@@ -74,6 +106,11 @@ public class GameManager : Singleton<GameManager>
         Instance.Score += Mathf.Max(score, 0);
     }
 
+    public enum Action
+    {
+        None, BallSaver,
+    }
+
     private void Start()
     {
         scoreText = scoreTextContainer.GetComponentInChildren<TMP_Text>();
@@ -87,6 +124,8 @@ public class GameManager : Singleton<GameManager>
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
         EventService.Add<MinigameEndedEvent>(EndMinigame);
+
+        unreachedThresholds.AddRange(scoreThresholds.Thresholds);
     }
 
     private void DestroyBalls()
