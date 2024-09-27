@@ -16,6 +16,7 @@ public class Bumper : BounceBehaviourBase
 
     protected override void OnCollision(Collider2D collider)
     {
+        base.OnCollision(collider);
         StartVibrate(vibrationDuration, vibrationIntensity, vibrationSpeed);
     }
 

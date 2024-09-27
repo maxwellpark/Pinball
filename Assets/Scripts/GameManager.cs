@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Ball")]
     [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private GameObject ghostBallPrefab;
     [SerializeField] private BallRescue ballRescue;
     [SerializeField] private BallSaver ballSaver;
     [SerializeField] private float nudgeForce = 2f;
@@ -137,6 +138,7 @@ public class GameManager : Singleton<GameManager>
         {
             Destroy(ball);
         }
+        ball = null;
     }
 
     private void Update()
@@ -177,6 +179,11 @@ public class GameManager : Singleton<GameManager>
         if (ball == null || MinigameActive)
         {
             return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Instantiate(ghostBallPrefab, ball.transform.position, Quaternion.identity);
         }
 
         var ballRb = ball.GetComponent<Rigidbody2D>();
@@ -222,24 +229,13 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject CreateBall(Vector3 pos)
     {
-        if (Balls < 1)
+        if (ball != null || Balls < 1)
         {
             return null;
         }
 
         var instance = Instantiate(ballPrefab, pos, Quaternion.identity);
-
-        if (ball == null)
-        {
-            ball = instance;
-        }
-        else
-        {
-            // Tag balls after the main ball differently
-            // TODO: separate prefab 
-            instance.tag = Tags.GhostBall;
-            instance.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-        }
+        ball = instance;
 
         if (ballCamera.Follow == null)
         {

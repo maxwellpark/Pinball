@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 8631688824603131977, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
+  ghostBallPrefab: {fileID: 8497997444667861390, guid: 8b0feeba7d1541a43b1d660cae766b08, type: 3}
+  ballRescue: {fileID: 0}
   ballSaver: {fileID: 0}
   nudgeForce: 2
   startingBalls: 3

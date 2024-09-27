@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class DestructibleBumper : Bumper
 {
     [SerializeField] private int health = 3;
-    [SerializeField] private int score = 250;
+    [SerializeField] private int scoreOnDestroy = 250;
     [SerializeField] private float damageInterval = 1f;
 
     private SpriteRenderer spriteRenderer;
@@ -39,7 +39,7 @@ public class DestructibleBumper : Bumper
 
         if (health <= 0)
         {
-            GameManager.AddScore(score);
+            GameManager.AddScore(scoreOnDestroy);
             OnDestroyed?.Invoke(this);
             Destroy(gameObject, 0.5f);
         }
