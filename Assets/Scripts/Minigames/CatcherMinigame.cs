@@ -1,7 +1,6 @@
 using Events;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,9 +15,7 @@ public class CatcherMinigame : MonoBehaviour
     [SerializeField] private int objectCount = 3;
     [SerializeField] private float catcherSpeed = 5f;
     [SerializeField] private int winScore = 1000;
-    [SerializeField] private GameObject textContainer;
 
-    private TMP_Text text;
     private int objectsCaught;
     private int objectsMissed;
     private readonly List<GameObject> objects = new();
@@ -29,8 +26,7 @@ public class CatcherMinigame : MonoBehaviour
     {
         GameManager.EventService.Add<ObjectCaughtEvent>(ObjectCaught);
         GameManager.EventService.Add<ObjectMissedEvent>(ObjectMissed);
-        GameManager.EventService.Add<MinigameStartedEvent>(StartMinigame);
-        text = textContainer.GetComponentInChildren<TMP_Text>();
+        GameManager.EventService.Add<MinigameStartedEvent>(StartMinigame);  
         container.SetActive(false);
     }
 
@@ -41,9 +37,6 @@ public class CatcherMinigame : MonoBehaviour
         objectsMissed = 0;
         won = false;
         onEnd = evt.OnEnd;
-
-        text.SetText(string.Empty);
-        textContainer.SetActive(false);
         StartCoroutine(SpawnObjects());
     }
 
@@ -121,8 +114,7 @@ public class CatcherMinigame : MonoBehaviour
 
     private IEnumerator EndAfterDelay()
     {
-        textContainer.SetActive(true);
-        text.SetText(won ? "Minigame won!" : "Minigame lost!");
+        NotificationManager.Notify(won ? "Minigame won!" : "Minigame lost!");
         yield return new WaitForSeconds(2f);
         EndMinigame();
     }

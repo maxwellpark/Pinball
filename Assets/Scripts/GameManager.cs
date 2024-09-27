@@ -309,7 +309,8 @@ public class GameManager : Singleton<GameManager>
 
     public void StartMinigame(UnityAction onEnd = null)
     {
-        Debug.Log("Starting minigame...");
+        //Debug.Log("Starting minigame...");
+        NotificationManager.Notify("Starting minigame...", 0.5f);
         minigameCamera.gameObject.SetActive(true);
         MinigameActive = true;
         scoreTextContainer.SetActive(false);
@@ -329,12 +330,14 @@ public class GameManager : Singleton<GameManager>
     // For now reference this from Floor in inspector 
     public void LoseBall()
     {
-        Debug.Log("Lost ball... Remaining: " + Balls);
+        //Debug.Log("Lost ball... Remaining: " + Balls);
+        NotificationManager.Notify("Lost ball... Remaining: " + Balls);
         DestroyBalls();
 
         if (Balls == 0)
         {
-            Debug.Log("Game over... Score: " + Score);
+            //Debug.Log("Game over... Score: " + Score);
+            NotificationManager.Notify("Game over... Score: " + Score);
             Score = 0;
         }
     }

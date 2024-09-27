@@ -4,7 +4,6 @@ using UnityEngine;
 public class BallSaver : MonoBehaviour
 {
     [SerializeField] private Transform destination;
-    [SerializeField] private float travelDuration = 10f;
     [SerializeField] private float travelSpeed = 5f;
 
     private bool isSaving;
@@ -26,7 +25,8 @@ public class BallSaver : MonoBehaviour
             return;
         }
 
-        Debug.Log("[ball saver] activating...");
+        //Debug.Log("[ball saver] activating...");
+        NotificationManager.Notify("Ball saver activating...", 1f);
         IsActive = true;
     }
 
