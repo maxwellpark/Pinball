@@ -21,14 +21,9 @@ public class Plunger : MonoBehaviour
 
     private void Update()
     {
-        if (GM.Instance.Balls < 1)
-        {
-            return;
-        }
-
         UpdateChargeSlider();
 
-        if (GM.MinigameActive)
+        if (GM.Instance.Balls < 1 || GM.MinigameActive)
         {
             return;
         }

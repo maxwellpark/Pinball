@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Ball")]
     [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private BallRescue ballRescue;
     [SerializeField] private BallSaver ballSaver;
     [SerializeField] private float nudgeForce = 2f;
     [SerializeField] private int startingBalls = 3;
@@ -38,6 +39,7 @@ public class GameManager : Singleton<GameManager>
     private TMP_Text ballsText;
 
     private GameObject ball;
+    private bool isBallProtected;
     private Vector3 explosionPos;
     private bool showExplosion;
     private bool showControls = true;
@@ -68,16 +70,15 @@ public class GameManager : Singleton<GameManager>
                 if (score >= threshold.Score)
                 {
                     Debug.Log($"Threshold {threshold.Action} reached at {threshold.Score}");
+                    reachedThresholds.Add(threshold);
 
                     switch (threshold.Action)
                     {
-                        case Action.None:
+                        case Action.BallRescue:
+                            ballRescue.Activate();
                             break;
                         case Action.BallSaver:
                             ballSaver.Activate();
-                            reachedThresholds.Add(threshold);
-                            break;
-                        default:
                             break;
                     }
                 }
@@ -108,7 +109,7 @@ public class GameManager : Singleton<GameManager>
 
     public enum Action
     {
-        None, BallSaver,
+        None, BallRescue, BallSaver,
     }
 
     private void Start()
@@ -124,6 +125,7 @@ public class GameManager : Singleton<GameManager>
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
         EventService.Add<MinigameEndedEvent>(EndMinigame);
+        EventService.Add<BallSavedEvent>(OnBallSaved);
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
     }
@@ -164,7 +166,7 @@ public class GameManager : Singleton<GameManager>
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            ballSaver.Activate();
+            ballRescue.Activate();
         }
 
         if (Input.GetKeyDown(KeyCode.PageUp))
@@ -327,9 +329,21 @@ public class GameManager : Singleton<GameManager>
         highScoreTextContainer.SetActive(highScore > 0);
     }
 
+    private void OnBallSaved()
+    {
+        isBallProtected = true;
+    }
+
     // For now reference this from Floor in inspector 
     public void LoseBall()
     {
+        if (isBallProtected)
+        {
+            NotificationManager.Notify("Ball saved!");
+            isBallProtected = false;
+            return;
+        }
+
         //Debug.Log("Lost ball... Remaining: " + Balls);
         NotificationManager.Notify("Lost ball... Remaining: " + Balls);
         DestroyBalls();

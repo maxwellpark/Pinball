@@ -14,4 +14,5 @@ namespace Events
         }
     }
     public class MinigameEndedEvent : IEvent { }
+    public class BallSavedEvent : IEvent { }
 }
