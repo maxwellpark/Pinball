@@ -45,6 +45,7 @@ public class GameManager : Singleton<GameManager>
     private bool showExplosion;
     private bool showControls = true;
 
+    public static bool IsBallAlive => Instance.ball != null;
     public static bool MinigameActive { get; private set; }
 
     private int score;

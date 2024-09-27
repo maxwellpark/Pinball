@@ -23,7 +23,7 @@ public class Plunger : MonoBehaviour
     {
         UpdateChargeSlider();
 
-        if (GM.Instance.Balls < 1 || GM.MinigameActive)
+        if (GM.IsBallAlive || GM.Instance.Balls < 1 || GM.MinigameActive)
         {
             return;
         }
@@ -43,7 +43,7 @@ public class Plunger : MonoBehaviour
 
     private void LaunchBall()
     {
-        if (GM.Instance.Balls < 1)
+        if (GM.IsBallAlive || GM.Instance.Balls < 1)
         {
             return;
         }
