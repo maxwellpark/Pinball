@@ -2,51 +2,40 @@ using Events;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-// TODO: base class 
-public class CatcherMinigame : MonoBehaviour
+public class CatcherMinigame : Minigame
 {
-    [SerializeField] private GameObject container;
     [SerializeField] private GameObject catcherPlatform;
     [SerializeField] private GameObject objectPrefab;
     [SerializeField] private BoxCollider2D spawnCollider;
     [SerializeField] private float objectDropInterval = 1f;
     [SerializeField] private int objectCount = 3;
     [SerializeField] private float catcherSpeed = 5f;
-    [SerializeField] private int winScore = 1000;
 
     private int objectsCaught;
     private int objectsMissed;
     private readonly List<GameObject> objects = new();
-    private bool won;
-    private UnityAction onEnd;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         GameManager.EventService.Add<ObjectCaughtEvent>(ObjectCaught);
         GameManager.EventService.Add<ObjectMissedEvent>(ObjectMissed);
-        GameManager.EventService.Add<MinigameStartedEvent>(StartMinigame);  
-        container.SetActive(false);
     }
 
-    public void StartMinigame(MinigameStartedEvent evt)
+    public override void StartMinigame(MinigameStartedEvent evt)
     {
-        container.SetActive(true);
+        base.StartMinigame(evt);
         objectsCaught = 0;
         objectsMissed = 0;
-        won = false;
-        onEnd = evt.OnEnd;
         StartCoroutine(SpawnObjects());
     }
 
-    private void EndMinigame()
+    protected override void EndMinigame()
     {
-        onEnd?.Invoke();
-        GameManager.EventService.Dispatch<MinigameEndedEvent>();
+        base.EndMinigame();
         objects.ForEach(o => Destroy(o));
         objects.Clear();
-        container.SetActive(false);
     }
 
     private void Update()
