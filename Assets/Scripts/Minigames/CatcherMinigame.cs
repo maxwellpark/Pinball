@@ -16,6 +16,8 @@ public class CatcherMinigame : Minigame
     private int objectsMissed;
     private readonly List<GameObject> objects = new();
 
+    protected override Type MinigameType => Type.Catcher;
+
     protected override void Start()
     {
         base.Start();
@@ -23,12 +25,16 @@ public class CatcherMinigame : Minigame
         GameManager.EventService.Add<ObjectMissedEvent>(ObjectMissed);
     }
 
-    public override void StartMinigame(MinigameStartedEvent evt)
+    public override void OnMinigameStarted(MinigameStartedEvent evt)
     {
-        base.StartMinigame(evt);
-        objectsCaught = 0;
-        objectsMissed = 0;
-        StartCoroutine(SpawnObjects());
+        base.OnMinigameStarted(evt);
+
+        if (evt.Type == MinigameType)
+        {
+            objectsCaught = 0;
+            objectsMissed = 0;
+            StartCoroutine(SpawnObjects());
+        }
     }
 
     protected override void EndMinigame()
@@ -99,12 +105,5 @@ public class CatcherMinigame : Minigame
     public void ObjectMissed()
     {
         ObjectLanded(false);
-    }
-
-    private IEnumerator EndAfterDelay()
-    {
-        NotificationManager.Notify(won ? "Minigame won!" : "Minigame lost!");
-        yield return new WaitForSeconds(2f);
-        EndMinigame();
     }
 }

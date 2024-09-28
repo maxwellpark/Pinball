@@ -5,6 +5,13 @@ using UnityEngine.Events;
 
 public abstract class Minigame : MonoBehaviour
 {
+    public enum Type
+    {
+        Catcher, FallingFloors,
+    }
+
+    protected abstract Type MinigameType { get; }
+
     [SerializeField] protected GameObject container;
     [SerializeField] protected int winScore = 1000;
 
@@ -13,15 +20,18 @@ public abstract class Minigame : MonoBehaviour
 
     protected virtual void Start()
     {
-        GameManager.EventService.Add<MinigameStartedEvent>(StartMinigame);
+        GameManager.EventService.Add<MinigameStartedEvent>(OnMinigameStarted);
         container.SetActive(false);
     }
 
-    public virtual void StartMinigame(MinigameStartedEvent evt)
+    public virtual void OnMinigameStarted(MinigameStartedEvent evt)
     {
-        container.SetActive(true);
-        won = false;
-        onEnd = evt.OnEnd;
+        if (evt.Type == MinigameType)
+        {
+            container.SetActive(true);
+            won = false;
+            onEnd = evt.OnEnd;
+        }
     }
 
     protected virtual void EndMinigame()

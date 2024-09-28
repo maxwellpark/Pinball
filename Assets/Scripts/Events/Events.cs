@@ -7,9 +7,11 @@ namespace Events
     public class ObjectMissedEvent : IEvent { }
     public class MinigameStartedEvent : IEvent
     {
+        public Minigame.Type Type { get; }
         public UnityAction OnEnd { get; }
-        public MinigameStartedEvent(UnityAction onEnd)
+        public MinigameStartedEvent(Minigame.Type type, UnityAction onEnd)
         {
+            Type = type;
             OnEnd = onEnd;
         }
     }

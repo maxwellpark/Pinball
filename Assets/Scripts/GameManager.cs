@@ -298,7 +298,7 @@ public class GameManager : Singleton<GameManager>
         return result;
     }
 
-    public void StartMinigame(UnityAction onEnd = null)
+    public void StartMinigame(Minigame.Type type, UnityAction onEnd = null)
     {
         //Debug.Log("Starting minigame...");
         NotificationManager.Notify("Starting minigame...", 0.5f);
@@ -306,7 +306,7 @@ public class GameManager : Singleton<GameManager>
         MinigameActive = true;
         scoreTextContainer.SetActive(false);
         highScoreTextContainer.SetActive(false);
-        EventService.Dispatch(new MinigameStartedEvent(onEnd));
+        EventService.Dispatch(new MinigameStartedEvent(type, onEnd));
     }
 
     private void EndMinigame()
