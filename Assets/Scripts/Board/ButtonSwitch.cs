@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,19 +7,19 @@ public class ButtonSwitch : MonoBehaviour
     [SerializeField] private Transform switchTop;
     [SerializeField] private UnityEvent onPressed;
 
-    //private SpringJoint2D springJoint;
+    private SpringJoint2D springJoint;
     private Rigidbody2D rb;
     private bool isPressed;
     private Vector3 startPos;
-    private Coroutine returnRoutine;
+    //private Coroutine returnRoutine;
 
     private void Start()
     {
-        //springJoint = switchTop.GetComponent<SpringJoint2D>();
+        springJoint = switchTop.GetComponent<SpringJoint2D>();
         startPos = switchTop.localPosition;
 
-        //springJoint.connectedAnchor = startPos;
-        //springJoint.autoConfigureConnectedAnchor = false;
+        springJoint.connectedAnchor = startPos;
+        springJoint.autoConfigureConnectedAnchor = false;
         rb = switchTop.GetComponent<Rigidbody2D>();
         rb.isKinematic = true;
     }
@@ -36,11 +35,11 @@ public class ButtonSwitch : MonoBehaviour
         onPressed?.Invoke();
         rb.isKinematic = false;
 
-        if (returnRoutine != null)
-        {
-            StopCoroutine(returnRoutine);
-            returnRoutine = null;
-        }
+        //if (returnRoutine != null)
+        //{
+        //    StopCoroutine(returnRoutine);
+        //    returnRoutine = null;
+        //}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -50,25 +49,26 @@ public class ButtonSwitch : MonoBehaviour
             return;
         }
 
-        returnRoutine = StartCoroutine(ReturnToStartPosition());
+        //rb.isKinematic = false;
+        //returnRoutine = StartCoroutine(ReturnToStartPosition());
         isPressed = false;
     }
 
-    private IEnumerator ReturnToStartPosition()
-    {
-        rb.isKinematic = true;
+    //private IEnumerator ReturnToStartPosition()
+    //{
+    //    rb.isKinematic = true;
 
-        var currentPos = switchTop.localPosition;
-        var elapsedTime = 0f;
+    //    var currentPos = switchTop.localPosition;
+    //    var elapsedTime = 0f;
 
-        while (elapsedTime < 1f)
-        {
-            elapsedTime += Time.deltaTime * returnSpeed;
-            switchTop.localPosition = Vector3.Lerp(currentPos, startPos, elapsedTime);
-            yield return null;
-        }
+    //    while (elapsedTime < 1f)
+    //    {
+    //        elapsedTime += Time.deltaTime * returnSpeed;
+    //        switchTop.localPosition = Vector3.Lerp(currentPos, startPos, elapsedTime);
+    //        yield return null;
+    //    }
 
-        switchTop.localPosition = startPos;
-        returnRoutine = null;
-    }
+    //    switchTop.localPosition = startPos;
+    //    returnRoutine = null;
+    //}
 }
