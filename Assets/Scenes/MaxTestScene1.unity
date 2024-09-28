@@ -3044,6 +3044,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.5779401, b: 0, a: 1}
+--- !u!1 &2062588150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6256723602364087018, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2064139574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4205,6 +4210,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1803462149}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: comboTextContainer
+      value: 
+      objectReference: {fileID: 2062588150}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: scoreTextContainer
       value: 
       objectReference: {fileID: 455923829}
@@ -4387,97 +4396,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 275784378357652930, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 275784378357652930, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.g
-      value: 0.66833663
-      objectReference: {fileID: 0}
-    - target: {fileID: 275784378357652930, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153305631553986731, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.b
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153305631553986731, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.g
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 3153305631553986731, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.r
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 4235496808289730009, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.b
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 4235496808289730009, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.g
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 4235496808289730009, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.r
-      value: 0.8207547
-      objectReference: {fileID: 0}
     - target: {fileID: 4254115901478418680, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
       propertyPath: m_Name
       value: FallingFloorsMinigame
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566622128864880108, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566622128864880108, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.g
-      value: 0.66833663
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566622128864880108, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5955960592319177188, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.b
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 5955960592319177188, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.g
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 5955960592319177188, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.r
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 5988179395809258947, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.b
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 5988179395809258947, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.g
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 5988179395809258947, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.r
-      value: 0.8207547
-      objectReference: {fileID: 0}
-    - target: {fileID: 6236315468476290533, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.g
-      value: 0.66833663
-      objectReference: {fileID: 0}
-    - target: {fileID: 6236315468476290533, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6506165003702904147, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.g
-      value: 0.66833663
-      objectReference: {fileID: 0}
-    - target: {fileID: 6506165003702904147, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
-      propertyPath: m_Color.r
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8115204695015978745, guid: 8414f1e5b66e27145849887281cbad69, type: 3}
       propertyPath: m_LocalPosition.x

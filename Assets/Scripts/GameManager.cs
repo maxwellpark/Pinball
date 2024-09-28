@@ -25,11 +25,16 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject scoreTextContainer;
     [SerializeField] private GameObject highScoreTextContainer;
     [SerializeField] private GameObject ballsTextContainer;
+    [SerializeField] private GameObject comboTextContainer;
     [Header("Explosion")]
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionDuration = 2f;
     [SerializeField] private float explosionIntensity = 0.5f;
     [SerializeField] private float explosionSpeed = 50f;
+    [Header("Combo")]
+    [SerializeField] private float comboDecayTime = 5f;
+    [SerializeField] private int baseCombo = 1000;
+    [SerializeField] private float multiplierIncrement = 0.5f;
     [Header("SO's")]
     [SerializeField] private ScoreThresholds scoreThresholds;
 
@@ -38,6 +43,7 @@ public class GameManager : Singleton<GameManager>
     private TMP_Text scoreText;
     private TMP_Text highScoreText;
     private TMP_Text ballsText;
+    private TMP_Text comboText;
 
     private GameObject ball;
     private bool isBallProtected;
@@ -48,6 +54,20 @@ public class GameManager : Singleton<GameManager>
     public static bool IsBallAlive => Instance.ball != null;
     public static bool MinigameActive { get; private set; }
 
+    private float comboMultiplier = 1f;
+    public float ComboMultiplier
+    {
+        get => comboMultiplier;
+        private set
+        {
+            comboMultiplier = value;
+            comboText.SetText("Combo *: " + comboMultiplier);
+        }
+    }
+    private float comboDeltaTime;
+    private int nextCombo;
+    private int multiplierLevel;
+
     private int score;
     private int highScore;
     public int Score
@@ -57,6 +77,16 @@ public class GameManager : Singleton<GameManager>
         {
             score = value;
             scoreText.SetText("Score: " + score);
+
+            comboDeltaTime = 0;
+
+            if (score > nextCombo)
+            {
+                multiplierLevel++;
+                ComboMultiplier += multiplierIncrement;
+                nextCombo = Mathf.RoundToInt(baseCombo * Mathf.Pow(2, multiplierLevel));
+                Debug.Log($"Combo multiplier increased to {ComboMultiplier} | next combo at {nextCombo}");
+            }
 
             if (score > highScore)
             {
@@ -110,7 +140,7 @@ public class GameManager : Singleton<GameManager>
 
     public static void AddScore(int score)
     {
-        Instance.Score += Mathf.Max(score, 0);
+        Instance.Score += Mathf.RoundToInt(Mathf.Max(score * Instance.ComboMultiplier, 0));
     }
 
     public enum Action
@@ -126,6 +156,7 @@ public class GameManager : Singleton<GameManager>
         highScoreText = highScoreTextContainer.GetComponentInChildren<TMP_Text>();
         highScoreTextContainer.SetActive(highScore > 0);
         ballsText = ballsTextContainer.GetComponentInChildren<TMP_Text>();
+        comboText = comboTextContainer.GetComponentInChildren<TMP_Text>();
         Balls = startingBalls;
 
         ball = GameObject.FindWithTag(Tags.Ball);
@@ -173,6 +204,16 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.PageUp))
         {
             Balls++;
+        }
+
+        comboDeltaTime += Time.deltaTime;
+        if (comboDeltaTime >= comboDecayTime)
+        {
+            // Reset combo if decayed
+            ComboMultiplier = 1f;
+            multiplierLevel = 0;
+            nextCombo = baseCombo;
+            Debug.Log("Combo reset");
         }
 
         if (ball == null || MinigameActive)
