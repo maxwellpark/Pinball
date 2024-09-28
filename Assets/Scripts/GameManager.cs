@@ -130,6 +130,7 @@ public class GameManager : Singleton<GameManager>
         EventService.Add<BallSavedEvent>(OnBallSaved);
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
+        EventService.Dispatch<NewBallEvent>();
     }
 
     private void DestroyBalls()
@@ -160,6 +161,9 @@ public class GameManager : Singleton<GameManager>
             }
 
             SetBallPos(mousePos);
+
+            // In case it was in the plunger 
+            ball.GetComponent<Rigidbody2D>().isKinematic = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -237,13 +241,7 @@ public class GameManager : Singleton<GameManager>
 
         var instance = Instantiate(ballPrefab, pos, Quaternion.identity);
         ball = instance;
-
-        if (ballCamera.Follow == null)
-        {
-            ballCamera.Follow = instance.transform;
-        }
-
-        Balls--;
+        ballCamera.Follow = instance.transform;
         return instance;
     }
 
@@ -344,13 +342,17 @@ public class GameManager : Singleton<GameManager>
         //Debug.Log("Lost ball... Remaining: " + Balls);
         NotificationManager.Notify("Lost ball... Remaining: " + Balls);
         DestroyBalls();
+        Balls--;
 
         if (Balls == 0)
         {
             //Debug.Log("Game over... Score: " + Score);
             NotificationManager.Notify("Game over... Score: " + Score);
             Score = 0;
+            Balls = startingBalls;
         }
+
+        EventService.Dispatch<NewBallEvent>();
     }
 
     private void OnDrawGizmos()
