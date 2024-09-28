@@ -331,14 +331,12 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        //Debug.Log("Lost ball... Remaining: " + Balls);
+        Balls--;
         NotificationManager.Notify("Lost ball... Remaining: " + Balls);
         DestroyBalls();
-        Balls--;
 
         if (Balls == 0)
         {
-            //Debug.Log("Game over... Score: " + Score);
             NotificationManager.Notify("Game over... Score: " + Score);
             Score = 0;
             Balls = startingBalls;
