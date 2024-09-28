@@ -19,6 +19,8 @@ public class Kicker : BounceBehaviourBase
 
     protected override void OnCollision(Collider2D collider)
     {
+        base.OnCollision(collider);
+
         if (kickerEdgeSprite != null)
         {
             StartCoroutine(FlashColor());

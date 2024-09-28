@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 using UnityEngine.UI;
 using GM = GameManager;
@@ -11,24 +12,21 @@ public class Plunger : MonoBehaviour
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Transform launchPosition;
 
+    private Rigidbody2D ballRb;
     private float currentForce;
     private float lastChargeTime;
 
     private void Start()
     {
         chargeSlider.gameObject.SetActive(false);
+        GM.EventService.Add<NewBallEvent>(OnNewBall);
     }
 
     private void Update()
     {
-        if (GM.Instance.Balls < 1)
-        {
-            return;
-        }
-
         UpdateChargeSlider();
 
-        if (GM.MinigameActive)
+        if (ballRb == null || GM.MinigameActive)
         {
             return;
         }
@@ -46,24 +44,22 @@ public class Plunger : MonoBehaviour
         }
     }
 
+    private void OnNewBall()
+    {
+        var ball = GM.Instance.CreateBall(launchPosition.position);
+        ballRb = ball.GetComponent<Rigidbody2D>();
+        ballRb.isKinematic = true;
+        currentForce = 0;
+        Debug.Log("[plunger] new ball added");
+    }
+
     private void LaunchBall()
     {
-        if (GM.Instance.Balls < 1)
-        {
-            return;
-        }
-
-        var ball = GM.Instance.CreateBall(launchPosition.position);
-        var ballRb = ball.GetComponent<Rigidbody2D>();
-
         var launchDirection = (Vector2)transform.up;
-
-        if (ballRb != null)
-        {
-            ballRb.AddForce(launchDirection * currentForce, ForceMode2D.Impulse);
-        }
-
-        currentForce = 0;
+        ballRb.isKinematic = false;
+        ballRb.AddForce(launchDirection * currentForce, ForceMode2D.Impulse);
+        ballRb = null;
+        Debug.Log("[plunger] ball launched");
     }
 
     private void UpdateChargeSlider()

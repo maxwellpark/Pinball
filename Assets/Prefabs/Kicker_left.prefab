@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d3c077e450fb348b36083cfda6c2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 25
   force: 25
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   kickerEdgeSprite: {fileID: 8146333181931486230}

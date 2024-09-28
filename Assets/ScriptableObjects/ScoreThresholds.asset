@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: ScoreThresholds
   m_EditorClassIdentifier: 
   Thresholds:
-  - Score: 250
+  - Score: 100000
     Action: 1
+  - Score: 300
+    Action: 2

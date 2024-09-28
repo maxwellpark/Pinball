@@ -13,6 +13,8 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Ball")]
     [SerializeField] private GameObject ballPrefab;
+    [SerializeField] private GameObject ghostBallPrefab;
+    [SerializeField] private BallRescue ballRescue;
     [SerializeField] private BallSaver ballSaver;
     [SerializeField] private float nudgeForce = 2f;
     [SerializeField] private int startingBalls = 3;
@@ -38,10 +40,12 @@ public class GameManager : Singleton<GameManager>
     private TMP_Text ballsText;
 
     private GameObject ball;
+    private bool isBallProtected;
     private Vector3 explosionPos;
     private bool showExplosion;
     private bool showControls = true;
 
+    public static bool IsBallAlive => Instance.ball != null;
     public static bool MinigameActive { get; private set; }
 
     private int score;
@@ -68,18 +72,8 @@ public class GameManager : Singleton<GameManager>
                 if (score >= threshold.Score)
                 {
                     Debug.Log($"Threshold {threshold.Action} reached at {threshold.Score}");
-
-                    switch (threshold.Action)
-                    {
-                        case Action.None:
-                            break;
-                        case Action.BallSaver:
-                            ballSaver.Activate();
-                            reachedThresholds.Add(threshold);
-                            break;
-                        default:
-                            break;
-                    }
+                    reachedThresholds.Add(threshold);
+                    TriggerAction(threshold.Action);
                 }
             }
 
@@ -87,6 +81,19 @@ public class GameManager : Singleton<GameManager>
             {
                 unreachedThresholds.Remove(threshold);
             }
+        }
+    }
+
+    public static void TriggerAction(Action action)
+    {
+        switch (action)
+        {
+            case Action.BallRescue:
+                Instance.ballRescue.Activate();
+                break;
+            case Action.BallSaver:
+                Instance.ballSaver.Activate();
+                break;
         }
     }
 
@@ -108,7 +115,7 @@ public class GameManager : Singleton<GameManager>
 
     public enum Action
     {
-        None, BallSaver,
+        None, BallRescue, BallSaver,
     }
 
     private void Start()
@@ -124,17 +131,10 @@ public class GameManager : Singleton<GameManager>
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
         EventService.Add<MinigameEndedEvent>(EndMinigame);
+        EventService.Add<BallSavedEvent>(OnBallSaved);
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
-    }
-
-    private void DestroyBalls()
-    {
-        var balls = GameObject.FindGameObjectsWithTag(Tags.Ball);
-        foreach (var ball in balls)
-        {
-            Destroy(ball);
-        }
+        EventService.Dispatch<NewBallEvent>();
     }
 
     private void Update()
@@ -144,7 +144,7 @@ public class GameManager : Singleton<GameManager>
             DestroyBalls();
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !MinigameActive)
         {
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             ball = GameObject.FindWithTag(Tags.Ball);
@@ -155,6 +155,9 @@ public class GameManager : Singleton<GameManager>
             }
 
             SetBallPos(mousePos);
+
+            // In case it was in the plunger 
+            ball.GetComponent<Rigidbody2D>().isKinematic = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -164,7 +167,7 @@ public class GameManager : Singleton<GameManager>
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            ballSaver.Activate();
+            ballRescue.Activate();
         }
 
         if (Input.GetKeyDown(KeyCode.PageUp))
@@ -175,6 +178,11 @@ public class GameManager : Singleton<GameManager>
         if (ball == null || MinigameActive)
         {
             return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Instantiate(ghostBallPrefab, ball.transform.position, Quaternion.identity);
         }
 
         var ballRb = ball.GetComponent<Rigidbody2D>();
@@ -220,31 +228,14 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject CreateBall(Vector3 pos)
     {
-        if (Balls < 1)
+        if (ball != null || Balls < 1)
         {
             return null;
         }
 
         var instance = Instantiate(ballPrefab, pos, Quaternion.identity);
-
-        if (ball == null)
-        {
-            ball = instance;
-        }
-        else
-        {
-            // Tag balls after the main ball differently
-            // TODO: separate prefab 
-            instance.tag = Tags.GhostBall;
-            instance.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-        }
-
-        if (ballCamera.Follow == null)
-        {
-            ballCamera.Follow = instance.transform;
-        }
-
-        Balls--;
+        ball = instance;
+        ballCamera.Follow = instance.transform;
         return instance;
     }
 
@@ -327,19 +318,35 @@ public class GameManager : Singleton<GameManager>
         highScoreTextContainer.SetActive(highScore > 0);
     }
 
+    private void OnBallSaved()
+    {
+        isBallProtected = true;
+    }
+
     // For now reference this from Floor in inspector 
     public void LoseBall()
     {
-        //Debug.Log("Lost ball... Remaining: " + Balls);
+        if (isBallProtected)
+        {
+            NotificationManager.Notify("Ball saved!");
+            isBallProtected = false;
+            Destroy(ball);
+            Invoke(nameof(NewBall), 0.1f);
+            return;
+        }
+
+        Balls--;
         NotificationManager.Notify("Lost ball... Remaining: " + Balls);
         DestroyBalls();
 
         if (Balls == 0)
         {
-            //Debug.Log("Game over... Score: " + Score);
             NotificationManager.Notify("Game over... Score: " + Score);
             Score = 0;
+            Balls = startingBalls;
         }
+
+        EventService.Dispatch<NewBallEvent>();
     }
 
     private void OnDrawGizmos()
@@ -351,6 +358,22 @@ public class GameManager : Singleton<GameManager>
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(explosionPos, explosionRadius);
+    }
+
+    private void DestroyBalls()
+    {
+        var balls = GameObject.FindGameObjectsWithTag(Tags.Ball);
+        foreach (var ball in balls)
+        {
+            Destroy(ball);
+        }
+        ball = null;
+    }
+
+    // Just to call Invoke()
+    private void NewBall()
+    {
+        EventService.Dispatch<NewBallEvent>();
     }
 }
 

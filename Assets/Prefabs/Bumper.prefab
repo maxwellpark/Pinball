@@ -133,7 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be8d14b1160f80947a5b7216c1d7c998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 10
   force: 10
   vibrationDuration: 0.2
-  vibrationAmount: 0.1
+  vibrationIntensity: 0.1
   vibrationSpeed: 40
