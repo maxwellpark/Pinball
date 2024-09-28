@@ -140,7 +140,7 @@ public class GameManager : Singleton<GameManager>
             DestroyBalls();
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !MinigameActive)
         {
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             ball = GameObject.FindWithTag(Tags.Ball);
