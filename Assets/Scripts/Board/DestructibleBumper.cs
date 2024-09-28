@@ -18,8 +18,8 @@ public class DestructibleBumper : Bumper
         spriteRenderer = GetComponent<SpriteRenderer>();
         damageColors = new[]
         {
-            new Color(1f, 0.5f,0f),
             new Color(1f, 0.75f,0f),
+            new Color(1f, 0.5f,0f),
             new Color(1f, 0.25f,0f),
         };
 

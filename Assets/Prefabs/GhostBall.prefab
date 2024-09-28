@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 700168671278073084, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1732571560147310686, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -59,6 +63,10 @@ PrefabInstance:
     - target: {fileID: 8631688824603131977, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
       propertyPath: m_Name
       value: GhostBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631688824603131977, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8631688824603131977, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
       propertyPath: m_TagString
