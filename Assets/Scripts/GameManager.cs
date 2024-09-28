@@ -133,16 +133,6 @@ public class GameManager : Singleton<GameManager>
         EventService.Dispatch<NewBallEvent>();
     }
 
-    private void DestroyBalls()
-    {
-        var balls = GameObject.FindGameObjectsWithTag(Tags.Ball);
-        foreach (var ball in balls)
-        {
-            Destroy(ball);
-        }
-        ball = null;
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -336,6 +326,8 @@ public class GameManager : Singleton<GameManager>
         {
             NotificationManager.Notify("Ball saved!");
             isBallProtected = false;
+            Destroy(ball);
+            Invoke(nameof(NewBall), 0.1f);
             return;
         }
 
@@ -364,6 +356,22 @@ public class GameManager : Singleton<GameManager>
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(explosionPos, explosionRadius);
+    }
+
+    private void DestroyBalls()
+    {
+        var balls = GameObject.FindGameObjectsWithTag(Tags.Ball);
+        foreach (var ball in balls)
+        {
+            Destroy(ball);
+        }
+        ball = null;
+    }
+
+    // Just to call Invoke()
+    private void NewBall()
+    {
+        EventService.Dispatch<NewBallEvent>();
     }
 }
 
