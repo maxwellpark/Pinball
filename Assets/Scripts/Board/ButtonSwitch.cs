@@ -6,6 +6,7 @@ public class ButtonSwitch : MonoBehaviour
     [SerializeField] private float returnSpeed = 1f;
     [SerializeField] private Transform switchTop;
     [SerializeField] private UnityEvent onPressed;
+    [SerializeField] private GameManager.Action action;
 
     private SpringJoint2D springJoint;
     private Rigidbody2D rb;
@@ -34,6 +35,7 @@ public class ButtonSwitch : MonoBehaviour
         isPressed = true;
         onPressed?.Invoke();
         rb.isKinematic = false;
+        GameManager.TriggerAction(action);
 
         //if (returnRoutine != null)
         //{

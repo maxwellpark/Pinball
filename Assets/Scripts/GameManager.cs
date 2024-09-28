@@ -73,16 +73,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     Debug.Log($"Threshold {threshold.Action} reached at {threshold.Score}");
                     reachedThresholds.Add(threshold);
-
-                    switch (threshold.Action)
-                    {
-                        case Action.BallRescue:
-                            ballRescue.Activate();
-                            break;
-                        case Action.BallSaver:
-                            ballSaver.Activate();
-                            break;
-                    }
+                    TriggerAction(threshold.Action);
                 }
             }
 
@@ -90,6 +81,19 @@ public class GameManager : Singleton<GameManager>
             {
                 unreachedThresholds.Remove(threshold);
             }
+        }
+    }
+
+    public static void TriggerAction(Action action)
+    {
+        switch (action)
+        {
+            case Action.BallRescue:
+                Instance.ballRescue.Activate();
+                break;
+            case Action.BallSaver:
+                Instance.ballSaver.Activate();
+                break;
         }
     }
 

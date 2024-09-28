@@ -4613,6 +4613,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -32.587
       objectReference: {fileID: 0}
+    - target: {fileID: 3634604868411048655, guid: 54d8cf3a32cee6f46adf16fccbca7b34, type: 3}
+      propertyPath: action
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5324135441866940115, guid: 54d8cf3a32cee6f46adf16fccbca7b34, type: 3}
       propertyPath: m_Name
       value: ButtonSwitch
