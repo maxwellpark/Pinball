@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Utils
@@ -20,5 +22,20 @@ public static class Utils
     public static bool IsBallOrGhostBall(this Collision2D collision)
     {
         return collision.gameObject.CompareTag(Tags.Ball) || collision.gameObject.CompareTag(Tags.GhostBall);
+    }
+
+    public static bool AnyKeysUp(IEnumerable<KeyCode> keys)
+    {
+        return keys.Any(k => Input.GetKeyUp(k));
+    }
+
+    public static bool AnyKeysDown(IEnumerable<KeyCode> keys)
+    {
+        return keys.Any(k => Input.GetKeyDown(k));
+    }
+
+    public static bool AnyKeys(IEnumerable<KeyCode> keys)
+    {
+        return keys.Any(k => Input.GetKey(k));
     }
 }

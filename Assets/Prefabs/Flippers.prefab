@@ -50,6 +50,12 @@ MonoBehaviour:
   rightFlipper: {fileID: 2911677880558188202}
   speed: 2000
   returnSpeed: 1000
+  maxChargeTime: 2
+  baseForce: 10
+  maxForceMultiplier: 5
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  chargingColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  fullyChargedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &233569775418043822
 PrefabInstance:
   m_ObjectHideFlags: 0
