@@ -10,7 +10,6 @@ public class FlipperController : MonoBehaviour
 
     [Header("Charge")]
     [SerializeField] private float maxChargeTime = 2f;
-    [SerializeField] private float baseForce = 10f;
     [SerializeField] private float maxForceMultiplier = 3f;
     [SerializeField] private Color defaultColor = Color.white;
     [SerializeField] private Color chargingColor = Color.yellow;
