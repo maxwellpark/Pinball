@@ -11,6 +11,7 @@ public class FlipperController : MonoBehaviour
     [Header("Charge")]
     [SerializeField] private float maxChargeTime = 2f;
     [SerializeField] private float maxForceMultiplier = 3f;
+    [SerializeField] private float chargeDecayDelay = 2f;
     [SerializeField] private Color defaultColor = Color.white;
     [SerializeField] private Color chargingColor = Color.yellow;
     [SerializeField] private Color fullyChargedColor = Color.red;
@@ -20,6 +21,7 @@ public class FlipperController : MonoBehaviour
 
     private float leftChargeTime;
     private float rightChargeTime;
+    private float chargeDecayTimer;
 
     private readonly KeyCode[] leftKeys = new[] { KeyCode.A, KeyCode.LeftArrow, KeyCode.S };
     private readonly KeyCode[] rightKeys = new[] { KeyCode.D, KeyCode.RightArrow, KeyCode.S };
@@ -65,11 +67,16 @@ public class FlipperController : MonoBehaviour
         // Holding a fully extended flipper can be used for a charge attack aka the "ball tuck" 
         if (fullyExtended)
         {
+            chargeDecayTimer = 0f;
             chargeTime = Mathf.Clamp(chargeTime + Time.deltaTime, 0f, maxChargeTime);
         }
         else
         {
-            chargeTime = Mathf.Clamp(chargeTime - Time.deltaTime, 0f, maxChargeTime);
+            chargeDecayTimer += Time.deltaTime;
+            if (chargeDecayTimer > chargeDecayDelay)
+            {
+                chargeTime = Mathf.Clamp(chargeTime - Time.deltaTime, 0f, maxChargeTime);
+            }
         }
 
         if (chargeTime == 0)
@@ -82,7 +89,10 @@ public class FlipperController : MonoBehaviour
             spriteRenderer.color = Color.Lerp(chargingColor, fullyChargedColor, t);
         }
 
-        //Debug.Log($"[flipper] motor speed: {speed} (charge time: {chargeTime})");
+        if (isActive)
+        {
+            Debug.Log($"[flipper] motor speed: {speed} (charge time: {chargeTime})");
+        }
     }
 
     private float GetActiveMotorSpeed(float baseSpeed, float chargeTime)
