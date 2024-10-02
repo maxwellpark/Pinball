@@ -424,4 +424,5 @@ public static class Tags
     public static readonly string GhostBall = "GhostBall";
     public static readonly string Catcher = "Catcher";
     public static readonly string Ground = "Ground";
+    public static readonly string Flipper = "Flipper";
 }

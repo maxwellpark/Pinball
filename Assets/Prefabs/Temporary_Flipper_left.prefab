@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7459699686012371491}
   m_Layer: 0
   m_Name: Temporary_Flipper_left
-  m_TagString: Untagged
+  m_TagString: Flipper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,5 +206,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e8121e493589ee4a94df3ed37b8daf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowFactor: 0.5
-  minVelocity: 2
+  drag: 1

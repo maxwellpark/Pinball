@@ -25,6 +25,10 @@ public class FlipperController : MonoBehaviour
     private float preChargeTimer;
     private float chargeDecayTimer;
 
+    // Only used for debugging for now 
+    public JointMotor2D LeftMotor { get; private set; }
+    public JointMotor2D RightMotor { get; private set; }
+
     private readonly KeyCode[] leftKeys = new[] { KeyCode.A, KeyCode.LeftArrow, KeyCode.S };
     private readonly KeyCode[] rightKeys = new[] { KeyCode.D, KeyCode.RightArrow, KeyCode.S };
 
@@ -63,6 +67,15 @@ public class FlipperController : MonoBehaviour
         var speed = isActive ? GetActiveMotorSpeed(activeSpeed, chargeTime) : restingSpeed;
         motor.motorSpeed = speed;
         flipper.motor = motor;
+
+        if (isLeftFlipper)
+        {
+            LeftMotor = motor;
+        }
+        else
+        {
+            RightMotor = motor;
+        }
 
         var fullyExtended = isLeftFlipper ? Mathf.Abs(flipper.jointAngle - flipper.limits.min) < 0.5f : Mathf.Abs(flipper.jointAngle - flipper.limits.max) < 0.5f;
 
