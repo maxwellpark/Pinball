@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class ButtonSwitch : MonoBehaviour
 {
-    [SerializeField] private float returnSpeed = 1f;
+    //[SerializeField] private float returnSpeed = 1f;
     [SerializeField] private Transform switchTop;
     [SerializeField] private UnityEvent onPressed;
     [SerializeField] private GameManager.Action action;

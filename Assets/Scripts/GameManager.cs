@@ -29,6 +29,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject ballsTextContainer;
     [SerializeField] private GameObject velocityTextContainer;
     [Header("Explosion")]
+    [SerializeField] private float explosionDamage = 100f;
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionDuration = 2f;
     [SerializeField] private float explosionIntensity = 0.5f;
@@ -264,7 +265,7 @@ public class GameManager : Singleton<GameManager>
 
                 if (bumper is DestructibleBumper db)
                 {
-                    db.StartDamageOverTime(explosionDuration);
+                    db.StartDamageOverTime(explosionDamage, explosionDuration);
                 }
             }
         }
