@@ -2902,6 +2902,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1411542741749491388, guid: d030ad70218dadd428ff0a9178a051ec, type: 3}
   m_PrefabInstance: {fileID: 1876189588}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2007148801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7163669681632814860, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2056157201
 GameObject:
   m_ObjectHideFlags: 0
@@ -4217,6 +4222,10 @@ PrefabInstance:
       propertyPath: scoreTextContainer
       value: 
       objectReference: {fileID: 455923829}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: velocityTextContainer
+      value: 
+      objectReference: {fileID: 2007148801}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: highScoreTextContainer
       value: 

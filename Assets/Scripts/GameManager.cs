@@ -21,11 +21,13 @@ public class GameManager : Singleton<GameManager>
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
     [SerializeField] private Camera minigameCamera;
+    // TODO: separate script eventually 
     [Header("UI")]
     [SerializeField] private GameObject scoreTextContainer;
     [SerializeField] private GameObject highScoreTextContainer;
-    [SerializeField] private GameObject ballsTextContainer;
     [SerializeField] private GameObject comboTextContainer;
+    [SerializeField] private GameObject ballsTextContainer;
+    [SerializeField] private GameObject velocityTextContainer;
     [Header("Explosion")]
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionDuration = 2f;
@@ -42,8 +44,9 @@ public class GameManager : Singleton<GameManager>
 
     private TMP_Text scoreText;
     private TMP_Text highScoreText;
-    private TMP_Text ballsText;
     private TMP_Text comboText;
+    private TMP_Text ballsText;
+    private TMP_Text velocityText;
 
     private GameObject ball;
     private bool isBallProtected;
@@ -155,8 +158,9 @@ public class GameManager : Singleton<GameManager>
         Score = 0;
         highScoreText = highScoreTextContainer.GetComponentInChildren<TMP_Text>();
         highScoreTextContainer.SetActive(highScore > 0);
-        ballsText = ballsTextContainer.GetComponentInChildren<TMP_Text>();
         comboText = comboTextContainer.GetComponentInChildren<TMP_Text>();
+        ballsText = ballsTextContainer.GetComponentInChildren<TMP_Text>();
+        velocityText = velocityTextContainer.GetComponentInChildren<TMP_Text>();
         Balls = startingBalls;
 
         ball = GameObject.FindWithTag(Tags.Ball);
@@ -218,6 +222,7 @@ public class GameManager : Singleton<GameManager>
 
         if (ball == null || MinigameActive)
         {
+            velocityText.SetText(Vector2.zero.ToString());
             return;
         }
 
@@ -236,6 +241,8 @@ public class GameManager : Singleton<GameManager>
         {
             ballRb.AddForce(Vector3.right * nudgeForce, ForceMode2D.Impulse);
         }
+
+        velocityText.SetText("Velocity: " + ballRb.velocity);
 
         if (!showExplosion && Input.GetKeyDown(KeyCode.F))
         {
