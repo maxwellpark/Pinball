@@ -98,9 +98,11 @@ public class FlipperController : MonoBehaviour
             {
                 chargeTime = Mathf.Clamp(chargeTime - Time.deltaTime, 0f, maxChargeTime);
             }
+
+            preChargeTimer = 0f;
         }
 
-        if (chargeTime == 0)
+        if (chargeTime == 0f)
         {
             spriteRenderer.color = defaultColor;
         }
