@@ -12,6 +12,7 @@ public class FallingFloorsMinigame : Minigame
 
     protected override Type MinigameType => Type.FallingFloors;
 
+    private readonly Dictionary<GameObject, Vector3> startRotByFloor = new();
     private GameObject ball;
     private Rigidbody2D ballRb;
     private int currentFloorIndex = 0;
@@ -19,6 +20,11 @@ public class FallingFloorsMinigame : Minigame
     protected override void Start()
     {
         base.Start();
+
+        foreach (var floor in floors)
+        {
+            startRotByFloor[floor] = floor.transform.eulerAngles;
+        }
     }
 
     public override void OnMinigameStarted(MinigameStartedEvent evt)
@@ -27,6 +33,11 @@ public class FallingFloorsMinigame : Minigame
 
         if (evt.Type == MinigameType)
         {
+            foreach (var floor in floors)
+            {
+                floor.transform.eulerAngles = startRotByFloor[floor];
+            }
+
             currentFloorIndex = 0;
             ball = Instantiate(ballPrefab, spawnPoint.position, Quaternion.identity);
             ballRb = ball.GetComponent<Rigidbody2D>();

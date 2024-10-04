@@ -12,6 +12,7 @@ public class CatcherMinigame : Minigame
     [SerializeField] private int objectCount = 3;
     [SerializeField] private float catcherSpeed = 5f;
 
+    private Vector3 startPos;
     private int objectsCaught;
     private int objectsMissed;
     private readonly List<GameObject> objects = new();
@@ -21,6 +22,7 @@ public class CatcherMinigame : Minigame
     protected override void Start()
     {
         base.Start();
+        startPos = catcherPlatform.transform.localPosition;
         GameManager.EventService.Add<ObjectCaughtEvent>(ObjectCaught);
         GameManager.EventService.Add<ObjectMissedEvent>(ObjectMissed);
     }
@@ -31,6 +33,7 @@ public class CatcherMinigame : Minigame
 
         if (evt.Type == MinigameType)
         {
+            catcherPlatform.transform.localPosition = startPos;
             objectsCaught = 0;
             objectsMissed = 0;
             StartCoroutine(SpawnObjects());
