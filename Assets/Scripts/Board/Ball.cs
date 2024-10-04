@@ -13,10 +13,10 @@ public class Ball : MonoBehaviour
         flipperController = FindObjectOfType<FlipperController>();
     }
 
-    private void Update()
-    {
-        Debug.Log($"[ball] linear velocity: {rb.velocity} | angular velocity: {rb.angularVelocity}");
-    }
+    //private void Update()
+    //{
+    //    Debug.Log($"[ball] linear velocity: {rb.velocity} | angular velocity: {rb.angularVelocity}");
+    //}
 
     private void OnCollisionExit2D(Collision2D collision)
     {

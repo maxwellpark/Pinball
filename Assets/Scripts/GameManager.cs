@@ -16,7 +16,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject ghostBallPrefab;
     [SerializeField] private BallRescue ballRescue;
     [SerializeField] private BallSaver ballSaver;
-    [SerializeField] private float nudgeForce = 2f;
+    [SerializeField] private float sidewaysForce = 2f;
+    [SerializeField] private float upwardsForce = 5f;
     [SerializeField] private int startingBalls = 3;
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
@@ -236,11 +237,16 @@ public class GameManager : Singleton<GameManager>
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            ballRb.AddForce(Vector3.left * nudgeForce, ForceMode2D.Impulse);
+            ballRb.AddForce(Vector3.left * sidewaysForce, ForceMode2D.Impulse);
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            ballRb.AddForce(Vector3.right * nudgeForce, ForceMode2D.Impulse);
+            ballRb.AddForce(Vector3.right * sidewaysForce, ForceMode2D.Impulse);
+        }
+        // Just for testing 
+        else if (Input.GetKey(KeyCode.W))
+        {
+            ballRb.AddForce(Vector2.up * upwardsForce, ForceMode2D.Impulse);
         }
 
         velocityText.SetText("Velocity: " + ballRb.velocity);

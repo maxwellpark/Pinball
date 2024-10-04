@@ -57,7 +57,7 @@ public class DestructibleBumper : Bumper
 
             GameManager.AddScore(scoreOnDestroy);
             OnDestroyed?.Invoke(this);
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.25f);
         }
     }
 
