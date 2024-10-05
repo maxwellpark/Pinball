@@ -4,6 +4,9 @@ using UnityEngine.Events;
 public class LanePlayer : MonoBehaviour
 {
     [SerializeField] private Transform[] lanes;
+    [SerializeField] private KeyCode[] upKeys = new[] { KeyCode.W, KeyCode.UpArrow };
+    [SerializeField] private KeyCode[] downKeys = new[] { KeyCode.S, KeyCode.DownArrow };
+
     private int currentLaneIndex = 0;
 
     public event UnityAction OnHitGap;
@@ -17,11 +20,11 @@ public class LanePlayer : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Utils.AnyKeysDown(upKeys))
         {
             SwitchLane(-1);
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Utils.AnyKeysDown(downKeys))
         {
             SwitchLane(1);
         }

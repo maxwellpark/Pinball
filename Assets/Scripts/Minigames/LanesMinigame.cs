@@ -28,6 +28,6 @@ public class LanesMinigame : Minigame
     private void OnFinished()
     {
         won = true;
-        StartCoroutine(EndAfterDelay());
+        EndImmediate();
     }
 }
