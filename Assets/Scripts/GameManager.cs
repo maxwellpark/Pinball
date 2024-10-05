@@ -57,7 +57,8 @@ public class GameManager : Singleton<GameManager>
     private bool showControls = true;
 
     public static bool IsBallAlive => Instance.ball != null;
-    public static bool MinigameActive { get; private set; }
+    public static Minigame.Type CurrentMinigame { get; private set; }
+    public static bool MinigameActive => CurrentMinigame != Minigame.Type.None;
 
     private float comboMultiplier = 1f;
     public float ComboMultiplier
@@ -219,6 +220,7 @@ public class GameManager : Singleton<GameManager>
             ComboMultiplier = 1f;
             multiplierLevel = 0;
             nextCombo = baseCombo;
+            comboDeltaTime = 0f;
             Debug.Log("Combo reset");
         }
 
@@ -355,10 +357,15 @@ public class GameManager : Singleton<GameManager>
 
     public void StartMinigame(Minigame.Type type, UnityAction onEnd = null)
     {
-        //Debug.Log("Starting minigame...");
+        if (type == Minigame.Type.None)
+        {
+            Debug.LogWarning("No minigame to start (type was None)");
+            return;
+        }
+
         NotificationManager.Notify("Starting minigame...", 0.5f);
         minigameCamera.gameObject.SetActive(true);
-        MinigameActive = true;
+        CurrentMinigame = type;
         scoreTextContainer.SetActive(false);
         highScoreTextContainer.SetActive(false);
         EventService.Dispatch(new MinigameStartedEvent(type, onEnd));
@@ -367,7 +374,6 @@ public class GameManager : Singleton<GameManager>
     private void EndMinigame()
     {
         Debug.Log("Ending minigame...");
-        MinigameActive = false;
         minigameCamera.gameObject.SetActive(false);
         scoreTextContainer.SetActive(true);
         highScoreTextContainer.SetActive(highScore > 0);
@@ -439,4 +445,5 @@ public static class Tags
     public static readonly string Catcher = "Catcher";
     public static readonly string Ground = "Ground";
     public static readonly string Flipper = "Flipper";
+    public static readonly string Gap = "Gap";
 }

@@ -9,6 +9,7 @@ TagManager:
   - Catcher
   - GhostBall
   - Flipper
+  - Gap
   layers:
   - Default
   - TransparentFX

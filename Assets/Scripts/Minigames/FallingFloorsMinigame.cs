@@ -47,7 +47,7 @@ public class FallingFloorsMinigame : Minigame
 
     private void Update()
     {
-        if (!GameManager.MinigameActive || currentFloorIndex >= floors.Count)
+        if (GameManager.CurrentMinigame != MinigameType || currentFloorIndex >= floors.Count)
         {
             return;
         }
