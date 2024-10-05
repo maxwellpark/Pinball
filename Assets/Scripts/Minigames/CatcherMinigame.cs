@@ -90,7 +90,6 @@ public class CatcherMinigame : Minigame
         if (objectsCaught >= objectCount)
         {
             won = true;
-            GameManager.AddScore(winScore);
             StartCoroutine(EndAfterDelay());
         }
         else if (objectsMissed + objectsCaught >= objectCount)

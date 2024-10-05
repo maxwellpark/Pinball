@@ -377,6 +377,7 @@ public class GameManager : Singleton<GameManager>
         minigameCamera.gameObject.SetActive(false);
         scoreTextContainer.SetActive(true);
         highScoreTextContainer.SetActive(highScore > 0);
+        CurrentMinigame = Minigame.Type.None;
     }
 
     private void OnBallSaved()
@@ -446,4 +447,5 @@ public static class Tags
     public static readonly string Ground = "Ground";
     public static readonly string Flipper = "Flipper";
     public static readonly string Gap = "Gap";
+    public static readonly string Finish = "Finish";
 }

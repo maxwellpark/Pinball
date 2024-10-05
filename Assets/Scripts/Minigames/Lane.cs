@@ -3,8 +3,20 @@ using UnityEngine;
 public class Lane : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
-    [SerializeField] private Transform respawnPoint;
-    [SerializeField] private Transform endPoint;
+    //[SerializeField] private Transform respawnPoint;
+    //[SerializeField] private Transform endPoint;
+
+    private Vector3 startPos;
+
+    private void Awake()
+    {
+        startPos = transform.localPosition;
+    }
+
+    private void OnDisable()
+    {
+        transform.localPosition = startPos;
+    }
 
     private void Update()
     {

@@ -37,14 +37,31 @@ public abstract class Minigame : MonoBehaviour
     protected virtual void EndMinigame()
     {
         onEnd?.Invoke();
+
+        if (won)
+        {
+            GameManager.AddScore(winScore);
+        }
+
         GameManager.EventService.Dispatch<MinigameEndedEvent>();
         container.SetActive(false);
     }
 
+    protected void EndImmediate()
+    {
+        Notify();
+        EndMinigame();
+    }
+
     protected IEnumerator EndAfterDelay()
     {
-        NotificationManager.Notify(won ? "Minigame won!" : "Minigame lost!");
+        Notify();
         yield return new WaitForSeconds(2f);
         EndMinigame();
+    }
+
+    private void Notify()
+    {
+        NotificationManager.Notify(won ? "Minigame won!" : "Minigame lost!");
     }
 }
