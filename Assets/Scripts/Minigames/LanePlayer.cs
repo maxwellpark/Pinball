@@ -4,8 +4,8 @@ using UnityEngine.Events;
 public class LanePlayer : MonoBehaviour
 {
     [SerializeField] private Transform[] lanes;
-    [SerializeField] private KeyCode[] upKeys = new[] { KeyCode.W, KeyCode.UpArrow };
-    [SerializeField] private KeyCode[] downKeys = new[] { KeyCode.S, KeyCode.DownArrow };
+    [SerializeField] private KeyCode[] leftKeys = new[] { KeyCode.A, KeyCode.LeftArrow };
+    [SerializeField] private KeyCode[] rightKeys = new[] { KeyCode.D, KeyCode.RightArrow };
 
     private int currentLaneIndex = 0;
 
@@ -20,11 +20,11 @@ public class LanePlayer : MonoBehaviour
 
     private void Update()
     {
-        if (Utils.AnyKeysDown(upKeys))
+        if (Utils.AnyKeysDown(leftKeys))
         {
             SwitchLane(-1);
         }
-        else if (Utils.AnyKeysDown(downKeys))
+        else if (Utils.AnyKeysDown(rightKeys))
         {
             SwitchLane(1);
         }
@@ -38,7 +38,7 @@ public class LanePlayer : MonoBehaviour
 
     private void UpdatePosition()
     {
-        transform.position = new Vector3(transform.position.x, lanes[currentLaneIndex].position.y, transform.position.z);
+        transform.position = new Vector3(lanes[currentLaneIndex].position.x, transform.position.y, transform.position.z);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

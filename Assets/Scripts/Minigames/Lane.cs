@@ -3,9 +3,6 @@ using UnityEngine;
 public class Lane : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
-    //[SerializeField] private Transform respawnPoint;
-    //[SerializeField] private Transform endPoint;
-
     private Vector3 startPos;
 
     private void Awake()
@@ -20,12 +17,13 @@ public class Lane : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(speed * Time.deltaTime * Vector3.left);
+        transform.Translate(speed * Time.deltaTime * Vector3.down, Space.World);
 
         // TODO: if making longer, make the lane respawn i.e. wrap around 
-        //if (transform.position.x >= endPoint.position.x)
-        //{
-        //    transform.position = new Vector3(respawnPoint.position.x, transform.position.y, transform.position.z);
-        //}
+        // Example for respawn logic:
+        // if (transform.position.y <= endPoint.position.y)
+        // {
+        //     transform.position = new Vector3(transform.position.x, respawnPoint.position.y, transform.position.z);
+        // }
     }
 }
