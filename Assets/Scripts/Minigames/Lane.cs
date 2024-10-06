@@ -17,10 +17,10 @@ public class Lane : MonoBehaviour
 
     private void Update()
     {
+        // For now need world space as we've rotated 90 degrees out of laziness 
         transform.Translate(speed * Time.deltaTime * Vector3.down, Space.World);
 
         // TODO: if making longer, make the lane respawn i.e. wrap around 
-        // Example for respawn logic:
         // if (transform.position.y <= endPoint.position.y)
         // {
         //     transform.position = new Vector3(transform.position.x, respawnPoint.position.y, transform.position.z);
