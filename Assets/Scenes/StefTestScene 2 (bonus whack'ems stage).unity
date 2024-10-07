@@ -920,6 +920,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f1f3b808e30759468263ae2e2b27d18, type: 3}
+--- !u!1 &491432552 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6256723602364087018, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &550121705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1586,6 +1591,11 @@ MonoBehaviour:
   exit: {fileID: 98454685}
   durationInSeconds: 2
   force: 5
+--- !u!1 &787987174 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7163669681632814860, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &853661123 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3285323352943721533, guid: ad2f366f41ee3664d8a2c0202f131555, type: 3}
@@ -5670,9 +5680,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1803462149}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: comboTextContainer
+      value: 
+      objectReference: {fileID: 491432552}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: scoreTextContainer
       value: 
       objectReference: {fileID: 455923829}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: velocityTextContainer
+      value: 
+      objectReference: {fileID: 787987174}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: highScoreTextContainer
       value: 

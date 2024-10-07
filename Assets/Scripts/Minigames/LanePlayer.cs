@@ -57,7 +57,7 @@ public class LanePlayer : MonoBehaviour
         var originalScale = lane.localScale;
         var targetScale = originalScale * switchScaleAmount;
 
-        float elapsedTime = 0f;
+        var elapsedTime = 0f;
         while (elapsedTime < switchEffectDuration)
         {
             lane.localScale = Vector3.Lerp(originalScale, targetScale, elapsedTime / switchEffectDuration);
