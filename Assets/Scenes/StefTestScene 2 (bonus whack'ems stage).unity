@@ -2973,7 +2973,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -8
   m_Sprite: {fileID: 21300000, guid: a8ca86bb640a84dbf8c57a4a0f7b3862, type: 3}
-  m_Color: {r: 0.4716981, g: 0.42942327, b: 0.42942327, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.14117648}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4900,7 +4900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2911677880558188202, guid: 7e472305352b32e4081a394d5031bfef, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 1.7162473
+      value: 0.08250716
       objectReference: {fileID: 0}
     - target: {fileID: 3479365692533761320, guid: 7e472305352b32e4081a394d5031bfef, type: 3}
       propertyPath: m_Name
@@ -4932,11 +4932,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6116816056047626507, guid: 7e472305352b32e4081a394d5031bfef, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: 8.262003
+      value: 8.192971
       objectReference: {fileID: 0}
     - target: {fileID: 6116816056047626507, guid: 7e472305352b32e4081a394d5031bfef, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 1.7154537
+      value: 0.08171353
       objectReference: {fileID: 0}
     - target: {fileID: 7163629384014724902, guid: 7e472305352b32e4081a394d5031bfef, type: 3}
       propertyPath: m_Sprite
