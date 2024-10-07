@@ -6,6 +6,7 @@ public class DestructibleBumper : Bumper
 {
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float currentHealth;
+    [SerializeField] private float minDamage = 30f;
     [SerializeField] private float damageMultiplier = 1f;
     [SerializeField] private int scoreOnDestroy = 250;
     [SerializeField] private float damageInterval = 1f;
@@ -36,7 +37,7 @@ public class DestructibleBumper : Bumper
         }
 
         var impactForce = collision.relativeVelocity.magnitude;
-        var damage = impactForce * damageMultiplier;
+        var damage = Mathf.Max(impactForce * damageMultiplier, minDamage);
         TakeDamage(damage);
     }
 
