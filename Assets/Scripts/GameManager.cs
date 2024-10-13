@@ -237,11 +237,13 @@ public class GameManager : Singleton<GameManager>
 
         var ballRb = ball.GetComponent<Rigidbody2D>();
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        // 4 = left bumper
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton4))
         {
             ballRb.AddForce(Vector3.left * sidewaysForce, ForceMode2D.Impulse);
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        // 5 = right bumper
+        else if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             ballRb.AddForce(Vector3.right * sidewaysForce, ForceMode2D.Impulse);
         }
@@ -253,7 +255,8 @@ public class GameManager : Singleton<GameManager>
 
         velocityText.SetText("Velocity: " + ballRb.velocity);
 
-        if (!showExplosion && Input.GetKeyDown(KeyCode.F))
+        // 3 = triangle 
+        if (!showExplosion && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3)))
         {
             StartCoroutine(TriggerExplosion());
         }

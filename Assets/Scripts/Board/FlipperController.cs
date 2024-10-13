@@ -31,6 +31,7 @@ public class FlipperController : MonoBehaviour
 
     private readonly KeyCode[] leftKeys = new[] { KeyCode.A, KeyCode.LeftArrow, KeyCode.S };
     private readonly KeyCode[] rightKeys = new[] { KeyCode.D, KeyCode.RightArrow, KeyCode.S };
+    private readonly float triggerTreshold = 0.1f;
 
     private void Start()
     {
@@ -47,8 +48,11 @@ public class FlipperController : MonoBehaviour
             return;
         }
 
-        var leftInput = Utils.AnyKeys(leftKeys);
-        var rightInput = Utils.AnyKeys(rightKeys);
+        var leftTrigger = Input.GetAxis("9");
+        var rightTrigger = Input.GetAxis("10");
+
+        var leftInput = Utils.AnyKeys(leftKeys) || leftTrigger >= triggerTreshold;
+        var rightInput = Utils.AnyKeys(rightKeys) || rightTrigger >= triggerTreshold;
 
         UpdateFlipper(leftFlipper, leftInput, -speed, returnSpeed, ref leftChargeTime, leftRenderer);
         UpdateFlipper(rightFlipper, rightInput, speed, -returnSpeed, ref rightChargeTime, rightRenderer);

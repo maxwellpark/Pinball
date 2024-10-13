@@ -31,14 +31,14 @@ public class Plunger : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(KeyCode.Space) && currentForce < maxForce)
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton0)) && currentForce < maxForce)
         {
             lastChargeTime = Time.time;
             chargeSlider.gameObject.SetActive(true);
             currentForce += chargeSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton0))
         {
             LaunchBall();
         }
