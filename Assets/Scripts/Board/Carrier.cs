@@ -47,6 +47,13 @@ public class Carrier : MonoBehaviour
         var time = 0f;
         while (time < durationInSeconds)
         {
+            // Shouldn't be needed but for testing in case resetting balls while being carried 
+            if (ballTrans == null)
+            {
+                isCarrying = false;
+                yield break;
+            }
+
             time += Time.deltaTime;
             slot.position = Vector3.Lerp(startPos, destination.position, time / durationInSeconds);
             ballTrans.position = slot.position;
