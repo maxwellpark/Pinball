@@ -18,4 +18,24 @@ namespace Events
     public class MinigameEndedEvent : IEvent { }
     public class BallSavedEvent : IEvent { }
     public class NewBallEvent : IEvent { }
+    public class ControllerEvent : IEvent
+    {
+        public InputManager.Controller Controller { get; }
+        public ControllerEvent(InputManager.Controller controller)
+        {
+            Controller = controller;
+        }
+    }
+    public class ControllerConnectedEvent : ControllerEvent
+    {
+        public ControllerConnectedEvent(InputManager.Controller controller) : base(controller)
+        {
+        }
+    }
+    public class ControllerDisconnectedEvent : ControllerEvent
+    {
+        public ControllerDisconnectedEvent(InputManager.Controller controller) : base(controller)
+        {
+        }
+    }
 }
