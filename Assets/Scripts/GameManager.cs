@@ -231,7 +231,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton2))
         {
             Instantiate(ghostBallPrefab, ball.transform.position, Quaternion.identity);
         }
