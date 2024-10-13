@@ -180,6 +180,7 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.JoystickButton6))
         {
             DestroyBalls();
+            NewBall();
         }
 
         if (Input.GetMouseButtonDown(0) && !MinigameActive)
