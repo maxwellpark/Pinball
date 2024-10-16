@@ -2,8 +2,9 @@ using UnityEngine;
 
 public abstract class Buff : MonoBehaviour
 {
+    [SerializeField] protected bool permanentlyActive;
     public bool IsActive { get; protected set; }
-    protected virtual bool ShouldTrigger(Collider2D collision) => IsActive && Utils.IsBall(collision);
+    protected virtual bool ShouldTrigger(Collider2D collision) => permanentlyActive || IsActive && Utils.IsBall(collision);
 
     protected abstract void TriggerBehaviour(Collider2D collision);
 
@@ -11,7 +12,7 @@ public abstract class Buff : MonoBehaviour
     {
         if (TryGetComponent<BoxColliderDrawer>(out var drawer))
         {
-            drawer.SetIsDrawing(() => IsActive);
+            drawer.SetIsDrawing(() => permanentlyActive || IsActive);
         }
     }
 
