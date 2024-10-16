@@ -1,6 +1,8 @@
+using UnityEditor;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
+[ExecuteAlways]
 [RequireComponent(typeof(PolygonCollider2D))]
 public class PolygonBoundary : MonoBehaviour
 {
@@ -14,14 +16,14 @@ public class PolygonBoundary : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (polygonCollider.pathCount == 0)
+        if (polygonCollider == null || polygonCollider.pathCount == 0)
         {
             return;
         }
 
         Gizmos.color = color;
 
-        for (int i = 0; i < polygonCollider.pathCount; i++)
+        for (var i = 0; i < polygonCollider.pathCount; i++)
         {
             var points = polygonCollider.GetPath(i);
             if (points.Length < 2)
@@ -31,14 +33,19 @@ public class PolygonBoundary : MonoBehaviour
 
             var previous = transform.TransformPoint(points[0]);
 
-            for (int j = 1; j < points.Length; j++)
+            for (var j = 1; j < points.Length; j++)
             {
                 var current = transform.TransformPoint(points[j]);
                 Gizmos.DrawLine(previous, current);
+
+                Handles.Label(current, $"({current.x:F2}, {current.y:F2})");
                 previous = current;
             }
 
             Gizmos.DrawLine(previous, transform.TransformPoint(points[0]));
+
+            Handles.Label(transform.TransformPoint(points[0]),
+                $"({transform.TransformPoint(points[0]).x:F2}, {transform.TransformPoint(points[0]).y:F2})");
         }
     }
 }

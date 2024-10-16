@@ -1,6 +1,8 @@
+using UnityEditor;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
+[ExecuteAlways]
 [RequireComponent(typeof(EdgeCollider2D))]
 public class Boundary : MonoBehaviour
 {
@@ -23,10 +25,14 @@ public class Boundary : MonoBehaviour
         var points = edgeCollider.points;
         var previousPoint = transform.TransformPoint(points[0]);
 
+        Handles.Label(previousPoint, $"({previousPoint.x:F2}, {previousPoint.y:F2})");
+
         for (int i = 1; i < points.Length; i++)
         {
             var currentPoint = transform.TransformPoint(points[i]);
             Gizmos.DrawLine(previousPoint, currentPoint);
+
+            Handles.Label(currentPoint, $"({currentPoint.x:F2}, {currentPoint.y:F2})");
             previousPoint = currentPoint;
         }
     }
