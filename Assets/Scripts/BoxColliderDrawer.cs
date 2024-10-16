@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
+[ExecuteAlways]
 [RequireComponent(typeof(BoxCollider2D))]
 public class BoxColliderDrawer : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class BoxColliderDrawer : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (boxCollider == null || isDrawing == null || !isDrawing())
+        if (boxCollider == null || !isDrawing())
         {
             return;
         }

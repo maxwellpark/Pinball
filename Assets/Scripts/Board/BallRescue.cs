@@ -31,10 +31,12 @@ public class BallRescue : Buff
             yield return null;
         }
 
-        ball.transform.position = destination.position;
-        ballRb.velocity = Vector2.zero;
-        ballRb.isKinematic = false;
-
+        if (ball != null)
+        {
+            ball.transform.position = destination.position;
+            ballRb.velocity = Vector2.zero;
+            ballRb.isKinematic = false;
+        }
         isSaving = false;
     }
 }
