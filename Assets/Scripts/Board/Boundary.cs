@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(EdgeCollider2D))]
 public class Boundary : MonoBehaviour
 {
+    [SerializeField] private bool drawCoordinates = true;
+
     private EdgeCollider2D edgeCollider;
 
     void Awake()
@@ -30,14 +32,20 @@ public class Boundary : MonoBehaviour
             Gizmos.DrawLine(previousPoint, currentPoint);
 
 #if UNITY_EDITOR
-            Handles.Label(currentPoint, $"({currentPoint.x:F2}, {currentPoint.y:F2})");
+            if (drawCoordinates)
+            {
+                Handles.Label(currentPoint, $"({currentPoint.x:F2}, {currentPoint.y:F2})");
+            }
 #endif
 
             previousPoint = currentPoint;
         }
 
 #if UNITY_EDITOR
-        Handles.Label(transform.TransformPoint(points[0]), $"({transform.TransformPoint(points[0]).x:F2}, {transform.TransformPoint(points[0]).y:F2})");
+        if (drawCoordinates)
+        {
+            Handles.Label(transform.TransformPoint(points[0]), $"({transform.TransformPoint(points[0]).x:F2}, {transform.TransformPoint(points[0]).y:F2})");
+        }
 #endif
     }
 

@@ -6,6 +6,8 @@ using UnityEngine;
 public class PolygonBoundary : MonoBehaviour
 {
     [SerializeField] private Color color = Color.green;
+    [SerializeField] private bool drawCoordinates = true;
+
     private PolygonCollider2D polygonCollider;
 
     private void Awake()
@@ -38,7 +40,10 @@ public class PolygonBoundary : MonoBehaviour
                 Gizmos.DrawLine(previous, current);
 
 #if UNITY_EDITOR
-                Handles.Label(current, $"({current.x:F2}, {current.y:F2})");
+                if (drawCoordinates)
+                {
+                    Handles.Label(current, $"({current.x:F2}, {current.y:F2})");
+                }
 #endif
                 previous = current;
             }
@@ -46,8 +51,11 @@ public class PolygonBoundary : MonoBehaviour
             Gizmos.DrawLine(previous, transform.TransformPoint(points[0]));
 
 #if UNITY_EDITOR
-            Handles.Label(transform.TransformPoint(points[0]),
-                $"({transform.TransformPoint(points[0]).x:F2}, {transform.TransformPoint(points[0]).y:F2})");
+            if (drawCoordinates)
+            {
+                Handles.Label(transform.TransformPoint(points[0]),
+                    $"({transform.TransformPoint(points[0]).x:F2}, {transform.TransformPoint(points[0]).y:F2})");
+            }
 #endif
         }
     }

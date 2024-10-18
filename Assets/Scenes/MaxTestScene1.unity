@@ -1769,6 +1769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 0
 --- !u!1001 &973632647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3390,6 +3391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.5779401, b: 0, a: 1}
+  drawCoordinates: 0
 --- !u!1 &2062588150 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6256723602364087018, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
@@ -4472,6 +4474,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8491237444718262, guid: 66509003ae95ca846bbfb1f5c934dea1, type: 3}
+      propertyPath: drawCoordinates
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 137379946451071592, guid: 66509003ae95ca846bbfb1f5c934dea1, type: 3}
       propertyPath: m_Name
       value: Boundary
