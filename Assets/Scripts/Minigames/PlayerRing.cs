@@ -15,6 +15,7 @@ public class PlayerRing : MonoBehaviour
     [SerializeField] private float baseSpeed = 2.0f;
 
     private Vector3 initialScale;
+    private bool isInTargetRing;
 
     private void Start()
     {
@@ -107,5 +108,23 @@ public class PlayerRing : MonoBehaviour
         newScale.y = Mathf.Clamp(newScale.y, initialScale.y, maxRadius);
 
         transform.localScale = newScale;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject == targetRing.gameObject)
+        {
+            isInTargetRing = true;
+            Debug.Log("[ring] entered target!");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject == targetRing.gameObject)
+        {
+            isInTargetRing = false;
+            Debug.Log("[ring] exited target!");
+        }
     }
 }
