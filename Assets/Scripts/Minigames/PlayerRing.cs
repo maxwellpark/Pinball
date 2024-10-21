@@ -48,6 +48,20 @@ public class PlayerRing : MonoBehaviour
                 Contract();
             }
         }
+
+        var randomRingScale = targetRing.transform.localScale.magnitude;
+        var playerRingScale = transform.localScale.magnitude;
+
+        if (playerRingScale > randomRingScale)
+        {
+            Debug.Log("[ring] out of bounds!");
+        }
+        else
+        {
+            Debug.Log("[ring] in bounds!");
+        }
+
+        // TODO: win/lose logic 
     }
 
     // Used by 1 key input 
