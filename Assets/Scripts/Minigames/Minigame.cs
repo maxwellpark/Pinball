@@ -7,7 +7,7 @@ public abstract class Minigame : MonoBehaviour
 {
     public enum Type
     {
-        None, Catcher, FallingFloors, Lanes,
+        None, Catcher, FallingFloors, Lanes, Ring,
     }
 
     protected abstract Type MinigameType { get; }
