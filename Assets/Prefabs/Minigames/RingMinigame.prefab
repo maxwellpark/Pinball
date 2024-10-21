@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 8143964605014236912}
   - component: {fileID: 8583210201857711225}
   - component: {fileID: 3640260872472549508}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TargetRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -363,7 +363,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74dc07c5d329144ea57d4bd51a6e690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRadius: 0.5
+  minRadius: 1
   maxRadius: 5
   speed: 2
-  changeInterval: 3
+  minChangeInterval: 1
+  maxChangeInterval: 3

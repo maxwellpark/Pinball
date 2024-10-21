@@ -3,13 +3,15 @@ using GM = GameManager;
 
 public class TargetRing : MonoBehaviour
 {
-    [SerializeField] private float minRadius = 0.5f;
-    [SerializeField] private float maxRadius = 5.0f;
-    [SerializeField] private float speed = 2.0f;
-    [SerializeField] private float changeInterval = 3.0f;
+    [SerializeField] private float minRadius = 1f;
+    [SerializeField] private float maxRadius = 5f;
+    [SerializeField] private float speed = 2f;
+    [SerializeField] private float minChangeInterval = 1f;
+    [SerializeField] private float maxChangeInterval = 3f;
 
     private Vector3 targetScale;
     private float timer;
+    private float currentChangeInterval;
 
     private void Start()
     {
@@ -26,7 +28,7 @@ public class TargetRing : MonoBehaviour
         transform.localScale = Vector3.MoveTowards(transform.localScale, targetScale, speed * Time.deltaTime);
 
         timer += Time.deltaTime;
-        if (timer >= changeInterval)
+        if (timer >= currentChangeInterval)
         {
             SetRandomTargetScale();
             timer = 0;
@@ -37,5 +39,6 @@ public class TargetRing : MonoBehaviour
     {
         var randomSize = Random.Range(minRadius, maxRadius);
         targetScale = new Vector3(randomSize, randomSize, 1);
+        currentChangeInterval = Random.Range(minChangeInterval, maxChangeInterval);
     }
 }

@@ -4,9 +4,9 @@ using GM = GameManager;
 public class PlayerRing : MonoBehaviour
 {
     [SerializeField] private TargetRing targetRing;
-    [SerializeField] private float maxRadius = 5.0f;
-    [SerializeField] private float expansionSpeed = 2.0f;
-    [SerializeField] private float contractionSpeed = 2.0f;
+    [SerializeField] private float maxRadius = 5f;
+    [SerializeField] private float expansionSpeed = 2f;
+    [SerializeField] private float contractionSpeed = 2f;
 
     private Vector3 initialScale;
     private bool isExpanding;
