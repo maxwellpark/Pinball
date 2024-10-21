@@ -1,10 +1,9 @@
 using UnityEngine;
 using GM = GameManager;
 
-public class RingMinigame : Minigame
+public class PlayerRing : MonoBehaviour
 {
-    protected override Type MinigameType => Type.Ring;
-
+    [SerializeField] private TargetRing targetRing;
     [SerializeField] private float maxRadius = 5.0f;
     [SerializeField] private float expansionSpeed = 2.0f;
     [SerializeField] private float contractionSpeed = 2.0f;
@@ -12,19 +11,26 @@ public class RingMinigame : Minigame
     private Vector3 initialScale;
     private bool isExpanding;
 
-    protected override void Start()
+    private void Start()
     {
         initialScale = transform.localScale;
     }
 
     private void Update()
     {
-        if (GM.CurrentMinigame == MinigameType)
+        if (GM.CurrentMinigame != Minigame.Type.Ring)
         {
             return;
         }
 
-        isExpanding = Input.GetKey(KeyCode.Space);
+        if (Input.GetKey(KeyCode.Space))
+        {
+            isExpanding = true;
+        }
+        else
+        {
+            isExpanding = false;
+        }
 
         if (isExpanding)
         {
@@ -34,6 +40,15 @@ public class RingMinigame : Minigame
         {
             Contract();
         }
+
+        //var randomRingScale = targetRing.transform.localScale.x;
+        //var playerRingScale = transform.localScale.x;
+
+        //if (playerRingScale > randomRingScale)
+        //{
+        //    Debug.Log("[ring] out of bounds!");
+        //    // TODO: win/lose logic 
+        //}
     }
 
     private void Expand()

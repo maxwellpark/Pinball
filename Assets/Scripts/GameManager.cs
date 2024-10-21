@@ -367,6 +367,12 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
+        if (type == CurrentMinigame)
+        {
+            Debug.LogWarning("Minigame already active: " + type);
+            return;
+        }
+
         NotificationManager.Notify("Starting minigame...", 0.5f);
         minigameCamera.gameObject.SetActive(true);
         CurrentMinigame = type;
