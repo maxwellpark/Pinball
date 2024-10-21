@@ -4,12 +4,17 @@ using GM = GameManager;
 public class PlayerRing : MonoBehaviour
 {
     [SerializeField] private TargetRing targetRing;
-    [SerializeField] private float maxRadius = 5f;
+    [SerializeField] private float maxRadius = 5.0f;
+    [SerializeField] private bool use2KeyInput;
+
+    [Header("1 key input")]
     [SerializeField] private float expansionSpeed = 2f;
     [SerializeField] private float contractionSpeed = 2f;
 
+    [Header("2 key input")]
+    [SerializeField] private float baseSpeed = 2.0f;
+
     private Vector3 initialScale;
-    private bool isExpanding;
 
     private void Start()
     {
@@ -23,34 +28,29 @@ public class PlayerRing : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (use2KeyInput)
         {
-            isExpanding = true;
+            var expansionInput = GetExpansionInput();
+
+            if (expansionInput != 0)
+            {
+                AdjustSize(expansionInput);
+            }
         }
         else
         {
-            isExpanding = false;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Expand();
+            }
+            else
+            {
+                Contract();
+            }
         }
-
-        if (isExpanding)
-        {
-            Expand();
-        }
-        else
-        {
-            Contract();
-        }
-
-        //var randomRingScale = targetRing.transform.localScale.x;
-        //var playerRingScale = transform.localScale.x;
-
-        //if (playerRingScale > randomRingScale)
-        //{
-        //    Debug.Log("[ring] out of bounds!");
-        //    // TODO: win/lose logic 
-        //}
     }
 
+    // Used by 1 key input 
     private void Expand()
     {
         if (transform.localScale.x < maxRadius)
@@ -65,5 +65,33 @@ public class PlayerRing : MonoBehaviour
         {
             transform.localScale -= contractionSpeed * Time.deltaTime * Vector3.one;
         }
+    }
+
+    // Used by 2 key input 
+    private float GetExpansionInput()
+    {
+        // Expansion 
+        if (Input.GetKey(KeyCode.Space))
+        {
+            return 1f;
+        }
+
+        // Contraction 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            return -1f;
+        }
+        return 0f;
+    }
+
+    private void AdjustSize(float expansionInput)
+    {
+        var expansionSpeed = baseSpeed * expansionInput * Time.deltaTime;
+        var newScale = transform.localScale + expansionSpeed * Vector3.one;
+
+        newScale.x = Mathf.Clamp(newScale.x, initialScale.x, maxRadius);
+        newScale.y = Mathf.Clamp(newScale.y, initialScale.y, maxRadius);
+
+        transform.localScale = newScale;
     }
 }

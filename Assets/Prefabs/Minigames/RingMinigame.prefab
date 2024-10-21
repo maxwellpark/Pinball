@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f558a73172bb85b4990c6da38e88a51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRing: {fileID: 0}
+  targetRing: {fileID: 3640260872472549508}
   maxRadius: 5
   expansionSpeed: 2
   contractionSpeed: 2
