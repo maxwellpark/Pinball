@@ -12713,6 +12713,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+--- !u!1 &3547624790531819624 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7139170638997966831, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4030680123076814235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12838,6 +12843,10 @@ PrefabInstance:
       propertyPath: highScoreTextContainer
       value: 
       objectReference: {fileID: 606698132}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: ghostBallsTextContainer
+      value: 
+      objectReference: {fileID: 3547624790531819624}
     - target: {fileID: 8385129017128858283, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.2061567
