@@ -112,7 +112,12 @@ public class GameManager : Singleton<GameManager>
                 {
                     Debug.Log($"Threshold {threshold.Action} reached at {threshold.Score}");
                     reachedThresholds.Add(threshold);
-                    TriggerAction(threshold.Action);
+
+                    if (threshold.Action != Action.None)
+                    {
+                        Debug.Log("Triggering action " + threshold.Action);
+                        TriggerAction(threshold.Action);
+                    }
                 }
             }
 
@@ -132,6 +137,11 @@ public class GameManager : Singleton<GameManager>
                 break;
             case Action.BallSaver:
                 Instance.ballSaver.Activate();
+                break;
+            case Action.AddGhostBall:
+                // TODO: probably want an abstraction for action notifications in general 
+                NotificationManager.Notify("Ghost ball added!", 1);
+                Instance.GhostBalls++;
                 break;
         }
     }
@@ -165,7 +175,7 @@ public class GameManager : Singleton<GameManager>
 
     public enum Action
     {
-        None, BallRescue, BallSaver,
+        None, BallRescue, BallSaver, AddGhostBall,
     }
 
     private void Start()
