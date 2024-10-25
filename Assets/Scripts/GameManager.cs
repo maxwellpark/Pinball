@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float sidewaysForce = 2f;
     [SerializeField] private float upwardsForce = 5f;
     [SerializeField] private int startingBalls = 3;
+    [SerializeField] private int startingGhostBalls = 3;
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
     [SerializeField] private Camera minigameCamera;
@@ -28,6 +29,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject highScoreTextContainer;
     [SerializeField] private GameObject comboTextContainer;
     [SerializeField] private GameObject ballsTextContainer;
+    [SerializeField] private GameObject ghostBallsTextContainer;
     [SerializeField] private GameObject velocityTextContainer;
     [Header("Explosion")]
     [SerializeField] private float explosionDamage = 100f;
@@ -48,6 +50,7 @@ public class GameManager : Singleton<GameManager>
     private TMP_Text highScoreText;
     private TMP_Text comboText;
     private TMP_Text ballsText;
+    private TMP_Text ghostBallsText;
     private TMP_Text velocityText;
 
     private GameObject ball;
@@ -144,6 +147,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private int ghostBalls;
+    public int GhostBalls
+    {
+        get => ghostBalls;
+        private set
+        {
+            ghostBalls = value;
+            ghostBallsText.SetText("Ghost balls: " + ghostBalls);
+        }
+    }
+
     public static void AddScore(int score)
     {
         Instance.Score += Mathf.RoundToInt(Mathf.Max(score * Instance.ComboMultiplier, 0));
@@ -163,8 +177,10 @@ public class GameManager : Singleton<GameManager>
         highScoreTextContainer.SetActive(highScore > 0);
         comboText = comboTextContainer.GetComponentInChildren<TMP_Text>();
         ballsText = ballsTextContainer.GetComponentInChildren<TMP_Text>();
+        ghostBallsText = ghostBallsTextContainer.GetComponentInChildren<TMP_Text>();
         velocityText = velocityTextContainer.GetComponentInChildren<TMP_Text>();
         Balls = startingBalls;
+        GhostBalls = startingGhostBalls;
 
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
@@ -231,9 +247,10 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton2))
+        if ((Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton2)) && ghostBalls > 0)
         {
             Instantiate(ghostBallPrefab, ball.transform.position, Quaternion.identity);
+            GhostBalls--;
         }
 
         var ballRb = ball.GetComponent<Rigidbody2D>();
