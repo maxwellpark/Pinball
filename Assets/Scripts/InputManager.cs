@@ -15,6 +15,8 @@ public class InputManager : MonoBehaviour
     private static readonly float axisTreshold = 0.1f;
     private static readonly string xboxLeftTriggerAxis = "9";
     private static readonly string xboxRightTriggerAxis = "10";
+
+    // https://www.reddit.com/r/Unity3D/comments/1syswe/ps4_controller_map_for_unity/
     private static readonly string ps4LeftTriggerAxis = "11";
     private static readonly string ps4RightTriggerAxis = "12";
 
