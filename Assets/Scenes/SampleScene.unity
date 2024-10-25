@@ -530,6 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.5779401, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &182136759
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1673,6 +1674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.5779401, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &953642537
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2813,6 +2815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.5779401, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &1384556963
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3266,7 +3269,7 @@ SpriteRenderer:
   m_Size: {x: 0.53125, y: 0.296875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1515504580
@@ -4118,6 +4121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.5779401, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &1977991000
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -4384,6 +4388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.5779401, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!1001 &2064139574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5164,6 +5169,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+--- !u!1 &3547624790531819624 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7163669681632814860, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3547624790531819625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6256723602364087018, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3920451032389152814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5437,11 +5452,15 @@ PrefabInstance:
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: ballSaver
       value: 
-      objectReference: {fileID: 624755503}
+      objectReference: {fileID: 0}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: ballCamera
       value: 
       objectReference: {fileID: 586591201}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: ballRescue
+      value: 
+      objectReference: {fileID: 624755503}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: minigameCamera
       value: 
@@ -5451,9 +5470,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1803462149}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: comboTextContainer
+      value: 
+      objectReference: {fileID: 3547624790531819625}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: scoreTextContainer
       value: 
       objectReference: {fileID: 455923829}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: velocityTextContainer
+      value: 
+      objectReference: {fileID: 3547624790531819624}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: highScoreTextContainer
       value: 

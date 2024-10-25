@@ -869,6 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &109141712
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1029,6 +1030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &182617395
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1248,6 +1250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &331924842
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2091,6 +2094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &637809746
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2468,6 +2472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &789200462
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2564,6 +2569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &795974693
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3044,6 +3050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &1005515029
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3512,6 +3519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &1190191877
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3703,6 +3711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &1353156711
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -4858,6 +4867,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8491237444718262, guid: 66509003ae95ca846bbfb1f5c934dea1, type: 3}
+      propertyPath: drawCoordinates
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 137379946451071592, guid: 66509003ae95ca846bbfb1f5c934dea1, type: 3}
       propertyPath: m_Name
       value: Boundary (1)
@@ -6185,6 +6198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &1585580874
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -6570,6 +6584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &1722764162
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -6949,6 +6964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &1841982519
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -7793,6 +7809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 1, b: 0, a: 1}
+  drawCoordinates: 1
 --- !u!60 &2059920792
 PolygonCollider2D:
   m_ObjectHideFlags: 0
