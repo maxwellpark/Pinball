@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour
     private static readonly string ps4LeftTriggerAxis = "11";
     private static readonly string ps4RightTriggerAxis = "12";
 
-    // Assume only 1 can be connected at 1 time 
+    // Assume only 1 can be connected at 1 time for now 
     public static Controller ConnectedController
         => xboxOneControllerConnected ? Controller.XboxOne : ps4ControllerConnected ? Controller.Ps4 : Controller.None;
 
@@ -68,21 +68,25 @@ public class InputManager : MonoBehaviour
 
         xboxOneControllerConnected = isXboxOneControllerConnected;
         ps4ControllerConnected = isPs4ControllerConnected;
-        Debug.Log("Connected controller: " + ConnectedController);
+        //Debug.Log("Connected controller: " + ConnectedController);
     }
 
     public static bool IsLeftTriggerDown()
     {
-        return ConnectedController == Controller.XboxOne
-            ? IsAxisOverThreshold(xboxLeftTriggerAxis)
-            : ConnectedController == Controller.Ps4 && IsAxisOverThreshold(ps4LeftTriggerAxis);
+        //return ConnectedController == Controller.XboxOne
+        //    ? IsAxisOverThreshold(xboxLeftTriggerAxis)
+        //    : ConnectedController == Controller.Ps4 && IsAxisOverThreshold(ps4LeftTriggerAxis);
+
+        return IsAxisOverThreshold(xboxLeftTriggerAxis) || IsAxisOverThreshold(ps4LeftTriggerAxis);
     }
 
     public static bool IsRightTriggerDown()
     {
-        return ConnectedController == Controller.XboxOne
-            ? IsAxisOverThreshold(xboxRightTriggerAxis)
-            : ConnectedController == Controller.Ps4 && IsAxisOverThreshold(ps4RightTriggerAxis);
+        //return ConnectedController == Controller.XboxOne
+        //    ? IsAxisOverThreshold(xboxRightTriggerAxis)
+        //    : ConnectedController == Controller.Ps4 && IsAxisOverThreshold(ps4RightTriggerAxis);
+
+        return IsAxisOverThreshold(xboxRightTriggerAxis) || IsAxisOverThreshold(ps4RightTriggerAxis);
     }
 
     public static bool IsAxisOverThreshold(string axis)
