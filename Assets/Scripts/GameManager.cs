@@ -202,6 +202,7 @@ public class GameManager : Singleton<GameManager>
         EventService.Add<BallSavedEvent>(OnBallSaved);
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
+        Debug.Log("[game] first new ball event");
         EventService.Dispatch<NewBallEvent>();
     }
 

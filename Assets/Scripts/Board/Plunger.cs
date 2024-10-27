@@ -18,11 +18,11 @@ public class Plunger : MonoBehaviour
     private bool isActive;
     public Vector3 LaunchPosition => launchPosition.position;
 
-    private void Start()
+    private void Awake()
     {
         chargeSlider.gameObject.SetActive(false);
-        GM.EventService.Add<NewBallEvent>(OnNewBall);
         GM.EventService.Add<ActivePlungerChangedEvent>(OnActivePlungerChanged);
+        GM.EventService.Add<NewBallEvent>(OnNewBall);
     }
 
     private void Update()
