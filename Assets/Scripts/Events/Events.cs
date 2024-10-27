@@ -18,6 +18,14 @@ namespace Events
     public class MinigameEndedEvent : IEvent { }
     public class BallSavedEvent : IEvent { }
     public class NewBallEvent : IEvent { }
+    public class ActivePlungerChangedEvent : IEvent
+    {
+        public Plunger Plunger { get; }
+        public ActivePlungerChangedEvent(Plunger plunger)
+        {
+            Plunger = plunger;
+        }
+    }
     public class ControllerEvent : IEvent
     {
         public InputManager.Controller Controller { get; }

@@ -15,15 +15,23 @@ public class Plunger : MonoBehaviour
     private Rigidbody2D ballRb;
     private float currentForce;
     private float lastChargeTime;
+    private bool isActive;
+    public Vector3 LaunchPosition => launchPosition.position;
 
     private void Start()
     {
         chargeSlider.gameObject.SetActive(false);
         GM.EventService.Add<NewBallEvent>(OnNewBall);
+        GM.EventService.Add<ActivePlungerChangedEvent>(OnActivePlungerChanged);
     }
 
     private void Update()
     {
+        if (!isActive)
+        {
+            return;
+        }
+
         UpdateChargeSlider();
 
         if (ballRb == null || GM.MinigameActive)
@@ -46,6 +54,11 @@ public class Plunger : MonoBehaviour
 
     private void OnNewBall()
     {
+        if (!isActive)
+        {
+            return;
+        }
+
         var ball = GM.Instance.CreateBall(launchPosition.position);
         ballRb = ball.GetComponent<Rigidbody2D>();
         ballRb.isKinematic = true;
@@ -70,5 +83,28 @@ public class Plunger : MonoBehaviour
         }
 
         chargeSlider.value = currentForce / maxForce;
+    }
+
+    private void OnActivePlungerChanged(ActivePlungerChangedEvent evt)
+    {
+        isActive = evt.Plunger == this;
+
+        if (isActive && GM.IsBallAlive)
+        {
+            ballRb = GM.BallRb;
+            GM.Instance.SetBallPos(launchPosition.position);
+        }
+    }
+
+    public void Activate()
+    {
+        Debug.Log($"[plunger] {name} becoming active");
+        isActive = true;
+    }
+
+    public void Deactivate()
+    {
+        //Debug.Log($"[plunger] {name} becoming inactive");
+        isActive = false;
     }
 }

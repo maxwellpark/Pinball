@@ -38,4 +38,9 @@ public static class Utils
     {
         return keys.Any(k => Input.GetKey(k));
     }
+
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T> self)
+    {
+        return self == null || !self.Any();
+    }
 }

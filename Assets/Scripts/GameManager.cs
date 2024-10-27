@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
+// For prototyping this is a massive class but will be split up later 
 public class GameManager : Singleton<GameManager>
 {
     private static readonly EventService eventService = new();
@@ -60,6 +61,9 @@ public class GameManager : Singleton<GameManager>
     private bool showControls = true;
 
     public static bool IsBallAlive => Instance.ball != null;
+    public static Vector3 BallPos => IsBallAlive ? Instance.ball.transform.localPosition : Vector3.zero;
+    // Probably shouldn't be exposing this and just listen to events but too lazy for now 
+    public static Rigidbody2D BallRb => IsBallAlive ? Instance.ball.GetComponent<Rigidbody2D>() : null;
     public static Minigame.Type CurrentMinigame { get; private set; }
     public static bool MinigameActive => CurrentMinigame != Minigame.Type.None;
 
@@ -328,7 +332,8 @@ public class GameManager : Singleton<GameManager>
         return instance;
     }
 
-    private void SetBallPos(Vector3 pos)
+    // Probably shouldn't be exposing this and just listen to events but too lazy for now 
+    public void SetBallPos(Vector3 pos)
     {
         if (ball == null)
         {
@@ -368,8 +373,9 @@ public class GameManager : Singleton<GameManager>
         GUI.Label(new Rect(20, 80, 200, 20), "F: AOE explosion");
         GUI.Label(new Rect(20, 100, 200, 20), "Space (hold): Plunger");
         GUI.Label(new Rect(20, 120, 200, 20), "R: Reset balls");
-        GUI.Label(new Rect(20, 140, 300, 20), "Left click: Spawn ball at mouse");
-        GUI.Label(new Rect(20, 160, 300, 20), "ESC: Toggle controls");
+        GUI.Label(new Rect(20, 140, 300, 20), "G: Spawn ghost ball");
+        GUI.Label(new Rect(20, 160, 300, 20), "Left click: Spawn ball at mouse");
+        GUI.Label(new Rect(20, 180, 300, 20), "ESC: Toggle controls");
     }
 
     private Texture2D MakeTex(int width, int height, Color col)
