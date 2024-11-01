@@ -5,17 +5,14 @@ public abstract class ReceiverBase : MonoBehaviour
 {
     [SerializeField] private float waitTime = 0.5f;
     [SerializeField] private string animationName;
+    [SerializeField] private float pullSpeed = 2f;
 
     protected bool isWaiting;
 
     protected virtual void OnEnter(Collider2D collision)
     {
-        var transform = collision.transform;
-        var ballRb = transform.GetComponent<Rigidbody2D>();
 
-        transform.position = this.transform.position;
-
-        if (ballRb != null)
+        if (collision.TryGetComponent<Rigidbody2D>(out var ballRb))
         {
             ballRb.velocity = Vector2.zero;
             ballRb.angularVelocity = 0f;
@@ -25,7 +22,7 @@ public abstract class ReceiverBase : MonoBehaviour
             trail.Clear();
         }
 
-        if (animationName != null)
+        if (!string.IsNullOrEmpty(animationName))
         {
             var animator = collision.GetComponentInChildren<Animator>(true);
             animator.gameObject.SetActive(true);
@@ -47,7 +44,7 @@ public abstract class ReceiverBase : MonoBehaviour
             ballRb.angularVelocity = 0f;
         }
 
-        if (animationName != null)
+        if (!string.IsNullOrEmpty(animationName))
         {
             var animator = collision.GetComponentInChildren<Animator>();
             animator.gameObject.SetActive(false);
@@ -67,6 +64,22 @@ public abstract class ReceiverBase : MonoBehaviour
     private IEnumerator Receive(Collider2D collision)
     {
         OnEnter(collision);
+
+        var ballTransform = collision.transform;
+        var startPos = ballTransform.position;
+        var endPos = transform.position;
+
+        var timeElapsed = 0f;
+        var distance = Vector2.Distance(startPos, endPos);
+
+        while (distance > 0.01f)
+        {
+            timeElapsed += Time.deltaTime * pullSpeed;
+            ballTransform.position = Vector2.Lerp(startPos, endPos, timeElapsed / distance);
+
+            distance = Vector2.Distance(ballTransform.position, endPos);
+            yield return null;
+        }
 
         // 0 means just wait until told to stop 
         if (waitTime == 0)
