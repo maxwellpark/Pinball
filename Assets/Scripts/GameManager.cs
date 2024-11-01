@@ -208,7 +208,6 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
-        // Hack for PS4/Xbox 
         if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.JoystickButton8))
         {
             DestroyBalls();
