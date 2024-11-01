@@ -3852,6 +3852,10 @@ PrefabInstance:
       propertyPath: action
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2226592706298256615, guid: b31a39170f407d74eac26e1bd92454ae, type: 3}
+      propertyPath: requiredPresses
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4204288850395028747, guid: b31a39170f407d74eac26e1bd92454ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.93

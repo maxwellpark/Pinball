@@ -9,11 +9,14 @@ public class ButtonSwitch : MonoBehaviour
     [SerializeField] private float pressDepth = 0.2f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float cooldownInSeconds = 2f;
+    [Tooltip("Number of presses required to trigger the action")]
+    [SerializeField] private int requiredPresses = 1;
 
     private bool isPressed;
     private float cooldownTimer;
     private Vector3 startPos;
     private Vector3 pressedPos;
+    private int pressCount;
 
     private void Start()
     {
@@ -48,8 +51,16 @@ public class ButtonSwitch : MonoBehaviour
 
         isPressed = true;
         cooldownTimer = 0f;
-        onPressed?.Invoke();
-        GameManager.TriggerAction(action);
+        pressCount++;
+        Debug.Log($"[switch] pressed {pressCount} times");
+
+        if (pressCount >= requiredPresses)
+        {
+            Debug.Log("[switch] press threshold reached; triggering action " + action);
+            pressCount = 0;
+            onPressed?.Invoke();
+            GameManager.TriggerAction(action);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
