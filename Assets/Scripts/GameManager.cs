@@ -492,4 +492,8 @@ public static class Tags
     public static readonly string Flipper = "Flipper";
     public static readonly string Gap = "Gap";
     public static readonly string Finish = "Finish";
+    public static readonly string TargetRingInner = "TargetRingInner";
+    public static readonly string TargetRingOuter = "TargetRingOuter";
+    public static readonly string PlayerRingInner = "PlayerRingInner";
+    public static readonly string PlayerRingOuter = "PlayerRingOuter";
 }

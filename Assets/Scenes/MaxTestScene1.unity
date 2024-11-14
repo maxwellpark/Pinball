@@ -1855,7 +1855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7220411808182924313, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8162834299731815116, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: minigameType
@@ -5082,10 +5082,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 613584412268206907, guid: 345459688d65c514c8c90255d9b04100, type: 3}
-      propertyPath: use2KeyInput
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5112111575518787208, guid: 345459688d65c514c8c90255d9b04100, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.25
@@ -5124,10 +5120,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5112111575518787208, guid: 345459688d65c514c8c90255d9b04100, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321102057161815141, guid: 345459688d65c514c8c90255d9b04100, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7558650126433761522, guid: 345459688d65c514c8c90255d9b04100, type: 3}

@@ -267,17 +267,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8318034888036815213}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa19a4c2f61bcb34089f52ba36adf41a, type: 3}
+  m_Script: {fileID: 11500000, guid: 379747cf0fd4c994b834dac80e216e63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   container: {fileID: 8392133200670734938}
+  winScore: 1000
   catcherPlatform: {fileID: 9183040194500082873}
   objectPrefab: {fileID: 6158963254140431691, guid: a60ecb68919754340bbd3c80a6780b88, type: 3}
   spawnCollider: {fileID: 1523915465378849190}
   objectDropInterval: 1
   objectCount: 3
   catcherSpeed: 5
-  winScore: 1000
 --- !u!1 &8392133200670734938
 GameObject:
   m_ObjectHideFlags: 0

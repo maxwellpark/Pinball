@@ -13,7 +13,7 @@ public class AreaInputTrigger : MonoBehaviour
             return;
         }
 
-        Debug.Log("[ait] ball inside");
+        //Debug.Log("[ait] ball inside");
 
         if (Input.GetKeyDown(KeyCode.C))
         {

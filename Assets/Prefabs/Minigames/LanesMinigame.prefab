@@ -570,13 +570,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1011386599004838571}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 078a19e1755d49b4989fe5e228989e6f, type: 3}
+  m_Script: {fileID: 11500000, guid: e978747c0d1954a4eb24cbcdb91e1b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lanes:
-  - {fileID: 6268628643567537318}
-  - {fileID: 6288085030938466304}
-  - {fileID: 2695031409128631150}
+  lanes: []
   leftKeys: 6100000014010000
   rightKeys: 6400000013010000
   switchEffectDuration: 0.2
@@ -742,10 +739,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1141201711061792657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d785354a8da1834ebe0f2fee0622b6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 5
 --- !u!1 &1959376340932093610
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,10 +841,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1959376340932093610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d785354a8da1834ebe0f2fee0622b6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 5
 --- !u!1 &2470625808973562281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,7 +1017,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3688980906680669992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd718b7b9ba04af4fa02987cca115db3, type: 3}
+  m_Script: {fileID: 11500000, guid: 70dfd74c3f760bc42b1077328883c696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   container: {fileID: 5828576944690746594}
@@ -2073,10 +2070,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5868384106360807854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d785354a8da1834ebe0f2fee0622b6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 5
 --- !u!1 &6564687401969619090
 GameObject:
   m_ObjectHideFlags: 0

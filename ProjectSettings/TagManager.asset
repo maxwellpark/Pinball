@@ -10,6 +10,10 @@ TagManager:
   - GhostBall
   - Flipper
   - Gap
+  - TargetRingInner
+  - TargetRingOuter
+  - PlayerRingInner
+  - PlayerRingOuter
   layers:
   - Default
   - TransparentFX
