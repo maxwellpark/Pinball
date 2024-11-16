@@ -1,16 +1,44 @@
+using Events;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     // Only used for debugging for now 
     private FlipperController flipperController;
 
+    [SerializeField] private Color chargedColor = Color.yellow;
+
+    private Color defaultColor;
+    private bool isCharged;
+
+    public bool IsCharged => isCharged;
+
     private void Awake()
     {
+        sr = GetComponent<SpriteRenderer>();
+        defaultColor = sr.color;
+
         rb = GetComponent<Rigidbody2D>();
         flipperController = FindObjectOfType<FlipperController>();
+        GameManager.EventService.Add<BallChargedEvent>(OnBallCharged);
+        GameManager.EventService.Add<BallDischargedEvent>(OnBallDischarged);
+    }
+
+    private void OnBallCharged()
+    {
+        isCharged = true;
+        sr.color = chargedColor;
+        Debug.Log("[ball] charged!");
+    }
+
+    private void OnBallDischarged()
+    {
+        isCharged = false;
+        sr.color = defaultColor;
+        Debug.Log("[ball] discharged!");
     }
 
     //private void Update()

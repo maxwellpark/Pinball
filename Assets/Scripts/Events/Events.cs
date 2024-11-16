@@ -26,6 +26,8 @@ namespace Events
             Plunger = plunger;
         }
     }
+    public class BallChargedEvent : IEvent { }
+    public class BallDischargedEvent : IEvent { }
     public class ControllerEvent : IEvent
     {
         public InputManager.Controller Controller { get; }

@@ -11,7 +11,6 @@ public abstract class ReceiverBase : MonoBehaviour
 
     protected virtual void OnEnter(Collider2D collision)
     {
-
         if (collision.TryGetComponent<Rigidbody2D>(out var ballRb))
         {
             ballRb.velocity = Vector2.zero;
@@ -46,7 +45,7 @@ public abstract class ReceiverBase : MonoBehaviour
 
         if (!string.IsNullOrEmpty(animationName))
         {
-            var animator = collision.GetComponentInChildren<Animator>();
+            var animator = collision.GetComponentInChildren<Animator>(true);
             animator.gameObject.SetActive(false);
         }
     }
