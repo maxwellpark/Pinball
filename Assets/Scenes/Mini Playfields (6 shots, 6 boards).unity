@@ -29629,6 +29629,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
+--- !u!114 &2077881723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1406618008036158707, guid: 7d0cad5c78dcd0f47ae39468070ced33, type: 3}
+  m_PrefabInstance: {fileID: 690511012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d527362ea1a924c479c20c6e260b4715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2085705124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31089,7 +31100,7 @@ PrefabInstance:
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: ballSaver
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2077881723}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: ballCamera
       value: 
