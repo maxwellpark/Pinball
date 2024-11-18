@@ -4,7 +4,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 public class AreaInputTrigger : MonoBehaviour
 {
-    [SerializeField] UnityEvent onUse;
+    [SerializeField] private KeyCode key = KeyCode.C;
+    [SerializeField] private UnityEvent onUse;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -15,9 +16,9 @@ public class AreaInputTrigger : MonoBehaviour
 
         //Debug.Log("[ait] ball inside");
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(key))
         {
-            Debug.Log("[ait] used");
+            Debug.Log($"[ait] {name} used");
             onUse?.Invoke();
         }
     }

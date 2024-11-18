@@ -14,8 +14,15 @@ public abstract class ContinuousBehaviour : MonoBehaviour
 
     protected abstract void Behave();
 
+    // Only referenced in inspector for now 
     public void SetActive(bool active)
     {
         isActive = active;
+    }
+
+    // Only referenced in inspector for now 
+    public void ToggleActive()
+    {
+        isActive = !isActive;
     }
 }
