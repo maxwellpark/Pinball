@@ -4,7 +4,6 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private SpriteRenderer sr;
 
     // Only used for debugging for now 
     private FlipperController flipperController;
@@ -18,9 +17,7 @@ public class Ball : MonoBehaviour
 
     private void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
-        defaultColor = sr.color;
-
+        defaultColor = GetComponent<SpriteRenderer>().color;
         rb = GetComponent<Rigidbody2D>();
         flipperController = FindObjectOfType<FlipperController>();
         GameManager.EventService.Add<BallChargedEvent>(OnBallCharged);
@@ -30,14 +27,14 @@ public class Ball : MonoBehaviour
     private void OnBallCharged()
     {
         isCharged = true;
-        sr.color = chargedColor;
+        GetComponent<SpriteRenderer>().color = chargedColor;
         Debug.Log("[ball] charged!");
     }
 
     private void OnBallDischarged()
     {
         isCharged = false;
-        sr.color = defaultColor;
+        GetComponent<SpriteRenderer>().color = defaultColor;
         Debug.Log("[ball] discharged!");
     }
 
