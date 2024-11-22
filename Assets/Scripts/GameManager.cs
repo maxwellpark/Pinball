@@ -349,6 +349,7 @@ public class GameManager : Singleton<GameManager>
         var ballRb = ball.GetComponent<Rigidbody2D>();
         ballRb.velocity = Vector2.zero;
         ballRb.angularVelocity = 0f;
+        ballRb.gravityScale = 1f;
 
         var trail = ball.GetComponent<TrailRenderer>();
         trail.Clear();
