@@ -11,6 +11,11 @@ public abstract class ReceiverBase : MonoBehaviour
 
     protected virtual void OnEnter(Collider2D collision)
     {
+        if (collision == null || collision.gameObject == null)
+        {
+            return;
+        }
+
         if (collision.TryGetComponent<Rigidbody2D>(out var ballRb))
         {
             ballRb.velocity = Vector2.zero;
@@ -31,7 +36,7 @@ public abstract class ReceiverBase : MonoBehaviour
 
     protected virtual void OnExit(Collider2D collision)
     {
-        if (collision == null)
+        if (collision == null || collision.gameObject == null)
         {
             return;
         }

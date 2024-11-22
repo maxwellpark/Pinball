@@ -55,6 +55,17 @@ public class CatcherMinigame : Minigame
         }
 
         var input = Input.GetAxis("Horizontal");
+
+        // Check controller
+        if (InputManager.IsLeftTriggerDown())
+        {
+            input = -1;
+        }
+        else if (InputManager.IsRightTriggerDown())
+        {
+            input = 1;
+        }
+
         catcherPlatform.transform.Translate(catcherSpeed * input * Time.deltaTime * Vector2.right);
     }
 

@@ -15,7 +15,9 @@ public class PlayerRing : MonoBehaviour
     [SerializeField] private float baseSpeed = 2.0f;
 
     private Vector3 initialScale;
+#pragma warning disable IDE0052 // Remove unread private members
     private bool isInTargetRing;
+#pragma warning restore IDE0052 // Remove unread private members
 
     private void Start()
     {
