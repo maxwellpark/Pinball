@@ -463,7 +463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &145780846
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -544,10 +544,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pullRadius: 3
-  pullStrength: 100
+  pullStrength: 2
+  spiralSpeed: 360
+  stopThreshold: 0.05
   minVelocityToEscape: 100
-  nearCenterRadius: 0.5
-  spiralForce: 10
+  pullSpeedFactor: 0.5
 --- !u!4 &294684988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625340664623339449, guid: 188917192c47a504db092e941d31e071, type: 3}
@@ -4248,19 +4249,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7220411808182924313, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8162834299731815116, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: minigameType
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8347868280369498249, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.92
+      value: 12.42
       objectReference: {fileID: 0}
     - target: {fileID: 8347868280369498249, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.32
+      value: 6.5699997
       objectReference: {fileID: 0}
     - target: {fileID: 8347868280369498249, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: m_LocalPosition.z

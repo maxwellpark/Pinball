@@ -233,7 +233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5641211351674576516}
-  - component: {fileID: 8130038680726495892}
+  - component: {fileID: 3513994371842397958}
   m_Layer: 6
   m_Name: CatcherMinigame
   m_TagString: Untagged
@@ -258,7 +258,7 @@ Transform:
   - {fileID: 6754680476068028248}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8130038680726495892
+--- !u!114 &3513994371842397958
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
