@@ -1,44 +1,54 @@
 using UnityEngine;
-using GM = GameManager;
 
 public class TargetRing : MonoBehaviour
 {
-    [SerializeField] private float minRadius = 1f;
-    [SerializeField] private float maxRadius = 5f;
-    [SerializeField] private float speed = 2f;
-    [SerializeField] private float minChangeInterval = 1f;
-    [SerializeField] private float maxChangeInterval = 3f;
+    [SerializeField] private float minOuterRadius = 3.0f;
+    [SerializeField] private float maxOuterRadius = 5.0f;
+    [SerializeField] private float minInnerRadius = 2.5f;
+    [SerializeField] private float maxInnerRadius = 4.5f;
 
-    private Vector3 targetScale;
-    private float timer;
-    private float currentChangeInterval;
+    private CircleCollider2D outerCollider;
+    private CircleCollider2D innerCollider;
 
     private void Start()
     {
-        SetRandomTargetScale();
+        var colliders = GetComponentsInChildren<CircleCollider2D>();
+        outerCollider = colliders[0];
+        innerCollider = colliders[1];
+
+        outerCollider.isTrigger = true;
+        innerCollider.isTrigger = true;
+        SetRandomRadii();
     }
 
-    private void Update()
+    private void SetRandomRadii()
     {
-        if (GM.CurrentMinigame != Minigame.Type.Ring)
-        {
-            return;
-        }
-
-        transform.localScale = Vector3.MoveTowards(transform.localScale, targetScale, speed * Time.deltaTime);
-
-        timer += Time.deltaTime;
-        if (timer >= currentChangeInterval)
-        {
-            SetRandomTargetScale();
-            timer = 0;
-        }
+        outerCollider.radius = Random.Range(minOuterRadius, maxOuterRadius);
+        innerCollider.radius = Random.Range(minInnerRadius, maxInnerRadius);
+        Debug.Log($"[ring] target ring outer radius: {outerCollider.radius} | inner radius: {innerCollider.radius}");
     }
 
-    private void SetRandomTargetScale()
+    public bool IsPlayerInRing(CircleCollider2D playerCollider)
     {
-        var randomSize = Random.Range(minRadius, maxRadius);
-        targetScale = new Vector3(randomSize, randomSize, 1);
-        currentChangeInterval = Random.Range(minChangeInterval, maxChangeInterval);
+        var playerRadius = playerCollider.radius;
+        var outerRingRadius = outerCollider.radius;
+        var innerRingRadius = innerCollider.radius;
+
+        var isInsideOuter = playerRadius < outerRingRadius;
+        var isOutsideInner = playerRadius > innerRingRadius;
+
+        return isInsideOuter && isOutsideInner;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (outerCollider != null && innerCollider != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, outerCollider.radius);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, innerCollider.radius);
+        }
     }
 }
