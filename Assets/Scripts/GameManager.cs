@@ -253,7 +253,7 @@ public class GameManager : Singleton<GameManager>
             multiplierLevel = 0;
             nextCombo = baseCombo;
             comboDeltaTime = 0f;
-            Debug.Log("Combo reset");
+            //Debug.Log("Combo reset");
         }
 
         if (ball == null || MinigameActive)

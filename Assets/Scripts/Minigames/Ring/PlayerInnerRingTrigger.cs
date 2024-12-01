@@ -4,7 +4,7 @@ public class PlayerInnerRingTrigger : MonoBehaviour
 {
     public System.Action<bool> OnPlayerInnerTrigger;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(Tags.TargetRingInner))
         {
@@ -13,7 +13,7 @@ public class PlayerInnerRingTrigger : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag(Tags.TargetRingInner))
         {
