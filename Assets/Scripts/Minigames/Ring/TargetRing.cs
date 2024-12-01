@@ -6,9 +6,12 @@ public class TargetRing : MonoBehaviour
     [SerializeField] private float maxOuterRadius = 5.0f;
     [SerializeField] private float minInnerRadius = 2.5f;
     [SerializeField] private float maxInnerRadius = 4.5f;
+    [SerializeField] private float expandContractSpeed = 1.5f;
 
     private CircleCollider2D outerCollider;
     private CircleCollider2D innerCollider;
+
+    private bool isExpanding = true;
 
     private void Start()
     {
@@ -18,14 +21,38 @@ public class TargetRing : MonoBehaviour
 
         outerCollider.isTrigger = true;
         innerCollider.isTrigger = true;
-        SetRandomRadii();
-    }
 
-    private void SetRandomRadii()
-    {
         outerCollider.radius = Random.Range(minOuterRadius, maxOuterRadius);
         innerCollider.radius = Random.Range(minInnerRadius, maxInnerRadius);
         Debug.Log($"[ring] target ring outer radius: {outerCollider.radius} | inner radius: {innerCollider.radius}");
+    }
+
+    private void Update()
+    {
+        AdjustRingSize();
+    }
+
+    private void AdjustRingSize()
+    {
+        float expansionAmount = expandContractSpeed * Time.deltaTime;
+        if (isExpanding)
+        {
+            outerCollider.radius += expansionAmount;
+            innerCollider.radius += expansionAmount * (minInnerRadius / minOuterRadius);
+        }
+        else
+        {
+            outerCollider.radius -= expansionAmount;
+            innerCollider.radius -= expansionAmount * (minInnerRadius / minOuterRadius);
+        }
+
+        if (outerCollider.radius >= maxOuterRadius || outerCollider.radius <= minOuterRadius)
+        {
+            isExpanding = !isExpanding; // Switch the state to contract/expand
+        }
+
+        outerCollider.radius = Mathf.Clamp(outerCollider.radius, minOuterRadius, maxOuterRadius);
+        innerCollider.radius = Mathf.Clamp(innerCollider.radius, minInnerRadius, maxInnerRadius);
     }
 
     public bool IsPlayerInRing(CircleCollider2D playerCollider)
