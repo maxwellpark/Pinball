@@ -53,10 +53,10 @@ public abstract class Minigame : MonoBehaviour
         EndMinigame();
     }
 
-    protected IEnumerator EndAfterDelay()
+    protected IEnumerator EndAfterDelay(float seconds = 2f)
     {
         Notify();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(seconds);
         EndMinigame();
     }
 

@@ -9,7 +9,6 @@ public class PlayerRing : MonoBehaviour
     [SerializeField] private float stickinessFactor = 0.5f;
     [SerializeField] private float accelerationTime = 0.5f;
     [SerializeField] private float decelerationTime = 1f;
-    [SerializeField] private Material ringMaterial;
 
     private CircleCollider2D playerCollider;
     private float targetRadius;
@@ -21,10 +20,17 @@ public class PlayerRing : MonoBehaviour
 
     private bool isExpanding;
 
-    private void Start()
+    public bool IsInsideTarget { get; private set; }
+
+    private void Awake()
     {
         playerCollider = GetComponent<CircleCollider2D>();
         playerCollider.isTrigger = true;
+    }
+
+    private void OnEnable()
+    {
+        IsInsideTarget = false;
         currentRadius = playerCollider.radius;
         targetRadius = currentRadius;
         currentSpeed = contractionSpeed;
@@ -81,14 +87,8 @@ public class PlayerRing : MonoBehaviour
         if (other.CompareTag(Tags.TargetRingOuter))
         {
             var targetRing = other.GetComponentInParent<TargetRing>();
-            if (targetRing.IsPlayerInRing(playerCollider))
-            {
-                Debug.Log("[ring] player ring is inside");
-            }
-            else
-            {
-                Debug.Log("[ring] player ring is outside");
-            }
+            IsInsideTarget = targetRing.IsPlayerInRing(playerCollider);
+            Debug.Log("[ring] IsInsideTarget = " + IsInsideTarget);
         }
     }
 
