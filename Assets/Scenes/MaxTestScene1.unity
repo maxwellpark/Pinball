@@ -1773,6 +1773,11 @@ MonoBehaviour:
   minRadius: 0.5
   expansionSpeed: 2
   contractionSpeed: 2
+  stickinessFactor: 0.5
+  acceleration: 3
+  deceleration: 3
+  ringMaterial: {fileID: 0}
+  lineSegments: 100
 --- !u!58 &870608490
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2688,6 +2693,8 @@ MonoBehaviour:
   maxOuterRadius: 5
   minInnerRadius: 2.5
   maxInnerRadius: 4.5
+  expandContractSpeed: 1.5
+  pauseDurationRange: {x: 0.25, y: 1}
 --- !u!1001 &1309922339
 PrefabInstance:
   m_ObjectHideFlags: 0

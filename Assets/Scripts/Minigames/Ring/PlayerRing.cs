@@ -7,67 +7,73 @@ public class PlayerRing : MonoBehaviour
     [SerializeField] private float expansionSpeed = 2f;
     [SerializeField] private float contractionSpeed = 1.5f;
     [SerializeField] private float stickinessFactor = 0.5f;
+    [SerializeField] private float accelerationTime = 0.5f;
+    [SerializeField] private float decelerationTime = 1f;
     [SerializeField] private Material ringMaterial;
-    [SerializeField] private int lineSegments = 100;
 
     private CircleCollider2D playerCollider;
-    //private LineRenderer lineRenderer;
     private float targetRadius;
     private float currentSpeed;
+    private float currentRadius;
+
+    private float accelerationProgress;
+    private float decelerationProgress;
+
+    private bool isExpanding;
 
     private void Start()
     {
         playerCollider = GetComponent<CircleCollider2D>();
         playerCollider.isTrigger = true;
-        targetRadius = playerCollider.radius;
+        currentRadius = playerCollider.radius;
+        targetRadius = currentRadius;
+        currentSpeed = contractionSpeed;
+        isExpanding = false;
     }
 
     private void Update()
     {
         if (Input.GetKey(KeyCode.Space))
         {
+            if (!isExpanding)
+            {
+                isExpanding = true;
+                accelerationProgress = 0f;
+            }
+
+            accelerationProgress += Time.deltaTime / accelerationTime;
+            accelerationProgress = Mathf.Clamp01(accelerationProgress);
+            currentSpeed = Mathf.Lerp(contractionSpeed, expansionSpeed, accelerationProgress);
             targetRadius = maxRadius;
-            currentSpeed = expansionSpeed;
         }
         else
         {
+            if (isExpanding)
+            {
+                decelerationProgress = 0f;
+            }
+
+            decelerationProgress += Time.deltaTime / decelerationTime;
+            decelerationProgress = Mathf.Clamp01(decelerationProgress);
+            currentSpeed = Mathf.Lerp(expansionSpeed, contractionSpeed, decelerationProgress);
             targetRadius = minRadius;
-            currentSpeed = contractionSpeed;
+            isExpanding = false;
         }
 
-        if (Mathf.Abs(playerCollider.radius - targetRadius) > 0.01f)
+        if (Mathf.Abs(currentRadius - targetRadius) > 0.01f)
         {
             var speed = currentSpeed * Time.deltaTime;
-            if (playerCollider.radius < targetRadius)
+            if (currentRadius < targetRadius)
             {
-                playerCollider.radius = Mathf.MoveTowards(playerCollider.radius, targetRadius, speed);
+                currentRadius = Mathf.MoveTowards(currentRadius, targetRadius, speed);
             }
             else
             {
-                playerCollider.radius = Mathf.MoveTowards(playerCollider.radius, targetRadius, speed * stickinessFactor);
+                currentRadius = Mathf.MoveTowards(currentRadius, targetRadius, speed * stickinessFactor);
             }
+
+            playerCollider.radius = currentRadius;
         }
-
-        //if (lineRenderer != null)
-        //{
-        //    Destroy(lineRenderer.gameObject);
-        //}
-
-        //var obj = new GameObject("PlayerRing");
-        //lineRenderer = obj.AddComponent<LineRenderer>();
-
-        //lineRenderer.positionCount = lineSegments + 1;
-        //lineRenderer.useWorldSpace = false;
-        //lineRenderer.loop = true;
-
-        //var angleStep = 360f / lineSegments;
-        //var radius = playerCollider.radius;
-        //for (var i = 0; i < lineSegments + 1; i++)
-        //{
-        //    var angle = i * angleStep;
-        //    Vector3 position = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle) * radius, Mathf.Sin(Mathf.Deg2Rad * angle) * radius, 0);
-        //    lineRenderer.SetPosition(i, position);
-        //}
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -86,12 +92,12 @@ public class PlayerRing : MonoBehaviour
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    if (playerCollider != null)
-    //    {
-    //        Gizmos.color = Color.magenta;
-    //        Gizmos.DrawWireSphere(transform.position, playerCollider.radius);
-    //    }
-    //}
+    private void OnDrawGizmos()
+    {
+        if (playerCollider != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, playerCollider.radius);
+        }
+    }
 }

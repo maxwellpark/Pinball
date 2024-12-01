@@ -8,12 +8,14 @@ public class TargetRing : MonoBehaviour
     [SerializeField] private float maxInnerRadius = 4.5f;
     [SerializeField] private float expandContractSpeed = 1.5f;
     [SerializeField] private Vector2 pauseDurationRange = new(0.25f, 1.0f);
+    [SerializeField] private float erraticSpeedFactor = 1.5f;
 
     private CircleCollider2D outerCollider;
     private CircleCollider2D innerCollider;
     private bool isExpanding = true;
     private bool isPaused = false;
     private float pauseTimer = 0f;
+    private float randomMovementFactor;
 
     private void Start()
     {
@@ -26,13 +28,15 @@ public class TargetRing : MonoBehaviour
 
         outerCollider.radius = Random.Range(minOuterRadius, maxOuterRadius);
         innerCollider.radius = Random.Range(minInnerRadius, maxInnerRadius);
+
+        randomMovementFactor = Random.Range(0.5f, 1.5f);
     }
 
     private void Update()
     {
         if (!isPaused)
         {
-            var expansionAmount = expandContractSpeed * Time.deltaTime;
+            var expansionAmount = expandContractSpeed * Time.deltaTime * randomMovementFactor;
 
             if (isExpanding)
             {
@@ -50,6 +54,7 @@ public class TargetRing : MonoBehaviour
                 isExpanding = !isExpanding;
                 isPaused = true;
                 pauseTimer = Random.Range(pauseDurationRange.x, pauseDurationRange.y);
+                randomMovementFactor = Random.Range(0.5f, erraticSpeedFactor);
             }
 
             outerCollider.radius = Mathf.Clamp(outerCollider.radius, minOuterRadius, maxOuterRadius);
@@ -61,6 +66,7 @@ public class TargetRing : MonoBehaviour
             if (pauseTimer <= 0f)
             {
                 isPaused = false;
+                randomMovementFactor = Random.Range(0.5f, erraticSpeedFactor);
             }
         }
     }
