@@ -5546,6 +5546,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4811014664841084761, guid: 345459688d65c514c8c90255d9b04100, type: 3}
+      propertyPath: innerRadiusOffset
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4811014664841084761, guid: 345459688d65c514c8c90255d9b04100, type: 3}
+      propertyPath: expandContractSpeed
+      value: 0.85
+      objectReference: {fileID: 0}
     - target: {fileID: 5112111575518787208, guid: 345459688d65c514c8c90255d9b04100, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.25

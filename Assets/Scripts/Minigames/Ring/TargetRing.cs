@@ -2,20 +2,22 @@ using UnityEngine;
 
 public class TargetRing : MonoBehaviour
 {
-    [SerializeField] private float minOuterRadius = 3.0f;
-    [SerializeField] private float maxOuterRadius = 5.0f;
+    [SerializeField] private float minOuterRadius = 3f;
+    [SerializeField] private float maxOuterRadius = 5f;
     [SerializeField] private float minInnerRadius = 2.5f;
     [SerializeField] private float maxInnerRadius = 4.5f;
+    [SerializeField] private float innerRadiusOffset = 0.75f;
     [SerializeField] private float expandContractSpeed = 1.5f;
     [SerializeField] private Vector2 pauseDurationRange = new(0.25f, 1.0f);
-    [SerializeField] private float erraticSpeedFactor = 1.5f;
+    [SerializeField] private float speedFactor = 1.5f;
 
     private CircleCollider2D outerCollider;
     private CircleCollider2D innerCollider;
-    private bool isExpanding = true;
     private bool isPaused = false;
     private float pauseTimer = 0f;
     private float randomMovementFactor;
+    private float targetOuterRadius;
+    private float targetInnerRadius;
 
     private void Start()
     {
@@ -26,8 +28,9 @@ public class TargetRing : MonoBehaviour
         outerCollider.isTrigger = true;
         innerCollider.isTrigger = true;
 
-        outerCollider.radius = Random.Range(minOuterRadius, maxOuterRadius);
-        innerCollider.radius = Random.Range(minInnerRadius, maxInnerRadius);
+        targetOuterRadius = Random.Range(minOuterRadius, maxOuterRadius);
+        targetInnerRadius = targetOuterRadius - innerRadiusOffset;
+        //targetInnerRadius = targetOuterRadius - Random.Range(minInnerRadius, maxInnerRadius);
 
         randomMovementFactor = Random.Range(0.5f, 1.5f);
     }
@@ -38,27 +41,20 @@ public class TargetRing : MonoBehaviour
         {
             var expansionAmount = expandContractSpeed * Time.deltaTime * randomMovementFactor;
 
-            if (isExpanding)
-            {
-                outerCollider.radius += expansionAmount;
-                innerCollider.radius += expansionAmount * (minInnerRadius / minOuterRadius);
-            }
-            else
-            {
-                outerCollider.radius -= expansionAmount;
-                innerCollider.radius -= expansionAmount * (minInnerRadius / minOuterRadius);
-            }
+            outerCollider.radius = Mathf.MoveTowards(outerCollider.radius, targetOuterRadius, expansionAmount);
+            innerCollider.radius = Mathf.MoveTowards(innerCollider.radius, targetInnerRadius, expansionAmount * (minInnerRadius / minOuterRadius));
 
-            if (outerCollider.radius >= maxOuterRadius || outerCollider.radius <= minOuterRadius)
+            if (Mathf.Approximately(outerCollider.radius, targetOuterRadius))
             {
-                isExpanding = !isExpanding;
                 isPaused = true;
                 pauseTimer = Random.Range(pauseDurationRange.x, pauseDurationRange.y);
-                randomMovementFactor = Random.Range(0.5f, erraticSpeedFactor);
-            }
 
-            outerCollider.radius = Mathf.Clamp(outerCollider.radius, minOuterRadius, maxOuterRadius);
-            innerCollider.radius = Mathf.Clamp(innerCollider.radius, minInnerRadius, maxInnerRadius);
+                targetOuterRadius = Random.Range(minOuterRadius, maxOuterRadius);
+                targetInnerRadius = targetOuterRadius - innerRadiusOffset;
+                //targetInnerRadius = targetOuterRadius - Random.Range(minInnerRadius, maxInnerRadius);
+
+                randomMovementFactor = Random.Range(0.5f, speedFactor);
+            }
         }
         else
         {
@@ -66,7 +62,7 @@ public class TargetRing : MonoBehaviour
             if (pauseTimer <= 0f)
             {
                 isPaused = false;
-                randomMovementFactor = Random.Range(0.5f, erraticSpeedFactor);
+                randomMovementFactor = Random.Range(0.5f, speedFactor);
             }
         }
     }
