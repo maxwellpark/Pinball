@@ -7,8 +7,11 @@ public class PlayerRing : MonoBehaviour
     [SerializeField] private float expansionSpeed = 2f;
     [SerializeField] private float contractionSpeed = 1.5f;
     [SerializeField] private float stickinessFactor = 0.5f;
+    [SerializeField] private Material ringMaterial;
+    [SerializeField] private int lineSegments = 100;
 
     private CircleCollider2D playerCollider;
+    //private LineRenderer lineRenderer;
     private float targetRadius;
     private float currentSpeed;
 
@@ -44,6 +47,27 @@ public class PlayerRing : MonoBehaviour
                 playerCollider.radius = Mathf.MoveTowards(playerCollider.radius, targetRadius, speed * stickinessFactor);
             }
         }
+
+        //if (lineRenderer != null)
+        //{
+        //    Destroy(lineRenderer.gameObject);
+        //}
+
+        //var obj = new GameObject("PlayerRing");
+        //lineRenderer = obj.AddComponent<LineRenderer>();
+
+        //lineRenderer.positionCount = lineSegments + 1;
+        //lineRenderer.useWorldSpace = false;
+        //lineRenderer.loop = true;
+
+        //var angleStep = 360f / lineSegments;
+        //var radius = playerCollider.radius;
+        //for (var i = 0; i < lineSegments + 1; i++)
+        //{
+        //    var angle = i * angleStep;
+        //    Vector3 position = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle) * radius, Mathf.Sin(Mathf.Deg2Rad * angle) * radius, 0);
+        //    lineRenderer.SetPosition(i, position);
+        //}
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -62,12 +86,12 @@ public class PlayerRing : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (playerCollider != null)
-        {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, playerCollider.radius);
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    if (playerCollider != null)
+    //    {
+    //        Gizmos.color = Color.magenta;
+    //        Gizmos.DrawWireSphere(transform.position, playerCollider.radius);
+    //    }
+    //}
 }
