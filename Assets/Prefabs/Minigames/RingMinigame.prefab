@@ -201,9 +201,10 @@ MonoBehaviour:
   maxOuterRadius: 5
   minInnerRadius: 2.5
   maxInnerRadius: 4.5
-  expandContractSpeed: 1.5
+  innerRadiusOffset: 0.5
+  expandContractSpeed: 0.85
   pauseDurationRange: {x: 0.25, y: 1}
-  erraticSpeedFactor: 1.5
+  speedFactor: 1.5
 --- !u!1 &2501261859008628358
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,8 +420,8 @@ MonoBehaviour:
   expansionSpeed: 2
   contractionSpeed: 2
   stickinessFactor: 0.5
-  accelerationTime: 0.5
-  decelerationTime: 1
+  accelerationTime: 0.15
+  decelerationTime: 0.15
 --- !u!50 &6875813589848015553
 Rigidbody2D:
   serializedVersion: 4

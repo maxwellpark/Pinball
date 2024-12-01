@@ -49,7 +49,8 @@ public class PlayerRing : MonoBehaviour
 
             accelerationProgress += Time.deltaTime / accelerationTime;
             accelerationProgress = Mathf.Clamp01(accelerationProgress);
-            currentSpeed = Mathf.Lerp(contractionSpeed, expansionSpeed, accelerationProgress);
+            currentSpeed = accelerationProgress == 1f ? expansionSpeed : 0f;
+            //currentSpeed = Mathf.Lerp(contractionSpeed, expansionSpeed, accelerationProgress);
             targetRadius = maxRadius;
         }
         else
@@ -61,7 +62,8 @@ public class PlayerRing : MonoBehaviour
 
             decelerationProgress += Time.deltaTime / decelerationTime;
             decelerationProgress = Mathf.Clamp01(decelerationProgress);
-            currentSpeed = Mathf.Lerp(expansionSpeed, contractionSpeed, decelerationProgress);
+            currentSpeed = decelerationProgress == 1f ? contractionSpeed : 0f;
+            //currentSpeed = Mathf.Lerp(expansionSpeed, contractionSpeed, decelerationProgress);
             targetRadius = minRadius;
             isExpanding = false;
         }
