@@ -1,9 +1,9 @@
-using Events;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     // Only used for debugging for now 
     private FlipperController flipperController;
@@ -19,22 +19,21 @@ public class Ball : MonoBehaviour
     {
         defaultColor = GetComponent<SpriteRenderer>().color;
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         flipperController = FindObjectOfType<FlipperController>();
-        GameManager.EventService.Add<BallChargedEvent>(OnBallCharged);
-        GameManager.EventService.Add<BallDischargedEvent>(OnBallDischarged);
     }
 
-    private void OnBallCharged()
+    public void Charge()
     {
         isCharged = true;
-        GetComponent<SpriteRenderer>().color = chargedColor;
+        sr.color = chargedColor;
         Debug.Log("[ball] charged!");
     }
 
-    private void OnBallDischarged()
+    public void Discharge()
     {
         isCharged = false;
-        GetComponent<SpriteRenderer>().color = defaultColor;
+        sr.color = defaultColor;
         Debug.Log("[ball] discharged!");
     }
 

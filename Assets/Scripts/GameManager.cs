@@ -200,6 +200,8 @@ public class GameManager : Singleton<GameManager>
         minigameCamera.gameObject.SetActive(false);
         EventService.Add<MinigameEndedEvent>(EndMinigame);
         EventService.Add<BallSavedEvent>(OnBallSaved);
+        EventService.Add<BallChargedEvent>(OnBallCharged);
+        EventService.Add<BallDischargedEvent>(OnBallDischarged);
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
         Debug.Log("[game] first new ball event");
@@ -481,6 +483,24 @@ public class GameManager : Singleton<GameManager>
     private void NewBall()
     {
         EventService.Dispatch<NewBallEvent>();
+    }
+
+    private void OnBallCharged()
+    {
+        if (ball == null)
+        {
+            return;
+        }
+        ball.GetComponent<Ball>().Charge();
+    }
+
+    private void OnBallDischarged()
+    {
+        if (ball == null)
+        {
+            return;
+        }
+        ball.GetComponent<Ball>().Discharge();
     }
 }
 

@@ -33,7 +33,7 @@ public class RingMinigame : Minigame
 
     private void Update()
     {
-        if (GameManager.CurrentMinigame != MinigameType)
+        if (GameManager.CurrentMinigame != MinigameType || won)
         {
             return;
         }
