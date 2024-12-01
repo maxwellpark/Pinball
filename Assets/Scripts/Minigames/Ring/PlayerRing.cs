@@ -53,7 +53,11 @@ public class PlayerRing : MonoBehaviour
             var targetRing = other.GetComponentInParent<TargetRing>();
             if (targetRing.IsPlayerInRing(playerCollider))
             {
-                Debug.Log("[ring] player ring is inside target ring!");
+                Debug.Log("[ring] player ring is inside");
+            }
+            else
+            {
+                Debug.Log("[ring] player ring is outside");
             }
         }
     }
