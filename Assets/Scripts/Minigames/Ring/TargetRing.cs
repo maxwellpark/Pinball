@@ -7,11 +7,13 @@ public class TargetRing : MonoBehaviour
     [SerializeField] private float minInnerRadius = 2.5f;
     [SerializeField] private float maxInnerRadius = 4.5f;
     [SerializeField] private float expandContractSpeed = 1.5f;
+    [SerializeField] private Vector2 pauseDurationRange = new(0.25f, 1.0f);
 
     private CircleCollider2D outerCollider;
     private CircleCollider2D innerCollider;
-
     private bool isExpanding = true;
+    private bool isPaused = false;
+    private float pauseTimer = 0f;
 
     private void Start()
     {
@@ -24,35 +26,43 @@ public class TargetRing : MonoBehaviour
 
         outerCollider.radius = Random.Range(minOuterRadius, maxOuterRadius);
         innerCollider.radius = Random.Range(minInnerRadius, maxInnerRadius);
-        Debug.Log($"[ring] target ring outer radius: {outerCollider.radius} | inner radius: {innerCollider.radius}");
     }
 
     private void Update()
     {
-        AdjustRingSize();
-    }
-
-    private void AdjustRingSize()
-    {
-        float expansionAmount = expandContractSpeed * Time.deltaTime;
-        if (isExpanding)
+        if (!isPaused)
         {
-            outerCollider.radius += expansionAmount;
-            innerCollider.radius += expansionAmount * (minInnerRadius / minOuterRadius);
+            var expansionAmount = expandContractSpeed * Time.deltaTime;
+
+            if (isExpanding)
+            {
+                outerCollider.radius += expansionAmount;
+                innerCollider.radius += expansionAmount * (minInnerRadius / minOuterRadius);
+            }
+            else
+            {
+                outerCollider.radius -= expansionAmount;
+                innerCollider.radius -= expansionAmount * (minInnerRadius / minOuterRadius);
+            }
+
+            if (outerCollider.radius >= maxOuterRadius || outerCollider.radius <= minOuterRadius)
+            {
+                isExpanding = !isExpanding;
+                isPaused = true;
+                pauseTimer = Random.Range(pauseDurationRange.x, pauseDurationRange.y);
+            }
+
+            outerCollider.radius = Mathf.Clamp(outerCollider.radius, minOuterRadius, maxOuterRadius);
+            innerCollider.radius = Mathf.Clamp(innerCollider.radius, minInnerRadius, maxInnerRadius);
         }
         else
         {
-            outerCollider.radius -= expansionAmount;
-            innerCollider.radius -= expansionAmount * (minInnerRadius / minOuterRadius);
+            pauseTimer -= Time.deltaTime;
+            if (pauseTimer <= 0f)
+            {
+                isPaused = false;
+            }
         }
-
-        if (outerCollider.radius >= maxOuterRadius || outerCollider.radius <= minOuterRadius)
-        {
-            isExpanding = !isExpanding; // Switch the state to contract/expand
-        }
-
-        outerCollider.radius = Mathf.Clamp(outerCollider.radius, minOuterRadius, maxOuterRadius);
-        innerCollider.radius = Mathf.Clamp(innerCollider.radius, minInnerRadius, maxInnerRadius);
     }
 
     public bool IsPlayerInRing(CircleCollider2D playerCollider)
