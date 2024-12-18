@@ -2,22 +2,24 @@ using UnityEngine;
 
 public class TargetRing : MonoBehaviour
 {
+    [SerializeField] private float speed = 1.5f;
+    [SerializeField] private float expandContractSpeed = 1.5f;
     [SerializeField] private float minOuterRadius = 3f;
     [SerializeField] private float maxOuterRadius = 5f;
     [SerializeField] private float minInnerRadius = 2.5f;
     [SerializeField] private float maxInnerRadius = 4.5f;
     [SerializeField] private float innerRadiusOffset = 0.75f;
-    [SerializeField] private float expandContractSpeed = 1.5f;
     [SerializeField] private Vector2 pauseDurationRange = new(0.25f, 1.0f);
-    [SerializeField] private float speedFactor = 1.5f;
+    [SerializeField] private bool useRandomMovement;
 
     private CircleCollider2D outerCollider;
     private CircleCollider2D innerCollider;
-    private bool isPaused = false;
+    private bool isPaused;
     private float pauseTimer = 0f;
-    private float randomMovementFactor;
+    private float randomMovementFactor; 
     private float targetOuterRadius;
     private float targetInnerRadius;
+    private bool isExpanding = true; // Used for fixed movement
 
     private void Start()
     {
@@ -28,14 +30,32 @@ public class TargetRing : MonoBehaviour
         outerCollider.isTrigger = true;
         innerCollider.isTrigger = true;
 
-        targetOuterRadius = Random.Range(minOuterRadius, maxOuterRadius);
-        targetInnerRadius = targetOuterRadius - innerRadiusOffset;
-        //targetInnerRadius = targetOuterRadius - Random.Range(minInnerRadius, maxInnerRadius);
-
-        randomMovementFactor = Random.Range(0.5f, 1.5f);
+        if (useRandomMovement)
+        {
+            targetOuterRadius = Random.Range(minOuterRadius, maxOuterRadius);
+            targetInnerRadius = targetOuterRadius - innerRadiusOffset;
+            randomMovementFactor = Random.Range(0.5f, 1.5f);
+        }
+        else
+        {
+            outerCollider.radius = Random.Range(minOuterRadius, maxOuterRadius);
+            innerCollider.radius = outerCollider.radius - innerRadiusOffset;
+        }
     }
 
     private void Update()
+    {
+        if (useRandomMovement)
+        {
+            HandleRandomMovement();
+        }
+        else
+        {
+            HandleFixedMovement();
+        }
+    }
+
+    private void HandleRandomMovement()
     {
         if (!isPaused)
         {
@@ -51,9 +71,8 @@ public class TargetRing : MonoBehaviour
 
                 targetOuterRadius = Random.Range(minOuterRadius, maxOuterRadius);
                 targetInnerRadius = targetOuterRadius - innerRadiusOffset;
-                //targetInnerRadius = targetOuterRadius - Random.Range(minInnerRadius, maxInnerRadius);
 
-                randomMovementFactor = Random.Range(0.5f, speedFactor);
+                randomMovementFactor = Random.Range(0.5f, speed);
             }
         }
         else
@@ -62,9 +81,33 @@ public class TargetRing : MonoBehaviour
             if (pauseTimer <= 0f)
             {
                 isPaused = false;
-                randomMovementFactor = Random.Range(0.5f, speedFactor);
+                randomMovementFactor = Random.Range(0.5f, speed);
             }
         }
+    }
+
+    private void HandleFixedMovement()
+    {
+        var expansionAmount = expandContractSpeed * Time.deltaTime;
+
+        if (isExpanding)
+        {
+            outerCollider.radius += expansionAmount;
+            innerCollider.radius += expansionAmount * (minInnerRadius / minOuterRadius);
+        }
+        else
+        {
+            outerCollider.radius -= expansionAmount;
+            innerCollider.radius -= expansionAmount * (minInnerRadius / minOuterRadius);
+        }
+
+        if (outerCollider.radius >= maxOuterRadius || outerCollider.radius <= minOuterRadius)
+        {
+            isExpanding = !isExpanding;
+        }
+
+        outerCollider.radius = Mathf.Clamp(outerCollider.radius, minOuterRadius, maxOuterRadius);
+        innerCollider.radius = Mathf.Clamp(innerCollider.radius, minInnerRadius, maxInnerRadius);
     }
 
     public bool IsPlayerInRing(CircleCollider2D playerCollider)

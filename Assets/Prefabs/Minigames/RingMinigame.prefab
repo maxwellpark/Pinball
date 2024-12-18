@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 1510994462094301105}
   - component: {fileID: 4811014664841084761}
   m_Layer: 6
-  m_Name: TargetRing (1)
+  m_Name: TargetRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,8 +203,9 @@ MonoBehaviour:
   maxInnerRadius: 4.5
   innerRadiusOffset: 0.5
   expandContractSpeed: 0.85
-  pauseDurationRange: {x: 0.25, y: 1}
+  pauseDurationRange: {x: 0.75, y: 1.5}
   speedFactor: 1.5
+  useRandomMovement: 0
 --- !u!1 &2501261859008628358
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +383,7 @@ GameObject:
   - component: {fileID: 6875813589848015553}
   - component: {fileID: 466340692614200479}
   m_Layer: 6
-  m_Name: PlayerRing (1)
+  m_Name: PlayerRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,8 +418,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxRadius: 5
   minRadius: 0.5
-  expansionSpeed: 2
-  contractionSpeed: 2
+  expansionSpeed: 2.25
+  contractionSpeed: 2.25
   stickinessFactor: 0.5
   accelerationTime: 0.15
   decelerationTime: 0.15
