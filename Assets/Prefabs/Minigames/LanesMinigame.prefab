@@ -484,9 +484,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5113839770653008614}
   - component: {fileID: 2238812442390302214}
-  - component: {fileID: 9009893253247537656}
   - component: {fileID: 8746651562866077269}
   - component: {fileID: 222377143624226462}
+  - component: {fileID: 9187297342656490380}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -561,23 +561,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9009893253247537656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011386599004838571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e978747c0d1954a4eb24cbcdb91e1b40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lanes: []
-  leftKeys: 6100000014010000
-  rightKeys: 6400000013010000
-  switchEffectDuration: 0.2
-  switchScaleAmount: 1.2
 --- !u!58 &8746651562866077269
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -640,6 +623,26 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &9187297342656490380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011386599004838571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e978747c0d1954a4eb24cbcdb91e1b40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lanes:
+  - {fileID: 6268628643567537318}
+  - {fileID: 6288085030938466304}
+  - {fileID: 2695031409128631150}
+  leftKeys: 6100000014010000
+  rightKeys: 6400000013010000
+  switchEffectDuration: 0.2
+  switchScaleAmount: 1.2
 --- !u!1 &1141201711061792657
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,7 +653,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6268628643567537318}
   - component: {fileID: 6134672657820062221}
-  - component: {fileID: 2725720926443587357}
+  - component: {fileID: 6157702305622283554}
   m_Layer: 6
   m_Name: Lane
   m_TagString: Untagged
@@ -730,7 +733,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2725720926443587357
+--- !u!114 &6157702305622283554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -742,7 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 2
 --- !u!1 &1959376340932093610
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,7 +756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6288085030938466304}
   - component: {fileID: 682316362716225070}
-  - component: {fileID: 2380588651300260154}
+  - component: {fileID: 26870067700508078}
   m_Layer: 6
   m_Name: Lane (1)
   m_TagString: Untagged
@@ -832,7 +835,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2380588651300260154
+--- !u!114 &26870067700508078
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -844,7 +847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 2
 --- !u!1 &2470625808973562281
 GameObject:
   m_ObjectHideFlags: 0
@@ -984,7 +987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5066166742442166981}
-  - component: {fileID: 4359654875995362477}
+  - component: {fileID: 8311148637044389443}
   m_Layer: 6
   m_Name: LanesMinigame
   m_TagString: Untagged
@@ -1008,7 +1011,7 @@ Transform:
   - {fileID: 2752285005130635638}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4359654875995362477
+--- !u!114 &8311148637044389443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1017,12 +1020,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3688980906680669992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70dfd74c3f760bc42b1077328883c696, type: 3}
+  m_Script: {fileID: 11500000, guid: f46e6686971890847bf1ef6d7dcc1915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   container: {fileID: 5828576944690746594}
   winScore: 1000
-  player: {fileID: 9009893253247537656}
+  player: {fileID: 9187297342656490380}
 --- !u!1 &3869598134875480491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1980,7 +1983,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2695031409128631150}
   - component: {fileID: 8324830702326366437}
-  - component: {fileID: 3133717699535783743}
+  - component: {fileID: 3090509480983612981}
   m_Layer: 6
   m_Name: Lane (2)
   m_TagString: Untagged
@@ -2061,7 +2064,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3133717699535783743
+--- !u!114 &3090509480983612981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2073,7 +2076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 2
 --- !u!1 &6564687401969619090
 GameObject:
   m_ObjectHideFlags: 0

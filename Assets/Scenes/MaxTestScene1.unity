@@ -4257,7 +4257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8162834299731815116, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: minigameType
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8347868280369498249, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5436,7 +5436,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4359654875995362477, guid: 4f0378e758496a846811394b8375c0e2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
