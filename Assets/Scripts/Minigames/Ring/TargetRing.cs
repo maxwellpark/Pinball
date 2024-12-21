@@ -3,7 +3,8 @@ using UnityEngine;
 public class TargetRing : MonoBehaviour
 {
     [SerializeField] private float speed = 1.5f;
-    [SerializeField] private float expandContractSpeed = 1.5f;
+    [SerializeField] private float expandSpeed = 0.85f;
+    [SerializeField] private float contractSpeed = 0.85f;
     [SerializeField] private float minOuterRadius = 3f;
     [SerializeField] private float maxOuterRadius = 5f;
     [SerializeField] private float minInnerRadius = 2.5f;
@@ -59,7 +60,7 @@ public class TargetRing : MonoBehaviour
     {
         if (!isPaused)
         {
-            var expansionAmount = expandContractSpeed * Time.deltaTime * randomMovementFactor;
+            var expansionAmount = expandSpeed * Time.deltaTime * randomMovementFactor;
 
             outerCollider.radius = Mathf.MoveTowards(outerCollider.radius, targetOuterRadius, expansionAmount);
             innerCollider.radius = Mathf.MoveTowards(innerCollider.radius, targetInnerRadius, expansionAmount * (minInnerRadius / minOuterRadius));
@@ -88,17 +89,18 @@ public class TargetRing : MonoBehaviour
 
     private void HandleFixedMovement()
     {
-        var expansionAmount = expandContractSpeed * Time.deltaTime;
 
         if (isExpanding)
         {
+            var expansionAmount = expandSpeed * Time.deltaTime;
             outerCollider.radius += expansionAmount;
             innerCollider.radius += expansionAmount * (minInnerRadius / minOuterRadius);
         }
         else
         {
-            outerCollider.radius -= expansionAmount;
-            innerCollider.radius -= expansionAmount * (minInnerRadius / minOuterRadius);
+            var contractionAmount = contractSpeed * Time.deltaTime;
+            outerCollider.radius -= contractionAmount;
+            innerCollider.radius -= contractionAmount * (minInnerRadius / minOuterRadius);
         }
 
         if (outerCollider.radius >= maxOuterRadius || outerCollider.radius <= minOuterRadius)

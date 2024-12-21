@@ -4,8 +4,8 @@ public class PlayerRing : MonoBehaviour
 {
     [SerializeField] private float maxRadius = 2.0f;
     [SerializeField] private float minRadius = 0.5f;
-    [SerializeField] private float expansionSpeed = 2f;
-    [SerializeField] private float contractionSpeed = 1.5f;
+    [SerializeField] private float expandSpeed = 2f;
+    [SerializeField] private float contractSpeed = 1.5f;
     [SerializeField] private float stickinessFactor = 0.5f;
     [SerializeField] private float accelerationTime = 0.5f;
     [SerializeField] private float decelerationTime = 1f;
@@ -33,7 +33,7 @@ public class PlayerRing : MonoBehaviour
         IsInsideTarget = false;
         currentRadius = playerCollider.radius;
         targetRadius = currentRadius;
-        currentSpeed = contractionSpeed;
+        currentSpeed = contractSpeed;
         isExpanding = false;
     }
 
@@ -49,7 +49,7 @@ public class PlayerRing : MonoBehaviour
 
             accelerationProgress += Time.deltaTime / accelerationTime;
             accelerationProgress = Mathf.Clamp01(accelerationProgress);
-            currentSpeed = accelerationProgress == 1f ? expansionSpeed : 0f;
+            currentSpeed = accelerationProgress == 1f ? expandSpeed : 0f;
             //currentSpeed = Mathf.Lerp(contractionSpeed, expansionSpeed, accelerationProgress);
             targetRadius = maxRadius;
         }
@@ -62,7 +62,7 @@ public class PlayerRing : MonoBehaviour
 
             decelerationProgress += Time.deltaTime / decelerationTime;
             decelerationProgress = Mathf.Clamp01(decelerationProgress);
-            currentSpeed = decelerationProgress == 1f ? contractionSpeed : 0f;
+            currentSpeed = decelerationProgress == 1f ? contractSpeed : 0f;
             //currentSpeed = Mathf.Lerp(expansionSpeed, contractionSpeed, decelerationProgress);
             targetRadius = minRadius;
             isExpanding = false;
