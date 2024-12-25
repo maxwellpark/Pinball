@@ -6,9 +6,8 @@ public class LanesMinigame : Minigame
 
     [SerializeField] private LanePlayer player;
 
-    protected override void Start()
+    private void OnEnable()
     {
-        base.Start();
         player.OnHitGap += OnHitGap;
         player.OnFinished += OnFinished;
     }

@@ -745,6 +745,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundPrefab: {fileID: 0}
+  gapPrefab: {fileID: 0}
+  finishPrefab: {fileID: 0}
+  start: {fileID: 0}
+  cellCount: 8
   speed: 2
 --- !u!1 &1959376340932093610
 GameObject:
@@ -847,6 +852,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundPrefab: {fileID: 0}
+  gapPrefab: {fileID: 0}
+  finishPrefab: {fileID: 0}
+  start: {fileID: 0}
+  cellCount: 8
   speed: 2
 --- !u!1 &2470625808973562281
 GameObject:
@@ -2076,6 +2086,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61716209718e0e043b69fbf1073d0606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundPrefab: {fileID: 0}
+  gapPrefab: {fileID: 0}
+  finishPrefab: {fileID: 0}
+  start: {fileID: 0}
+  cellCount: 8
   speed: 2
 --- !u!1 &6564687401969619090
 GameObject:
