@@ -27,22 +27,19 @@ public class FallingFloorsMinigame : Minigame
         }
     }
 
-    public override void OnMinigameStarted(MinigameStartedEvent evt)
+    protected override void StartMinigame()
     {
-        base.OnMinigameStarted(evt);
+        base.StartMinigame();
 
-        if (evt.Type == MinigameType)
+        foreach (var floor in floors)
         {
-            foreach (var floor in floors)
-            {
-                floor.transform.eulerAngles = startRotByFloor[floor];
-            }
-
-            currentFloorIndex = 0;
-            ball = Instantiate(ballPrefab, spawnPoint.position, Quaternion.identity);
-            ballRb = ball.GetComponent<Rigidbody2D>();
-            ballRb.gravityScale = fallSpeedMultiplier;
+            floor.transform.eulerAngles = startRotByFloor[floor];
         }
+
+        currentFloorIndex = 0;
+        ball = Instantiate(ballPrefab, spawnPoint.position, Quaternion.identity);
+        ballRb = ball.GetComponent<Rigidbody2D>();
+        ballRb.gravityScale = fallSpeedMultiplier;
     }
 
     private void Update()

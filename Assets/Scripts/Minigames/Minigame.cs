@@ -29,10 +29,16 @@ public abstract class Minigame : MonoBehaviour
     {
         if (evt.Type == MinigameType)
         {
-            container.SetActive(true);
-            won = false;
             onEnd = evt.OnEnd;
+            StartMinigame();
         }
+    }
+
+    protected virtual void StartMinigame()
+    {
+        Debug.Log("[minigame] starting " + MinigameType);
+        container.SetActive(true);
+        won = false;
     }
 
     protected virtual void OnMinigameCancelled()

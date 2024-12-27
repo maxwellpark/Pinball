@@ -27,17 +27,13 @@ public class CatcherMinigame : Minigame
         GameManager.EventService.Add<ObjectMissedEvent>(ObjectMissed);
     }
 
-    public override void OnMinigameStarted(MinigameStartedEvent evt)
+    protected override void StartMinigame()
     {
-        base.OnMinigameStarted(evt);
-
-        if (evt.Type == MinigameType)
-        {
-            catcherPlatform.transform.localPosition = startPos;
-            objectsCaught = 0;
-            objectsMissed = 0;
-            StartCoroutine(SpawnObjects());
-        }
+        base.StartMinigame();
+        catcherPlatform.transform.localPosition = startPos;
+        objectsCaught = 0;
+        objectsMissed = 0;
+        StartCoroutine(SpawnObjects());
     }
 
     protected override void EndMinigame()

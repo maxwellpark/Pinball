@@ -9,17 +9,15 @@ public class LanesMinigame : Minigame
     [SerializeField] private int cellCount = 8;
     [SerializeField, Range(0f, 1f)] private float groundChance = 0.6f;
 
-    private const int MAX_GEN_ATTEMPTS = 10;
+    private const int MAX_GEN_ATTEMPTS = 100;
 
     // 0 = gap, 1 = ground
     private int[,] grid;
     private Lane[] lanes;
 
-    private void OnEnable()
+    protected override void StartMinigame()
     {
-        player.OnHitGap += OnHitGap;
-        player.OnFinished += OnFinished;
-        lanes = GetComponentsInChildren<Lane>();
+        base.StartMinigame();
 
         var success = false;
         var attempts = 0;
@@ -43,6 +41,13 @@ public class LanesMinigame : Minigame
         {
             //lane.IsMoving = true;
         }
+    }
+
+    private void OnEnable()
+    {
+        player.OnHitGap += OnHitGap;
+        player.OnFinished += OnFinished;
+        lanes = GetComponentsInChildren<Lane>();
     }
 
     private void OnDisable()
