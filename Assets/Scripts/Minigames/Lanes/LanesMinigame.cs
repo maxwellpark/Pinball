@@ -9,7 +9,8 @@ public class LanesMinigame : Minigame
     [SerializeField] private int cellCount = 8;
     [SerializeField, Range(0f, 1f)] private float groundChance = 0.6f;
 
-    private const int MAX_GEN_ATTEMPTS = 100;
+    // TODO: increase groundChance gradually after n failed attempts 
+    private const int MAX_GEN_ATTEMPTS = 1000;
 
     // 0 = gap, 1 = ground
     private int[,] grid;
@@ -39,7 +40,18 @@ public class LanesMinigame : Minigame
 
         foreach (var lane in lanes)
         {
-            //lane.IsMoving = true;
+            lane.IsMoving = true;
+        }
+    }
+
+    protected override void EndMinigame()
+    {
+        base.EndMinigame();
+
+        foreach (Lane lane in lanes)
+        {
+            lane.IsMoving = false;
+            lane.Clear();
         }
     }
 
@@ -54,12 +66,6 @@ public class LanesMinigame : Minigame
     {
         player.OnHitGap -= OnHitGap;
         player.OnFinished -= OnFinished;
-
-        foreach (Lane lane in lanes)
-        {
-            lane.IsMoving = false;
-            lane.Clear();
-        }
     }
 
     private void GenerateGrid()

@@ -10,7 +10,14 @@ public class Lane : MonoBehaviour
     [SerializeField] private float speed = 5f;
 
     private readonly List<GameObject> instances = new();
+    private Vector3 startPos;
+
     public bool IsMoving { get; set; }
+
+    private void Awake()
+    {
+        startPos = transform.localPosition;
+    }
 
     public void SpawnGround(int row)
     {
@@ -48,6 +55,7 @@ public class Lane : MonoBehaviour
             }
         }
         instances.Clear();
+        transform.localPosition = startPos;
     }
 
     private void Update()
