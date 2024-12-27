@@ -8,6 +8,7 @@ public class LanesMinigame : Minigame
     [SerializeField] private LanePlayer player;
     [SerializeField] private int cellCount = 8;
     [SerializeField, Range(0f, 1f)] private float groundChance = 0.6f;
+    [SerializeField] private bool isFrozen; // Just for testing 
 
     // TODO: increase groundChance gradually after n failed attempts 
     private const int MAX_GEN_ATTEMPTS = 1000;
@@ -40,7 +41,8 @@ public class LanesMinigame : Minigame
 
         foreach (var lane in lanes)
         {
-            lane.IsMoving = true;
+            lane.IsMoving = !isFrozen;
+            //lane.IsMoving = true;
         }
     }
 
