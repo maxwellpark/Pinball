@@ -7,46 +7,56 @@ public class Lane : MonoBehaviour
     [SerializeField] private GameObject gapPrefab;
     [SerializeField] private GameObject finishPrefab;
     [SerializeField] private Transform start;
-    [SerializeField] private int cellCount = 8;
     [SerializeField] private float speed = 5f;
 
-    private Vector3 startPos;
     private readonly List<GameObject> instances = new();
+    public bool IsMoving { get; set; }
 
-    private void Awake()
+    public void SpawnGround(int row)
     {
-        startPos = transform.localPosition;
+        SpawnObject(groundPrefab, row);
     }
 
-    private void OnEnable()
+    public void SpawnGap(int row)
     {
-        // TODO: random path algorithm
-        for (int i = 0; i < cellCount; i++)
-        {
-            if (i % 2 == 0)
-            {
-                SpawnGround();
-            }
-            else
-            {
-                SpawnGap();
-            }
-        }
+        SpawnObject(gapPrefab, row);
     }
 
-    private void OnDisable()
+    public void SpawnFinish(int row)
     {
-        transform.localPosition = startPos;
+        SpawnObject(finishPrefab, row);
+    }
 
+    private void SpawnObject(GameObject prefab, int row)
+    {
+        var instance = Instantiate(prefab, transform);
+        instances.Add(instance);
+
+        // 1 unit spacing 
+        var yPos = start.position.y + row;
+        var xPos = transform.position.x;
+        instance.transform.position = new Vector2(xPos, yPos);
+    }
+
+    public void Clear()
+    {
         foreach (var instance in instances)
         {
-            Destroy(instance);
+            if (instance != null)
+            {
+                Destroy(instance);
+            }
         }
         instances.Clear();
     }
 
     private void Update()
     {
+        if (!IsMoving)
+        {
+            return;
+        }
+
         // For now need world space as we've rotated 90 degrees out of laziness 
         transform.Translate(speed * Time.deltaTime * Vector3.down, Space.World);
 
@@ -55,34 +65,5 @@ public class Lane : MonoBehaviour
         // {
         //     transform.position = new Vector3(transform.position.x, respawnPoint.position.y, transform.position.z);
         // }
-    }
-
-    private void SpawnObject(GameObject prefab, Transform parent = null)
-    {
-        var instance = Instantiate(prefab);
-
-        if (parent != null)
-        {
-            instance.transform.SetParent(parent.transform, false);
-        }
-
-        instances.Add(instance);
-        var yPos = start.transform.position.y + instances.Count - 1;
-        instance.transform.position = new Vector2(instance.transform.position.x, yPos);
-    }
-
-    public void SpawnGround()
-    {
-        SpawnObject(groundPrefab, transform);
-    }
-
-    public void SpawnGap()
-    {
-        SpawnObject(gapPrefab, transform);
-    }
-
-    public void SpawnFinish()
-    {
-        SpawnObject(finishPrefab, transform);
     }
 }
