@@ -21,6 +21,7 @@ public abstract class Minigame : MonoBehaviour
     protected virtual void Start()
     {
         GameManager.EventService.Add<MinigameStartedEvent>(OnMinigameStarted);
+        GameManager.EventService.Add<MinigameCancelledEvent>(OnMinigameCancelled);
         container.SetActive(false);
     }
 
@@ -31,6 +32,16 @@ public abstract class Minigame : MonoBehaviour
             container.SetActive(true);
             won = false;
             onEnd = evt.OnEnd;
+        }
+    }
+
+    protected virtual void OnMinigameCancelled()
+    {
+        if (GameManager.CurrentMinigame == MinigameType)
+        {
+            Debug.Log("[minigame] cancelling " + MinigameType);
+            won = false;
+            EndMinigame();
         }
     }
 

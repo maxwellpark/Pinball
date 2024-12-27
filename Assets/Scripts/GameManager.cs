@@ -258,10 +258,16 @@ public class GameManager : Singleton<GameManager>
             //Debug.Log("Combo reset");
         }
 
-        if (ball == null || MinigameActive)
+        if (ball == null)
         {
             velocityText.SetText(Vector2.zero.ToString());
             return;
+        }
+
+        // Just for testing 
+        if (MinigameActive && Input.GetKeyDown(KeyCode.Escape))
+        {
+            EventService.Dispatch<MinigameCancelledEvent>();
         }
 
         if ((Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton2)) && ghostBalls > 0)
@@ -415,6 +421,7 @@ public class GameManager : Singleton<GameManager>
         CurrentMinigame = type;
         scoreTextContainer.SetActive(false);
         highScoreTextContainer.SetActive(false);
+        velocityTextContainer.SetActive(false);
         EventService.Dispatch(new MinigameStartedEvent(type, onEnd));
     }
 
@@ -423,6 +430,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Ending minigame...");
         minigameCamera.gameObject.SetActive(false);
         scoreTextContainer.SetActive(true);
+        velocityTextContainer.SetActive(true);
         highScoreTextContainer.SetActive(highScore > 0);
         CurrentMinigame = Minigame.Type.None;
     }
