@@ -147,6 +147,10 @@ public class GameManager : Singleton<GameManager>
                 NotificationManager.Notify("Ghost ball added!", 1);
                 Instance.GhostBalls++;
                 break;
+            case Action.AddBomb:
+                NotificationManager.Notify("Bomb added!", 1);
+                // TODO: finite resource for bombs
+                break;
         }
     }
 
@@ -179,7 +183,7 @@ public class GameManager : Singleton<GameManager>
 
     public enum Action
     {
-        None, BallRescue, BallSaver, AddGhostBall,
+        None, BallRescue, BallSaver, AddGhostBall, AddBomb,
     }
 
     private void Start()
