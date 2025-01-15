@@ -5,6 +5,11 @@ public class VelocityGate : MonoBehaviour
     [SerializeField] private float velocityThreshold = 10f;
     [SerializeField] private Collider2D gateCollider;
 
+    private void Start()
+    {
+        gateCollider.isTrigger = true;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (Utils.IsBall(collision))
