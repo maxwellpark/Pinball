@@ -152,7 +152,7 @@ public class GameManager : Singleton<GameManager>
                 break;
             case Action.AddBomb:
                 NotificationManager.Notify("Bomb added!", 1);
-                // TODO: finite resource for bombs
+                Instance.Bombs++;
                 break;
         }
     }
