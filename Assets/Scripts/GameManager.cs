@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float upwardsForce = 5f;
     [SerializeField] private int startingBalls = 3;
     [SerializeField] private int startingGhostBalls = 3;
+    [SerializeField] private int startingBombs = 3;
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
     [SerializeField] private Camera minigameCamera;
@@ -31,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject comboTextContainer;
     [SerializeField] private GameObject ballsTextContainer;
     [SerializeField] private GameObject ghostBallsTextContainer;
+    [SerializeField] private GameObject bombsTextContainer;
     [SerializeField] private GameObject velocityTextContainer;
     [Header("Explosion")]
     [SerializeField] private float explosionDamage = 100f;
@@ -52,6 +54,7 @@ public class GameManager : Singleton<GameManager>
     private TMP_Text comboText;
     private TMP_Text ballsText;
     private TMP_Text ghostBallsText;
+    private TMP_Text bombsText;
     private TMP_Text velocityText;
 
     private GameObject ball;
@@ -176,6 +179,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private int bombs;
+    public int Bombs
+    {
+        get => bombs;
+        private set
+        {
+            bombs = value;
+            bombsText.SetText("Bombs: " + bombs);
+        }
+    }
+
     public static void AddScore(int score)
     {
         Instance.Score += Mathf.RoundToInt(Mathf.Max(score * Instance.ComboMultiplier, 0));
@@ -196,9 +210,11 @@ public class GameManager : Singleton<GameManager>
         comboText = comboTextContainer.GetComponentInChildren<TMP_Text>();
         ballsText = ballsTextContainer.GetComponentInChildren<TMP_Text>();
         ghostBallsText = ghostBallsTextContainer.GetComponentInChildren<TMP_Text>();
+        bombsText = bombsTextContainer.GetComponentInChildren<TMP_Text>();
         velocityText = velocityTextContainer.GetComponentInChildren<TMP_Text>();
         Balls = startingBalls;
         GhostBalls = startingGhostBalls;
+        Bombs = startingBombs;
 
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
@@ -301,7 +317,7 @@ public class GameManager : Singleton<GameManager>
         velocityText.SetText("Velocity: " + ballRb.velocity);
 
         // 3 = triangle 
-        if (!showExplosion && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3)))
+        if (!showExplosion && Bombs > 0 && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3)))
         {
             StartCoroutine(TriggerExplosion());
         }
@@ -309,6 +325,12 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator TriggerExplosion()
     {
+        if (Bombs < 1)
+        {
+            Debug.LogWarning("[game] tried to trigger explosion with 0 bombs");
+            yield break;
+        }
+
         explosionPos = ball.transform.position;
         showExplosion = true;
 
@@ -326,6 +348,7 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
+        Bombs--;
         yield return new WaitForSeconds(explosionDuration);
         showExplosion = false;
         explosionPos = Vector3.zero;
