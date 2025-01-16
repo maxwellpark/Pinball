@@ -17,7 +17,7 @@ public class OscillatingBehaviour : ContinuousBehaviour
         startPos = transform.position;
         startX = startPos.x;
         direction = startMovingRight ? 1 : -1;
-        endX = (startX + distance) * direction;
+        endX = startX + (distance * direction);
     }
 
     protected override void Behave()
@@ -29,8 +29,8 @@ public class OscillatingBehaviour : ContinuousBehaviour
             || direction == -1 && transform.position.x <= endX)
         {
             direction *= -1;
-            startX = endX;
-            endX = (startX + distance) * direction;
+            startX = transform.position.x;
+            endX = startX + (distance * direction);
         }
     }
 
@@ -40,5 +40,6 @@ public class OscillatingBehaviour : ContinuousBehaviour
     {
         transform.position = startPos;
         direction = startMovingRight ? 1 : -1;
+        endX = startX + (distance * direction);
     }
 }
