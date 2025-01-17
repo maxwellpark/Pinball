@@ -7,26 +7,30 @@ public class OscillatingBehaviour : ContinuousBehaviour
     public bool startMovingRight = true; // Initial direction 
 
     private Vector3 startPos;
+    private float startX;
+    private float endX;
     private int direction; // 1 for right, -1 for left
-    private float traveledDistance;
 
+    // TODO: support vertical movement too?
     private void Start()
     {
         startPos = transform.position;
+        startX = startPos.x;
         direction = startMovingRight ? 1 : -1;
-        traveledDistance = 0f;
+        endX = startX + (distance * direction);
     }
 
     protected override void Behave()
     {
         var moveAmount = direction * speed * Time.deltaTime;
         transform.Translate(moveAmount, 0, 0);
-        traveledDistance += Mathf.Abs(moveAmount);
 
-        if (traveledDistance >= distance)
+        if (direction == 1 && transform.position.x >= endX
+            || direction == -1 && transform.position.x <= endX)
         {
             direction *= -1;
-            traveledDistance = 0f;
+            startX = transform.position.x;
+            endX = startX + (distance * direction);
         }
     }
 
@@ -36,6 +40,6 @@ public class OscillatingBehaviour : ContinuousBehaviour
     {
         transform.position = startPos;
         direction = startMovingRight ? 1 : -1;
-        traveledDistance = 0f;
+        endX = startX + (distance * direction);
     }
 }

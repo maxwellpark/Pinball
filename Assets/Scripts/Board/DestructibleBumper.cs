@@ -19,9 +19,8 @@ public class DestructibleBumper : Bumper
 
     public event UnityAction<DestructibleBumper> OnDestroyed;
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
         currentHealth = maxHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = fullHealthColor;

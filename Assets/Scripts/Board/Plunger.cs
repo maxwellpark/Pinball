@@ -60,6 +60,15 @@ public class Plunger : MonoBehaviour
         }
 
         var ball = GM.Instance.CreateBall(launchPosition.position);
+
+        // TODO: this probably shouldn't occur - it's when we're out of balls,
+        // but really we shouldn't be raising a NewBallEvent in this scenario. 
+        if (ball == null)
+        {
+            Debug.LogWarning("[plunger] CreateBall returned null. Cannot launch.");
+            return;
+        }
+
         ballRb = ball.GetComponent<Rigidbody2D>();
         ballRb.isKinematic = true;
         currentForce = 0;

@@ -7,13 +7,6 @@ public class Bumper : BounceBehaviourBase
     [SerializeField] private float vibrationIntensity = 0.1f;
     [SerializeField] private float vibrationSpeed = 40f;
 
-    private Vector3 startPos;
-
-    protected virtual void Start()
-    {
-        startPos = transform.localPosition;
-    }
-
     protected override void OnCollision(Collider2D collider)
     {
         base.OnCollision(collider);
@@ -27,6 +20,7 @@ public class Bumper : BounceBehaviourBase
 
     private IEnumerator Vibrate(float duration, float intensity, float speed)
     {
+        var startPos = transform.localPosition;
         var time = 0f;
 
         while (time < duration)
