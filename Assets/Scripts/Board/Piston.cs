@@ -36,17 +36,23 @@ public class Piston : MonoBehaviour
             }
         }
 
-        if (isActive && body.transform.position.y >= startPos.y + maxHeight)
+        if (isActive)
         {
-            Debug.Log("[piston] starting reset");
-            //if (resetSound != null)
-            //{
-            //    resetSound.Play();
-            //}
+            var displacement = body.transform.position - (Vector3)startPos;
+            var displacementAlongUp = Vector3.Dot(displacement, body.transform.up);
 
-            rb.velocity = Vector2.zero;
-            isActive = false;
-            isResetting = true;
+            if (displacementAlongUp >= maxHeight)
+            {
+                Debug.Log("[piston] starting reset");
+                // if (resetSound != null)
+                // {
+                //     resetSound.Play();
+                // }
+
+                rb.velocity = Vector2.zero;
+                isActive = false;
+                isResetting = true;
+            }
         }
 
         if (isResetting)
@@ -70,7 +76,7 @@ public class Piston : MonoBehaviour
         }
 
         Debug.Log("[piston] activating");
-        rb.velocity = Vector2.up * force;
+        rb.velocity = transform.up * force;
 
         if (activationParticles != null)
         {
