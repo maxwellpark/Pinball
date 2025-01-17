@@ -13410,6 +13410,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7139170638997966831, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
   m_PrefabInstance: {fileID: 3547624790531819623}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3547624790531819625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1985500203001687750, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4375167086682926925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13442,6 +13447,10 @@ PrefabInstance:
       propertyPath: ballsTextContainer
       value: 
       objectReference: {fileID: 1803462149}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: bombsTextContainer
+      value: 
+      objectReference: {fileID: 3547624790531819625}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: comboTextContainer
       value: 
