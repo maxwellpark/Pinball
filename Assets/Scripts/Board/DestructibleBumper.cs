@@ -5,7 +5,6 @@ using UnityEngine.Events;
 public class DestructibleBumper : Bumper
 {
     [SerializeField] private float maxHealth = 100f;
-    [SerializeField] private float currentHealth;
     [SerializeField] private float minDamage = 30f;
     [SerializeField] private float damageMultiplier = 1f;
     [SerializeField] private int scoreOnDestroy = 250;
@@ -15,15 +14,29 @@ public class DestructibleBumper : Bumper
     [SerializeField] private Color fullHealthColor = Color.white;
     [SerializeField] private Color damagedColor = Color.red;
 
+    private float currentHealth;
+    private float CurrentHealth
+    {
+        get => currentHealth;
+        set
+        {
+            currentHealth = Mathf.Clamp(value, 0f, maxHealth);
+            UpdateColor();
+        }
+    }
+
     private SpriteRenderer spriteRenderer;
 
     public event UnityAction<DestructibleBumper> OnDestroyed;
 
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     private void Start()
     {
-        currentHealth = maxHealth;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.color = fullHealthColor;
+        CurrentHealth = maxHealth;
     }
 
     // Too lazy to change OnCollision signature for now, so stick stuff in here to get relativeVelocity.
@@ -42,13 +55,11 @@ public class DestructibleBumper : Bumper
 
     private void TakeDamage(float damage)
     {
-        Debug.Log($"[d. bumper] {name} taking {damage} damage (was {currentHealth} health)...");
-        currentHealth -= damage;
-        Debug.Log($"[d. bumper] {name} new health: {currentHealth}");
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        UpdateColor();
+        Debug.Log($"[d. bumper] {name} taking {damage} damage (was {CurrentHealth} health)...");
+        CurrentHealth -= damage;
+        Debug.Log($"[d. bumper] {name} new health: {CurrentHealth}");
 
-        if (currentHealth <= 0f)
+        if (CurrentHealth <= 0f)
         {
             if (explosionEffect != null)
             {
@@ -63,7 +74,7 @@ public class DestructibleBumper : Bumper
 
     private void UpdateColor()
     {
-        var healthPercentage = currentHealth / maxHealth;
+        var healthPercentage = CurrentHealth / maxHealth;
         spriteRenderer.color = Color.Lerp(damagedColor, fullHealthColor, healthPercentage);
     }
 
@@ -76,7 +87,7 @@ public class DestructibleBumper : Bumper
     {
         var time = 0f;
 
-        while (time < duration && currentHealth > 0)
+        while (time < duration && CurrentHealth > 0)
         {
             yield return new WaitForSeconds(damageInterval);
             TakeDamage(damage / damageInterval);
