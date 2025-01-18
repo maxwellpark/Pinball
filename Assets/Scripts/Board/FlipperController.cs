@@ -29,9 +29,6 @@ public class FlipperController : MonoBehaviour
     public JointMotor2D LeftMotor { get; private set; }
     public JointMotor2D RightMotor { get; private set; }
 
-    private readonly KeyCode[] leftKeys = new[] { KeyCode.A, KeyCode.LeftArrow, KeyCode.S };
-    private readonly KeyCode[] rightKeys = new[] { KeyCode.D, KeyCode.RightArrow, KeyCode.S };
-
     private void Start()
     {
         leftRenderer = leftFlipper.GetComponent<SpriteRenderer>();
@@ -47,14 +44,8 @@ public class FlipperController : MonoBehaviour
             return;
         }
 
-        var leftTrigger = InputManager.IsLeftTriggerDown();
-        var rightTrigger = InputManager.IsRightTriggerDown();
-
-        var leftInput = Utils.AnyKeys(leftKeys) || leftTrigger;
-        var rightInput = Utils.AnyKeys(rightKeys) || rightTrigger;
-
-        UpdateFlipper(leftFlipper, leftInput, -speed, returnSpeed, ref leftChargeTime, leftRenderer);
-        UpdateFlipper(rightFlipper, rightInput, speed, -returnSpeed, ref rightChargeTime, rightRenderer);
+        UpdateFlipper(leftFlipper, InputManager.IsLeft(), -speed, returnSpeed, ref leftChargeTime, leftRenderer);
+        UpdateFlipper(rightFlipper, InputManager.IsRight(), speed, -returnSpeed, ref rightChargeTime, rightRenderer);
     }
 
     private void UpdateFlipper(

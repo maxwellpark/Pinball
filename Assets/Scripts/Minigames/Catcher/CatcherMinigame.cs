@@ -53,11 +53,11 @@ public class CatcherMinigame : Minigame
         var input = Input.GetAxis("Horizontal");
 
         // Check controller
-        if (InputManager.IsLeftTriggerDown())
+        if (InputManager.IsLeftTriggerOver())
         {
             input = -1;
         }
-        else if (InputManager.IsRightTriggerDown())
+        else if (InputManager.IsRightTriggerOver())
         {
             input = 1;
         }

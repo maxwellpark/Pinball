@@ -3,7 +3,10 @@ using System.Linq;
 using UnityEngine;
 using GM = GameManager;
 
-public class InputManager : MonoBehaviour
+/// <summary>
+/// This uses the old input system. We might want to move to the new Unity input system at some point.
+/// </summary>
+public class InputManager : Singleton<InputManager>
 {
     public enum Controller
     {
@@ -23,6 +26,9 @@ public class InputManager : MonoBehaviour
     // Assume only 1 can be connected at 1 time for now 
     public static Controller ConnectedController
         => xboxOneControllerConnected ? Controller.XboxOne : ps4ControllerConnected ? Controller.Ps4 : Controller.None;
+
+    public static readonly KeyCode[] LeftKeys = new[] { KeyCode.A, KeyCode.LeftArrow, KeyCode.S };
+    public static readonly KeyCode[] RightKeys = new[] { KeyCode.D, KeyCode.RightArrow, KeyCode.S };
 
     private void Start()
     {
@@ -73,7 +79,7 @@ public class InputManager : MonoBehaviour
         //Debug.Log("Connected controller: " + ConnectedController);
     }
 
-    public static bool IsLeftTriggerDown()
+    public static bool IsLeftTriggerOver()
     {
         //return ConnectedController == Controller.XboxOne
         //    ? IsAxisOverThreshold(xboxLeftTriggerAxis)
@@ -82,13 +88,53 @@ public class InputManager : MonoBehaviour
         return IsAxisOverThreshold(xboxLeftTriggerAxis) || IsAxisOverThreshold(ps4LeftTriggerAxis);
     }
 
-    public static bool IsRightTriggerDown()
+    public static bool IsRightTriggerOver()
     {
         //return ConnectedController == Controller.XboxOne
         //    ? IsAxisOverThreshold(xboxRightTriggerAxis)
         //    : ConnectedController == Controller.Ps4 && IsAxisOverThreshold(ps4RightTriggerAxis);
 
         return IsAxisOverThreshold(xboxRightTriggerAxis) || IsAxisOverThreshold(ps4RightTriggerAxis);
+    }
+
+    public static bool IsLeftKeyDown()
+    {
+        return Utils.AnyKeysDown(LeftKeys);
+    }
+
+    public static bool IsRightKeyDown()
+    {
+        return Utils.AnyKeysDown(RightKeys);
+    }
+
+    public static bool IsLeftKey()
+    {
+        return Utils.AnyKeys(LeftKeys);
+    }
+
+    public static bool IsRightKey()
+    {
+        return Utils.AnyKeys(RightKeys);
+    }
+
+    public static bool IsLeftDown()
+    {
+        return IsLeftKeyDown() || IsLeftTriggerOver();
+    }
+
+    public static bool IsRightDown()
+    {
+        return IsRightKeyDown() || IsRightTriggerOver();
+    }
+
+    public static bool IsLeft()
+    {
+        return IsLeftKey() || IsLeftTriggerOver();
+    }
+
+    public static bool IsRight()
+    {
+        return IsRightKey() || IsRightTriggerOver();
     }
 
     public static bool IsAxisOverThreshold(string axis)
