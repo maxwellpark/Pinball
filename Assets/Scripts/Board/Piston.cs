@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class Piston : MonoBehaviour
 {
+    public enum Type
+    {
+        Automatic, LeftInput, RightInput,
+    }
+
+    [SerializeField] private Type type;
     [SerializeField] private float force = 10f;
     [SerializeField] private float cooldownTime = 1f;
     [SerializeField] private float maxHeight = 2f;
@@ -26,6 +32,11 @@ public class Piston : MonoBehaviour
 
     private void Update()
     {
+        if (type == Type.LeftInput && InputManager.IsLeftDown() || type == Type.RightInput && InputManager.IsRightDown())
+        {
+            Activate();
+        }
+
         if (!canActivate)
         {
             cooldownTimer += Time.deltaTime;
@@ -94,7 +105,9 @@ public class Piston : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision))
+        // Only if not using player input do we activate on collision 
+        // i.e. it just gets activated automatically when the ball touches it. 
+        if (type != Type.Automatic || !Utils.IsBall(collision))
         {
             return;
         }
