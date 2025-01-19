@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Bumper : BounceBehaviourBase
 {
+    [Header("Vibration")]
     [SerializeField] private float vibrationDuration = 0.2f;
     [SerializeField] private float vibrationIntensity = 0.1f;
     [SerializeField] private float vibrationSpeed = 40f;
