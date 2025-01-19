@@ -3641,11 +3641,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1994825955381589604, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.02
+      value: 13.77
       objectReference: {fileID: 0}
     - target: {fileID: 1994825955381589604, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.4
+      value: 9.15
       objectReference: {fileID: 0}
     - target: {fileID: 1994825955381589604, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3681,7 +3681,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5555456055655236542, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
       propertyPath: regenRate
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5555456055655236542, guid: cb1f8192dc55df249bb84493951a087f, type: 3}
       propertyPath: regensHealth
@@ -5695,10 +5695,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Piston
       objectReference: {fileID: 0}
-    - target: {fileID: 8950394372273266984, guid: 27427a629f226324cb9199ee7fd5f3d6, type: 3}
-      propertyPath: type
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6305,7 +6301,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 37412622782404166, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
       propertyPath: regenRate
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 37412622782404166, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
       propertyPath: regensHealth
@@ -6353,7 +6349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4205430610284393410, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
       propertyPath: regenRate
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4205430610284393410, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
       propertyPath: regensHealth
@@ -6366,6 +6362,22 @@ PrefabInstance:
     - target: {fileID: 4222496359123353690, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6211326930204992412, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 6211326930204992412, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7848448834264761880, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 7848448834264761880, guid: 85ae49a3ae2173b4f87d6f1ed11ceae0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6974,6 +6986,7 @@ SceneRoots:
   - {fileID: 1515504580}
   - {fileID: 3547624790531819623}
   - {fileID: 1542590264}
+  - {fileID: 3956788214833229781}
   - {fileID: 4030680123076814235}
   - {fileID: 939941573857959307}
   - {fileID: 6944103720393317091}
@@ -7000,7 +7013,6 @@ SceneRoots:
   - {fileID: 1964134920767578192}
   - {fileID: 8846945762019171987}
   - {fileID: 2061545157}
-  - {fileID: 3956788214833229781}
   - {fileID: 1249039201633806463}
   - {fileID: 909937070}
   - {fileID: 1608147418544491378}
