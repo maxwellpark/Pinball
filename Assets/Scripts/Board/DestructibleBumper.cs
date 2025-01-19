@@ -4,12 +4,19 @@ using UnityEngine.Events;
 
 public class DestructibleBumper : Bumper
 {
+    [Header("Health")]
     [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private bool regensHealth;
+    [SerializeField] private float regenRate = 5f;
+    [SerializeField, Tooltip("Time after which the regen starts")] private float regenDelayInSeconds = 2f;
+
+    [Header("Damage")]
     [SerializeField] private float minDamage = 30f;
     [SerializeField] private float damageMultiplier = 1f;
+    [SerializeField, Tooltip("Damage over time tick speed")] private float damageInterval = 1f;
     [SerializeField] private int scoreOnDestroy = 250;
-    [SerializeField] private float damageInterval = 1f;
 
+    [Header("Visuals")]
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private Color fullHealthColor = Color.white;
     [SerializeField] private Color damagedColor = Color.red;
@@ -26,6 +33,8 @@ public class DestructibleBumper : Bumper
     }
 
     private SpriteRenderer spriteRenderer;
+    private Coroutine regenCoroutine;
+    private float lastDamageTime;
 
     public event UnityAction<DestructibleBumper> OnDestroyed;
 
@@ -39,7 +48,27 @@ public class DestructibleBumper : Bumper
         CurrentHealth = maxHealth;
     }
 
-    // Too lazy to change OnCollision signature for now, so stick stuff in here to get relativeVelocity.
+    private void Update()
+    {
+        if (regensHealth && regenCoroutine == null && CurrentHealth < maxHealth && Time.time >= lastDamageTime + regenDelayInSeconds)
+        {
+            Debug.Log("[d. bumper] starting regen at time " + Time.time);
+            regenCoroutine = StartCoroutine(RegenHealth());
+        }
+    }
+
+    private IEnumerator RegenHealth()
+    {
+        while (CurrentHealth < maxHealth)
+        {
+            CurrentHealth += regenRate * Time.deltaTime;
+            yield return null;
+        }
+
+        Debug.Log("[d. bumper] ending regen at time " + Time.time);
+        regenCoroutine = null;
+    }
+
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
@@ -56,6 +85,17 @@ public class DestructibleBumper : Bumper
     private void TakeDamage(float damage)
     {
         Debug.Log($"[d. bumper] {name} taking {damage} damage (was {CurrentHealth} health)...");
+
+        // Cancel regen if active
+        if (regenCoroutine != null)
+        {
+            Debug.Log("[d. bumper] cancelling regen at time " + Time.time);
+            StopCoroutine(regenCoroutine);
+            regenCoroutine = null;
+        }
+
+        lastDamageTime = Time.time;
+
         CurrentHealth -= damage;
         Debug.Log($"[d. bumper] {name} new health: {CurrentHealth}");
 
