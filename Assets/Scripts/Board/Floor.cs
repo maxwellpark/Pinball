@@ -7,7 +7,7 @@ public class Floor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision))
+        if (!collision.IsBall())
         {
             return;
         }

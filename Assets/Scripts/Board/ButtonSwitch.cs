@@ -44,7 +44,7 @@ public class ButtonSwitch : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isPressed || !Utils.IsBall(collision) || cooldownTimer < cooldownInSeconds)
+        if (isPressed || !collision.IsBall() || cooldownTimer < cooldownInSeconds)
         {
             return;
         }
@@ -65,7 +65,7 @@ public class ButtonSwitch : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!isPressed || !Utils.IsBall(collision))
+        if (!isPressed || !collision.IsBall())
         {
             return;
         }

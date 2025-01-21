@@ -107,7 +107,7 @@ public class Piston : MonoBehaviour
     {
         // Only if not using player input do we activate on collision 
         // i.e. it just gets activated automatically when the ball touches it. 
-        if (type != Type.Automatic || !Utils.IsBall(collision))
+        if (type != Type.Automatic || !collision.IsBall())
         {
             return;
         }

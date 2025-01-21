@@ -15,7 +15,7 @@ public class VelocityGate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (Utils.IsBall(collision))
+        if (collision.IsBall())
         {
             var ballRb = collision.GetComponent<Rigidbody2D>();
             var velocity = ballRb.velocity.magnitude;
@@ -43,7 +43,7 @@ public class VelocityGate : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (Utils.IsBall(collision))
+        if (collision.IsBall())
         {
             Debug.Log("[gate] Ball left");
             gateCollider.isTrigger = true;

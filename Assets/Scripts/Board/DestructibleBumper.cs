@@ -72,7 +72,7 @@ public class DestructibleBumper : Bumper
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
-        if (!Utils.IsBallOrGhostBall(collision))
+        if (!collision.IsBallOrGhostBall())
         {
             return;
         }

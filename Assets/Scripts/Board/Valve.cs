@@ -24,7 +24,7 @@ public class Valve : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision) || isOpen)
+        if (!collision.IsBall() || isOpen)
         {
             return;
         }

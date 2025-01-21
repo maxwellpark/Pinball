@@ -11,10 +11,10 @@ public abstract class BounceBehaviourBase : CollisionBehaviourBase
 
     protected virtual void ApplyForce(Collider2D collider)
     {
-        if (collider.TryGetComponent<Rigidbody2D>(out var ballRb))
+        if (collider.TryGetComponent<Rigidbody2D>(out var rb))
         {
             var direction = (collider.transform.position - transform.position).normalized;
-            ballRb.AddForce(direction * force, ForceMode2D.Impulse);
+            rb.AddForce(direction * force, ForceMode2D.Impulse);
         }
     }
 }

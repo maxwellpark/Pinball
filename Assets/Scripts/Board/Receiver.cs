@@ -57,7 +57,7 @@ public abstract class ReceiverBase : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision))
+        if (!collision.IsBall())
         {
             return;
         }
