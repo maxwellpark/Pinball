@@ -15,6 +15,25 @@ public class Ball : MonoBehaviour
 
     public bool IsCharged => isCharged;
 
+    public void Freeze()
+    {
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        rb.simulated = false;
+
+        if (TryGetComponent<TrailRenderer>(out var trail))
+        {
+            trail.Clear();
+        }
+    }
+
+    public void Unfreeze()
+    {
+        rb.simulated = true;
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+    }
+
     private void Awake()
     {
         defaultColor = GetComponent<SpriteRenderer>().color;

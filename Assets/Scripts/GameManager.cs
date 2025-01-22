@@ -397,7 +397,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        var controlRect = new Rect(10, 10, 220, 180);
+        var controlRect = new Rect(10, 10, 220, 220);
         var boxStyle = new GUIStyle(GUI.skin.box);
         boxStyle.normal.background = MakeTex(2, 2, new Color(0f, 0f, 0f, 0.5f));
 

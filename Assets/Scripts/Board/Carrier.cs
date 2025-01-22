@@ -23,18 +23,11 @@ public class Carrier : MonoBehaviour
         }
 
         var transform = collision.transform;
-        var ballRb = transform.GetComponent<Rigidbody2D>();
-
         transform.position = this.transform.position;
 
-        if (ballRb != null)
+        if (collision.TryGetComponent<Ball>(out var ball))
         {
-            ballRb.velocity = Vector2.zero;
-            ballRb.angularVelocity = 0f;
-            ballRb.simulated = false;
-
-            var trail = ballRb.GetComponent<TrailRenderer>();
-            trail.Clear();
+            ball.Freeze();
         }
 
         StartCoroutine(Carry(transform));
@@ -63,11 +56,9 @@ public class Carrier : MonoBehaviour
         slot.position = startPos;
         ballTrans.position = destination.position;
 
-        if (ballTrans.TryGetComponent<Rigidbody2D>(out var ballRb))
+        if (ballTrans.TryGetComponent<Ball>(out var ball))
         {
-            ballRb.simulated = true;
-            ballRb.velocity = Vector2.zero;
-            ballRb.angularVelocity = 0f;
+            ball.Unfreeze();
         }
 
         isCarrying = false;
