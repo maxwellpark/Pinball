@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    // TODO: better abstraction for creating this effect on doing an action 
+    [SerializeField] private GameObject actionParticlesPrefab;
+    [SerializeField] private Color chargedColor = Color.yellow;
+
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
     // Only used for debugging for now 
     private FlipperController flipperController;
-
-    [SerializeField] private Color chargedColor = Color.yellow;
 
     private Color defaultColor;
     private bool isCharged;
@@ -35,6 +37,15 @@ public class Ball : MonoBehaviour
         }
     }
 
+    private void CreateActionParticles()
+    {
+        // Optional for now 
+        if (actionParticlesPrefab != null)
+        {
+            Instantiate(actionParticlesPrefab, transform);
+        }
+    }
+
     public void Freeze()
     {
         if (rb == null && !rb.TryGetComponent(out rb))
@@ -43,6 +54,7 @@ public class Ball : MonoBehaviour
             return;
         }
 
+        CreateActionParticles();
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
         rb.simulated = false;
@@ -61,6 +73,7 @@ public class Ball : MonoBehaviour
             return;
         }
 
+        CreateActionParticles();
         rb.simulated = true;
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;

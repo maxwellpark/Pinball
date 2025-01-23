@@ -102,7 +102,7 @@ MonoBehaviour:
   damage: 50
   range: 10
   laserWidth: 1
-  laserDuration: 50
+  laserDuration: 10
   lineRenderer: {fileID: 4502276120942220240}
 --- !u!120 &4502276120942220240
 LineRenderer:
