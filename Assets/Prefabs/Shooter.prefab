@@ -98,12 +98,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb2ee1e6ed6804e87a4ade07efec5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   rotationSpeed: 100
   damage: 50
   range: 10
   laserWidth: 1
   laserDuration: 10
   lineRenderer: {fileID: 4502276120942220240}
+  cooldownInSeconds: 0.25
+  force: 100
 --- !u!120 &4502276120942220240
 LineRenderer:
   serializedVersion: 2

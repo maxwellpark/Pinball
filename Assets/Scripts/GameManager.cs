@@ -317,7 +317,7 @@ public class GameManager : Singleton<GameManager>
 
         if ((Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton2)) && ghostBalls > 0)
         {
-            Instantiate(ghostBallPrefab, ball.transform.position, Quaternion.identity);
+            CreateGhostBall();
             GhostBalls--;
         }
 
@@ -352,6 +352,16 @@ public class GameManager : Singleton<GameManager>
             ball.GetComponent<Ball>().Freeze();
             Instantiate(shooterPrefab, ball.transform.position, Quaternion.identity);
         }
+    }
+
+    public static GameObject CreateGhostBall()
+    {
+        // Shouldn't happen but leave for now 
+        if (Instance.ball == null)
+        {
+            return null;
+        }
+        return Instantiate(Instance.ghostBallPrefab, Instance.ball.transform.position, Quaternion.identity);
     }
 
     private IEnumerator TriggerExplosion()

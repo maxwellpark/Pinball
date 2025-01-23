@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour
 {
+    public enum Type { Laser, GhostBalls };
+
+    [SerializeField] private Type type;
+
     [Header("Movement")]
     [SerializeField] private float rotationSpeed = 100f;
 
@@ -14,10 +18,22 @@ public class Shooter : MonoBehaviour
     [SerializeField] private float laserDuration = 0.2f;
     [SerializeField] private LineRenderer lineRenderer;
 
+    [Header("Ghost balls")]
+    [SerializeField] private float cooldownInSeconds = 0.25f;
+    [SerializeField] private float force = 100f;
+
     private void Start()
     {
         GameManager.EventService.Dispatch<ShooterCreatedEvent>();
-        StartCoroutine(FireLaser());
+
+        if (type == Type.Laser)
+        {
+            StartCoroutine(ShootLaser());
+        }
+        else if (type == Type.GhostBalls)
+        {
+            StartCoroutine(ShootGhostBalls());
+        }
     }
 
     private void Update()
@@ -46,10 +62,11 @@ public class Shooter : MonoBehaviour
         }
     }
 
-    private IEnumerator FireLaser()
+    private IEnumerator ShootLaser()
     {
         Debug.Log("[shooter] start firing laser...");
-        float elapsedTime = 0f;
+        lineRenderer.enabled = true;
+        var elapsedTime = 0f;
         while (elapsedTime < laserDuration)
         {
             elapsedTime += Time.deltaTime;
@@ -71,14 +88,40 @@ public class Shooter : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private IEnumerator ShootGhostBalls()
+    {
+        Debug.Log("[shooter] start shooting shot balls...");
+        lineRenderer.enabled = false;
+
+        var elapsedTime = 0f;
+        while (elapsedTime < laserDuration)
+        {
+            var ghostBall = GameManager.CreateGhostBall();
+            if (ghostBall != null && ghostBall.TryGetComponent<Rigidbody2D>(out var rb))
+            {
+                rb.AddForce(transform.up * force, ForceMode2D.Impulse);
+            }
+
+            elapsedTime += cooldownInSeconds;
+            yield return new WaitForSeconds(cooldownInSeconds);
+        }
+
+        Debug.Log("[shooter] stopped shooting ghost balls");
+        Destroy(gameObject);
+    }
+
     private void OnDestroy()
     {
         GameManager.EventService.Dispatch<ShooterDestroyedEvent>();
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawLine(transform.position, transform.position + transform.up * range);
-    //}
+    private void OnDrawGizmos()
+    {
+        if (type == Type.Laser)
+        {
+            return;
+        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + transform.up * range);
+    }
 }
