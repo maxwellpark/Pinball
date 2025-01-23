@@ -7,7 +7,7 @@ public class Collectible : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.IsBallOrGhostBall())
+        if (!collision.IsBall())
         {
             return;
         }
