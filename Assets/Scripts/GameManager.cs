@@ -65,7 +65,7 @@ public class GameManager : Singleton<GameManager>
     private bool isBallProtected;
     private Vector3 explosionPos;
     private bool showExplosion;
-    private Shooter shooter;
+    private bool isShooterActive;
     private bool showControls = true;
 
     public static bool IsBallAlive => Instance.ball != null;
@@ -241,6 +241,8 @@ public class GameManager : Singleton<GameManager>
         EventService.Add<BallSavedEvent>(OnBallSaved);
         EventService.Add<BallChargedEvent>(OnBallCharged);
         EventService.Add<BallDischargedEvent>(OnBallDischarged);
+        EventService.Add<ShooterCreatedEvent>(() => isShooterActive = true);
+        EventService.Add<ShooterDestroyedEvent>(() => isShooterActive = false);
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
         Debug.Log("[game] first new ball event");
@@ -341,8 +343,7 @@ public class GameManager : Singleton<GameManager>
             StartCoroutine(TriggerExplosion());
         }
 
-        // TODO: use shooter start/end event pattern rather than holding reference to it here 
-        if (shooter == null && Shooters > 0 && Input.GetKeyDown(KeyCode.B))
+        if (!isShooterActive && Shooters > 0 && Input.GetKeyDown(KeyCode.B))
         {
             ball.GetComponent<Ball>().Freeze();
             Instantiate(shooterPrefab, ball.transform);
