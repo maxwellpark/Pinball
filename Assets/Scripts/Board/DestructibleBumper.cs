@@ -86,6 +86,11 @@ public class DestructibleBumper : Bumper
     {
         Debug.Log($"[d. bumper] {name} taking {damage} damage (was {CurrentHealth} health)...");
 
+        if (!isVibrating)
+        {
+            StartVibrate(vibrationDuration, vibrationIntensity, vibrationSpeed);
+        }
+
         // Cancel regen if active
         if (regenCoroutine != null)
         {
