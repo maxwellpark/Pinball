@@ -19,6 +19,11 @@ public static class Utils
         return collision.gameObject.CompareTag(Tags.Ball);
     }
 
+    public static bool IsGhostBall(this Collider2D collider)
+    {
+        return collider.gameObject.CompareTag(Tags.GhostBall);
+    }
+
     public static bool IsBallOrGhostBall(this Collider2D collider)
     {
         return collider.gameObject.CompareTag(Tags.Ball) || collider.gameObject.CompareTag(Tags.GhostBall);

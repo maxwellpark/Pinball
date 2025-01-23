@@ -90,7 +90,7 @@ public class Shooter : MonoBehaviour
 
     private IEnumerator ShootGhostBalls()
     {
-        Debug.Log("[shooter] start shooting shot balls...");
+        Debug.Log("[shooter] start shooting ghost balls...");
         lineRenderer.enabled = false;
 
         var elapsedTime = 0f;
