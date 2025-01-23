@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     [Header("Ball")]
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private GameObject ghostBallPrefab;
+    [SerializeField] private GameObject shooterPrefab;
     [SerializeField] private BallRescue ballRescue;
     [SerializeField] private BallSaver ballSaver;
     [SerializeField] private float sidewaysForce = 2f;
@@ -22,6 +23,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int startingBalls = 3;
     [SerializeField] private int startingGhostBalls = 3;
     [SerializeField] private int startingBombs = 3;
+    [SerializeField] private int startingShooters = 3;
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
     [SerializeField] private Camera minigameCamera;
@@ -33,6 +35,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject ballsTextContainer;
     [SerializeField] private GameObject ghostBallsTextContainer;
     [SerializeField] private GameObject bombsTextContainer;
+    [SerializeField] private GameObject shootersTextContainer;
     [SerializeField] private GameObject velocityTextContainer;
     [Header("Explosion")]
     [SerializeField] private float explosionDamage = 100f;
@@ -55,12 +58,14 @@ public class GameManager : Singleton<GameManager>
     private TMP_Text ballsText;
     private TMP_Text ghostBallsText;
     private TMP_Text bombsText;
+    private TMP_Text shootersText;
     private TMP_Text velocityText;
 
     private GameObject ball;
     private bool isBallProtected;
     private Vector3 explosionPos;
     private bool showExplosion;
+    private Shooter shooter;
     private bool showControls = true;
 
     public static bool IsBallAlive => Instance.ball != null;
@@ -157,6 +162,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    // TODO: some abstraction for resouce-driven entities & UI  
     private int balls;
     public int Balls
     {
@@ -190,6 +196,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private int shooters;
+    public int Shooters
+    {
+        get => shooters;
+        private set
+        {
+            shooters = value;
+            shootersText.SetText("Shooters: " + shooters);
+        }
+    }
+
     public static void AddScore(int score)
     {
         Instance.Score += Mathf.RoundToInt(Mathf.Max(score * Instance.ComboMultiplier, 0));
@@ -211,10 +228,12 @@ public class GameManager : Singleton<GameManager>
         ballsText = ballsTextContainer.GetComponentInChildren<TMP_Text>();
         ghostBallsText = ghostBallsTextContainer.GetComponentInChildren<TMP_Text>();
         bombsText = bombsTextContainer.GetComponentInChildren<TMP_Text>();
+        shootersText = shootersTextContainer.GetComponentInChildren<TMP_Text>();
         velocityText = velocityTextContainer.GetComponentInChildren<TMP_Text>();
         Balls = startingBalls;
         GhostBalls = startingGhostBalls;
         Bombs = startingBombs;
+        Shooters = startingShooters;
 
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
@@ -321,6 +340,13 @@ public class GameManager : Singleton<GameManager>
         {
             StartCoroutine(TriggerExplosion());
         }
+
+        // TODO: use shooter start/end event pattern rather than holding reference to it here 
+        if (shooter == null && Shooters > 0 && Input.GetKeyDown(KeyCode.B))
+        {
+            ball.GetComponent<Ball>().Freeze();
+            Instantiate(shooterPrefab, ball.transform);
+        }
     }
 
     private IEnumerator TriggerExplosion()
@@ -397,7 +423,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        var controlRect = new Rect(10, 10, 220, 220);
+        var controlRect = new Rect(10, 10, 220, 240);
         var boxStyle = new GUIStyle(GUI.skin.box);
         boxStyle.normal.background = MakeTex(2, 2, new Color(0f, 0f, 0f, 0.5f));
 
@@ -407,11 +433,12 @@ public class GameManager : Singleton<GameManager>
         GUI.Label(new Rect(20, 40, 200, 20), "S: Both flippers");
         GUI.Label(new Rect(20, 60, 200, 20), "Q/E: Nudge ball left/right");
         GUI.Label(new Rect(20, 80, 200, 20), "F: AOE explosion");
-        GUI.Label(new Rect(20, 100, 200, 20), "Space (hold): Plunger");
-        GUI.Label(new Rect(20, 120, 200, 20), "R: Reset balls");
-        GUI.Label(new Rect(20, 140, 300, 20), "G: Spawn ghost ball");
-        GUI.Label(new Rect(20, 160, 300, 20), "Left click: Spawn ball at mouse");
-        GUI.Label(new Rect(20, 180, 300, 20), "ESC: Toggle controls");
+        GUI.Label(new Rect(20, 100, 200, 20), "B: Shooter");
+        GUI.Label(new Rect(20, 120, 200, 20), "Space (hold): Plunger");
+        GUI.Label(new Rect(20, 140, 200, 20), "R: Reset balls");
+        GUI.Label(new Rect(20, 160, 300, 20), "G: Spawn ghost ball");
+        GUI.Label(new Rect(20, 180, 300, 20), "Left click: Spawn ball at mouse");
+        GUI.Label(new Rect(20, 200, 300, 20), "ESC: Toggle controls");
     }
 
     private Texture2D MakeTex(int width, int height, Color col)

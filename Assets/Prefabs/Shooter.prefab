@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4960460422088235356}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.78, y: 10.17, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -102,7 +102,7 @@ MonoBehaviour:
   damage: 50
   range: 10
   laserWidth: 1
-  laserDuration: 2
+  laserDuration: 50
   lineRenderer: {fileID: 4502276120942220240}
 --- !u!120 &4502276120942220240
 LineRenderer:

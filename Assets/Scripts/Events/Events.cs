@@ -29,6 +29,8 @@ namespace Events
     }
     public class BallChargedEvent : IEvent { }
     public class BallDischargedEvent : IEvent { }
+    public class ShooterCreatedEvent : IEvent { }
+    public class ShooterDestroyedEvent : IEvent { }
     public class ControllerEvent : IEvent
     {
         public InputManager.Controller Controller { get; }

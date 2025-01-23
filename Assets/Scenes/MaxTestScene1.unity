@@ -4346,6 +4346,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shooter
       objectReference: {fileID: 0}
+    - target: {fileID: 4960460422088235356, guid: 70cadce055c17ea418132e8a2c97d3b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5462,6 +5466,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1985500203001687750, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
   m_PrefabInstance: {fileID: 3547624790531819623}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3547624790531819626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6045946138387981837, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3648166719827310973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5917,6 +5926,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 624755503}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: shooterPrefab
+      value: 
+      objectReference: {fileID: 4960460422088235356, guid: 70cadce055c17ea418132e8a2c97d3b0, type: 3}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: minigameCamera
       value: 
       objectReference: {fileID: 944448740}
@@ -5936,6 +5949,10 @@ PrefabInstance:
       propertyPath: scoreTextContainer
       value: 
       objectReference: {fileID: 455923829}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: shootersTextContainer
+      value: 
+      objectReference: {fileID: 3547624790531819626}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: velocityTextContainer
       value: 

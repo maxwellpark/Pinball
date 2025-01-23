@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -15,8 +16,33 @@ public class Ball : MonoBehaviour
 
     public bool IsCharged => isCharged;
 
+    private void Awake()
+    {
+        defaultColor = GetComponent<SpriteRenderer>().color;
+        rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        flipperController = FindObjectOfType<FlipperController>();
+    }
+
+    private void Start()
+    {
+        // TODO: GhostBalls should inherit from Ball, rather than us using tags everywhere to differentiate
+        if (gameObject.IsBall())
+        {
+            // Exclude GhostBalls 
+            GameManager.EventService.Add<ShooterCreatedEvent>(Freeze);
+            GameManager.EventService.Add<ShooterDestroyedEvent>(Unfreeze);
+        }
+    }
+
     public void Freeze()
     {
+        if (rb == null && !rb.TryGetComponent(out rb))
+        {
+            Debug.LogWarning("[ball] no rb found when attempting to freeze");
+            return;
+        }
+
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
         rb.simulated = false;
@@ -29,17 +55,15 @@ public class Ball : MonoBehaviour
 
     public void Unfreeze()
     {
+        if (rb == null && !rb.TryGetComponent(out rb))
+        {
+            Debug.LogWarning("[ball] no rb found when attempting to unfreeze");
+            return;
+        }
+
         rb.simulated = true;
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
-    }
-
-    private void Awake()
-    {
-        defaultColor = GetComponent<SpriteRenderer>().color;
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-        flipperController = FindObjectOfType<FlipperController>();
     }
 
     public void Charge()

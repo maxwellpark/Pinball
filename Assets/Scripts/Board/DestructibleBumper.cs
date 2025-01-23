@@ -82,7 +82,7 @@ public class DestructibleBumper : Bumper
         TakeDamage(damage);
     }
 
-    private void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         Debug.Log($"[d. bumper] {name} taking {damage} damage (was {CurrentHealth} health)...");
 

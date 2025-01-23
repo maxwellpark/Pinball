@@ -1,3 +1,4 @@
+using Events;
 using System.Collections;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class Shooter : MonoBehaviour
 
     private void Start()
     {
+        GameManager.EventService.Dispatch<ShooterCreatedEvent>();
         StartCoroutine(FireLaser());
     }
 
@@ -39,7 +41,7 @@ public class Shooter : MonoBehaviour
         {
             var startPoint = transform.position;
             var direction = transform.up;
-            lineRenderer.SetPosition(0, startPoint);
+            lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, startPoint + direction * range);
         }
     }
@@ -47,29 +49,31 @@ public class Shooter : MonoBehaviour
     private IEnumerator FireLaser()
     {
         Debug.Log("[shooter] start firing laser...");
-        var startPoint = transform.position;
-        var direction = transform.up;
-
-        lineRenderer.SetPosition(0, startPoint);
-        lineRenderer.SetPosition(1, startPoint + direction * range);
-        lineRenderer.startWidth = laserWidth;
-        lineRenderer.endWidth = laserWidth;
-        lineRenderer.enabled = true;
-
-        var hits = Physics2D.RaycastAll(startPoint, direction, range);
-        foreach (var hit in hits)
+        float elapsedTime = 0f;
+        while (elapsedTime < laserDuration)
         {
-            if (hit.collider.TryGetComponent<DestructibleBumper>(out var bumper))
+            elapsedTime += Time.deltaTime;
+
+            var hits = Physics2D.RaycastAll(transform.position, transform.up, range);
+            foreach (var hit in hits)
             {
-                bumper.StartDamageOverTime(damage, laserDuration);
+                if (hit.collider.TryGetComponent<DestructibleBumper>(out var bumper))
+                {
+                    bumper.TakeDamage(damage * Time.deltaTime);
+                }
             }
+
+            yield return null;
         }
 
-        yield return new WaitForSeconds(laserDuration);
-
-        Debug.Log("[shooter] stop firing laser");
+        Debug.Log("[shooter] stopped firing laser");
         lineRenderer.enabled = false;
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.EventService.Dispatch<ShooterDestroyedEvent>();
     }
 
     //private void OnDrawGizmos()
