@@ -346,7 +346,7 @@ public class GameManager : Singleton<GameManager>
         if (!isShooterActive && Shooters > 0 && Input.GetKeyDown(KeyCode.B))
         {
             ball.GetComponent<Ball>().Freeze();
-            Instantiate(shooterPrefab, ball.transform);
+            Instantiate(shooterPrefab, ball.transform.position, Quaternion.identity);
         }
     }
 
