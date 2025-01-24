@@ -18,7 +18,7 @@ public abstract class Buff : MonoBehaviour
 
     public virtual void Activate()
     {
-        if (IsActive)
+        if (IsActive || permanentlyActive)
         {
             return;
         }
