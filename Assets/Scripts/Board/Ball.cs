@@ -48,7 +48,7 @@ public class Ball : MonoBehaviour
 
     public void Freeze()
     {
-        if (rb == null && !rb.TryGetComponent(out rb))
+        if (rb == null || !rb.TryGetComponent(out rb))
         {
             Debug.LogWarning("[ball] no rb found when attempting to freeze");
             return;
@@ -67,13 +67,13 @@ public class Ball : MonoBehaviour
 
     public void Unfreeze()
     {
-        if (rb == null && !rb.TryGetComponent(out rb))
+        if (rb == null || !rb.TryGetComponent(out rb))
         {
             Debug.LogWarning("[ball] no rb found when attempting to unfreeze");
             return;
         }
 
-        CreateActionParticles();
+        //CreateActionParticles();
         rb.simulated = true;
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
