@@ -8,14 +8,15 @@ public class Shooter : MonoBehaviour
 
     [SerializeField] private Type type;
 
-    [Header("Movement")]
+    [Header("General")]
     [SerializeField] private float rotationSpeed = 100f;
+    [SerializeField] private float durationInSeconds = 10f;
 
     [Header("Laser")]
-    [SerializeField] private float damage = 50f;
-    [SerializeField] private float range = 10f;
-    [SerializeField] private float laserWidth = 0.1f;
-    [SerializeField] private float laserDuration = 0.2f;
+    [SerializeField] private float laserDamage = 50f;
+    [SerializeField] private float laserRange = 10f;
+    [SerializeField] private float laserWidth = 1f;
+    [SerializeField] private float cameraShakeAmplitude = 2f;
     [SerializeField] private LineRenderer lineRenderer;
 
     [Header("Ghost balls")]
@@ -25,6 +26,7 @@ public class Shooter : MonoBehaviour
     private void Start()
     {
         GameManager.EventService.Dispatch<ShooterCreatedEvent>();
+        CameraManager.ShakeLiveCamera(new CameraShakeSettings(cameraShakeAmplitude, durationInSeconds));
 
         if (type == Type.Laser)
         {
@@ -58,7 +60,9 @@ public class Shooter : MonoBehaviour
             var startPoint = transform.position;
             var direction = transform.up;
             lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, startPoint + direction * range);
+            lineRenderer.SetPosition(1, startPoint + direction * laserRange);
+            lineRenderer.startWidth = laserWidth;
+            lineRenderer.endWidth = laserWidth;
         }
     }
 
@@ -67,16 +71,16 @@ public class Shooter : MonoBehaviour
         Debug.Log("[shooter] start firing laser...");
         lineRenderer.enabled = true;
         var elapsedTime = 0f;
-        while (elapsedTime < laserDuration)
+        while (elapsedTime < durationInSeconds)
         {
             elapsedTime += Time.deltaTime;
 
-            var hits = Physics2D.RaycastAll(transform.position, transform.up, range);
+            var hits = Physics2D.CircleCastAll(transform.position, laserWidth / 2f, transform.up, laserRange);
             foreach (var hit in hits)
             {
                 if (hit.collider.TryGetComponent<DestructibleBumper>(out var bumper))
                 {
-                    bumper.TakeDamage(damage * Time.deltaTime);
+                    bumper.TakeDamage(laserDamage * Time.deltaTime);
                 }
             }
 
@@ -94,7 +98,7 @@ public class Shooter : MonoBehaviour
         lineRenderer.enabled = false;
 
         var elapsedTime = 0f;
-        while (elapsedTime < laserDuration)
+        while (elapsedTime < durationInSeconds)
         {
             var ghostBall = GameManager.CreateGhostBall();
             if (ghostBall != null && ghostBall.TryGetComponent<Rigidbody2D>(out var rb))
@@ -119,9 +123,14 @@ public class Shooter : MonoBehaviour
     {
         if (type == Type.Laser)
         {
-            return;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, transform.position + transform.up * laserRange);
+            Gizmos.DrawWireSphere(transform.position + transform.up * laserRange, laserWidth / 2f);
         }
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + transform.up * range);
+        else if (type == Type.GhostBalls)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, transform.position + transform.up * laserRange);
+        }
     }
 }
