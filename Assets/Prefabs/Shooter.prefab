@@ -197,7 +197,7 @@ MonoBehaviour:
   laserDamage: 50
   laserRange: 10
   laserWidth: 2
-  cameraShakeAmplitude: 0
+  cameraShakeAmplitude: 1.97
   lineRenderer: {fileID: 4502276120942220240}
   cooldownInSeconds: 0.25
   force: 100
