@@ -170,6 +170,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LanesMinigame_Dynamic
       objectReference: {fileID: 0}
+    - target: {fileID: 3688980906680669992, guid: dd43fa5ffd72ee242af089d15e620bd9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5066166742442166981, guid: dd43fa5ffd72ee242af089d15e620bd9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -212,7 +216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5828576944690746594, guid: dd43fa5ffd72ee242af089d15e620bd9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8311148637044389443, guid: dd43fa5ffd72ee242af089d15e620bd9, type: 3}
       propertyPath: isFrozen

@@ -1,11 +1,10 @@
-using UnityEngine;
-
-public class CameraManager : MonoBehaviour
+public class CameraManager : Singleton<CameraManager>
 {
     private static CinemachineLiveCameraShake liveCameraShake;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         liveCameraShake = GetComponent<CinemachineLiveCameraShake>();
     }
 
