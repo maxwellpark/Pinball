@@ -37,6 +37,15 @@ public class Ball : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (gameObject.IsBall())
+        {
+            GameManager.EventService.Remove<ShooterCreatedEvent>(Freeze);
+            GameManager.EventService.Remove<ShooterDestroyedEvent>(Unfreeze);
+        }
+    }
+
     private void CreateActionParticles()
     {
         // Optional for now 
@@ -48,7 +57,7 @@ public class Ball : MonoBehaviour
 
     public void Freeze()
     {
-        if (rb == null || !rb.TryGetComponent(out rb))
+        if (rb == null || !TryGetComponent(out rb))
         {
             Debug.LogWarning("[ball] no rb found when attempting to freeze");
             return;
@@ -67,7 +76,7 @@ public class Ball : MonoBehaviour
 
     public void Unfreeze()
     {
-        if (rb == null || !rb.TryGetComponent(out rb))
+        if (rb == null || !TryGetComponent(out rb))
         {
             Debug.LogWarning("[ball] no rb found when attempting to unfreeze");
             return;
