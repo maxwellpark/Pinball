@@ -86,10 +86,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb78503d4d9598409c77f1a8142b2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 250
   force: 10
   vibrationDuration: 0.2
   vibrationIntensity: 0.1
   vibrationSpeed: 40
-  health: 3
-  score: 250
+  maxHealth: 100
+  regensHealth: 0
+  regenRate: 5
+  regenDelayInSeconds: 2
+  minDamage: 30
+  damageMultiplier: 1
   damageInterval: 0.5
+  scoreOnDestroy: 250
+  explosionEffect: {fileID: 8259806881609808571, guid: a43e1ffde62d3b9459d98c18306b3ba3, type: 3}
+  fullHealthColor: {r: 1, g: 1, b: 1, a: 1}
+  damagedColor: {r: 1, g: 0, b: 0, a: 1}

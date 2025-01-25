@@ -4,9 +4,11 @@ using UnityEngine;
 public class Bumper : BounceBehaviourBase
 {
     [Header("Vibration")]
-    [SerializeField] private float vibrationDuration = 0.2f;
-    [SerializeField] private float vibrationIntensity = 0.1f;
-    [SerializeField] private float vibrationSpeed = 40f;
+    [SerializeField] protected float vibrationDuration = 0.2f;
+    [SerializeField] protected float vibrationIntensity = 0.1f;
+    [SerializeField] protected float vibrationSpeed = 40f;
+
+    protected bool isVibrating;
 
     protected override void OnCollision(Collider2D collider)
     {
@@ -21,6 +23,8 @@ public class Bumper : BounceBehaviourBase
 
     private IEnumerator Vibrate(float duration, float intensity, float speed)
     {
+        Debug.Log("[bumper] start vibrating...");
+        isVibrating = true;
         var startPos = transform.localPosition;
         var time = 0f;
 
@@ -36,5 +40,7 @@ public class Bumper : BounceBehaviourBase
         }
 
         transform.localPosition = startPos;
+        isVibrating = false;
+        Debug.Log("[bumper] stopped vibrating");
     }
 }

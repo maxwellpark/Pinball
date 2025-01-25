@@ -7,11 +7,14 @@ public class Floor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision))
+        if (collision.IsBall())
         {
-            return;
+            onEnter?.Invoke();
         }
-
-        onEnter?.Invoke();
+        // TODO: this means Floor can't be generic, and only used as a KillFloor (which it is currently)
+        else if (collision.IsGhostBall())
+        {
+            Destroy(collision.gameObject, 0.25f);
+        }
     }
 }

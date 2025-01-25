@@ -72,7 +72,7 @@ public class DestructibleBumper : Bumper
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
-        if (!Utils.IsBallOrGhostBall(collision))
+        if (!collision.IsBallOrGhostBall())
         {
             return;
         }
@@ -82,9 +82,14 @@ public class DestructibleBumper : Bumper
         TakeDamage(damage);
     }
 
-    private void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         Debug.Log($"[d. bumper] {name} taking {damage} damage (was {CurrentHealth} health)...");
+
+        if (!isVibrating)
+        {
+            StartVibrate(vibrationDuration, vibrationIntensity, vibrationSpeed);
+        }
 
         // Cancel regen if active
         if (regenCoroutine != null)

@@ -13,7 +13,7 @@ public class Flipper : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!Utils.IsBallOrGhostBall(collision))
+        if (!collision.IsBallOrGhostBall())
         {
             return;
         }

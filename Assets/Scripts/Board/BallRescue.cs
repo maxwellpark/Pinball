@@ -15,6 +15,7 @@ public class BallRescue : Buff
 
     protected override void TriggerBehaviour(Collider2D collision)
     {
+        NotificationManager.Notify("Ball rescued!");
         StartCoroutine(SaveBall(collision.gameObject));
     }
 

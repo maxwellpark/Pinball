@@ -9,7 +9,7 @@ public class AreaInputTrigger : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!Utils.IsBall(collision))
+        if (!collision.IsBall())
         {
             return;
         }
