@@ -146,4 +146,9 @@ public class Ball : MonoBehaviour
             Debug.Log($"[ball/flipper] lin. velocity: {vel} | ang. velocity: {angVel} | L motor speed: {lms} | R motor speed: {rms}");
         }
     }
+
+    private void OnValidate()
+    {
+        stuckTimeInSeconds = Mathf.Max(0, stuckTimeInSeconds);
+    }
 }
