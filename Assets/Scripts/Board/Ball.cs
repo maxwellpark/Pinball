@@ -6,9 +6,12 @@ public class Ball : MonoBehaviour
     // TODO: better abstraction for creating this effect on doing an action 
     [SerializeField] private GameObject actionParticlesPrefab;
     [SerializeField] private Color chargedColor = Color.yellow;
+    [Tooltip("Time in seconds before the ball is considered stuck")]
+    [SerializeField] private float stuckTimeInSeconds = 5f;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private float stuckTimer;
 
     // Only used for debugging for now 
     private FlipperController flipperController;
@@ -34,6 +37,27 @@ public class Ball : MonoBehaviour
             // Exclude GhostBalls 
             GameManager.EventService.Add<ShooterCreatedEvent>(Freeze);
             GameManager.EventService.Add<ShooterDestroyedEvent>(Unfreeze);
+        }
+    }
+
+    private void Update()
+    {
+        // Being kinematic indicates we're _supposed_ to be stationary, e.g. in a plunger/receiver. 
+        // Velocity having some magnitude indicates we're moving i.e. not stuck. 
+        if (rb.isKinematic || rb.velocity.sqrMagnitude > 0.01f)
+        {
+            stuckTimer = 0f;
+        }
+        else
+        {
+            stuckTimer += Time.deltaTime;
+
+            if (stuckTimer >= stuckTimeInSeconds)
+            {
+                stuckTimer = 0f;
+                GameManager.EventService.Dispatch<BallStuckEvent>();
+                Debug.Log($"[ball] ball stuck at position {transform.position}.");
+            }
         }
     }
 
@@ -66,6 +90,7 @@ public class Ball : MonoBehaviour
         CreateActionParticles();
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;
+        rb.isKinematic = true;
         rb.simulated = false;
 
         if (TryGetComponent<TrailRenderer>(out var trail))
@@ -83,6 +108,7 @@ public class Ball : MonoBehaviour
         }
 
         //CreateActionParticles();
+        rb.isKinematic = false;
         rb.simulated = true;
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0f;

@@ -16,13 +16,13 @@ public class Plunger : MonoBehaviour
     private float currentForce;
     private float lastChargeTime;
     private bool isActive;
-    public Vector3 LaunchPosition => launchPosition.position;
 
     private void Awake()
     {
         chargeSlider.gameObject.SetActive(false);
         GM.EventService.Add<ActivePlungerChangedEvent>(OnActivePlungerChanged);
         GM.EventService.Add<NewBallEvent>(OnNewBall);
+        GM.EventService.Add<BallStuckEvent>(OnBallStuck);
     }
 
     private void Update()
@@ -73,6 +73,23 @@ public class Plunger : MonoBehaviour
         ballRb.isKinematic = true;
         currentForce = 0;
         Debug.Log("[plunger] new ball added");
+    }
+
+    private void OnBallStuck()
+    {
+        var ball = GM.Ball;
+        if (ball == null)
+        {
+            Debug.LogWarning("[plunger] ball stuck listener fired but ball is not alive");
+            return;
+        }
+
+        Debug.Log("[plunger] ball stuck - sending ball to plunger");
+        ball.transform.position = launchPosition.position;
+        // TODO: reuse the Freeze/Unfreeze methods on the Ball now, but make sure they're compatible with what we do here 
+        ballRb = ball.GetComponent<Rigidbody2D>();
+        ballRb.isKinematic = true;
+        currentForce = 0;
     }
 
     private void LaunchBall()

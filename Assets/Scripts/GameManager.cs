@@ -70,8 +70,11 @@ public class GameManager : Singleton<GameManager>
 
     public static bool IsBallAlive => Instance.ball != null;
     public static Vector3 BallPos => IsBallAlive ? Instance.ball.transform.localPosition : Vector3.zero;
-    // Probably shouldn't be exposing this and just listen to events but too lazy for now 
+
+    // Probably shouldn't be exposing these and just listen to events but too lazy for now 
     public static Rigidbody2D BallRb => IsBallAlive ? Instance.ball.GetComponent<Rigidbody2D>() : null;
+    public static Ball Ball => IsBallAlive ? Instance.ball.GetComponent<Ball>() : null;
+
     public static Minigame.Type CurrentMinigame { get; private set; }
     public static bool MinigameActive => CurrentMinigame != Minigame.Type.None;
 

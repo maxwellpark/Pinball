@@ -18,6 +18,7 @@ namespace Events
     public class MinigameEndedEvent : IEvent { }
     public class MinigameCancelledEvent : IEvent { }
     public class BallSavedEvent : IEvent { }
+    public class BallStuckEvent : IEvent { }
     public class NewBallEvent : IEvent { }
     public class ActivePlungerChangedEvent : IEvent
     {
