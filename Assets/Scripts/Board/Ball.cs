@@ -63,6 +63,7 @@ public class Ball : MonoBehaviour
                 stuckTimer = 0f;
                 GameManager.EventService.Dispatch<BallStuckEvent>();
                 Debug.Log($"[ball] ball stuck at position {transform.position}.");
+                NotificationManager.Notify("Ball stuck!", 1.5f);
             }
         }
     }
