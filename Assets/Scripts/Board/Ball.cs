@@ -42,6 +42,12 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
+        // TODO: handle stuck GhostBalls (destroy rather than reset pos?)
+        if (!gameObject.IsBall())
+        {
+            return;
+        }
+
         // Being kinematic indicates we're _supposed_ to be stationary, e.g. in a plunger/receiver. 
         // Velocity having some magnitude indicates we're moving i.e. not stuck. 
         if (rb.isKinematic || rb.velocity.sqrMagnitude > 0.01f)
