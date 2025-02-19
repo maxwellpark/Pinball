@@ -60,7 +60,6 @@ public class CinemachineLiveCameraZoom : CinemachineLiveCameraBehaviour
     private IEnumerator ZoomCameraRoutine(float targetSize, float speed, Action action = null, bool resetAfter = false)
     {
         CameraManager.IsLiveCameraZooming = true;
-        UpdateActiveCamera();
         Debug.Log($"[camera] start zooming | target: {targetSize}, speed: {speed}");
 
         var direction = Mathf.Sign(targetSize - OrthoSize);

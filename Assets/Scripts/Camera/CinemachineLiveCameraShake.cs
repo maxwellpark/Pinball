@@ -28,15 +28,9 @@ public class CinemachineLiveCameraShake : CinemachineLiveCameraBehaviour
         SetPerlinNoise();
     }
 
-    protected override void UpdateActiveCamera()
+    protected override void OnCameraActivated(ICinemachineCamera active, ICinemachineCamera previous)
     {
-        base.UpdateActiveCamera();
-        SetPerlinNoise();
-    }
-
-    protected override void OnCameraActivated(ICinemachineCamera prev, ICinemachineCamera next)
-    {
-        base.OnCameraActivated(prev, next);
+        base.OnCameraActivated(active, previous);
 
         var midShake = shakeCoroutine != null;
         if (midShake)
