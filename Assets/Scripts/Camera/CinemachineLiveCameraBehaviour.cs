@@ -34,6 +34,7 @@ public abstract class CinemachineLiveCameraBehaviour : MonoBehaviour
         virtualCamera = active as CinemachineVirtualCamera;
     }
 
+    // TODO: this should be redundant now we listen for cinemachine events? 
     protected virtual void UpdateActiveCamera()
     {
         if (cinemachineBrain.ActiveVirtualCamera == null)

@@ -12,6 +12,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             return;
         }
+        Debug.Log("Duplicate instance of " + GetType());
         Destroy(gameObject);
     }
 
