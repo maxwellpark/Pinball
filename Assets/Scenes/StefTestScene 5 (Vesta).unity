@@ -8024,6 +8024,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5690677963987191541, guid: 7243d40de42dd9143933b785a52e3a77, type: 3}
   m_PrefabInstance: {fileID: 1604887092632264329}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1249441348 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6045946138387981837, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
+  m_PrefabInstance: {fileID: 3547624790531819623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1272030608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15450,6 +15455,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 624755503}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: shooterPrefab
+      value: 
+      objectReference: {fileID: 4960460422088235356, guid: 70cadce055c17ea418132e8a2c97d3b0, type: 3}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: minigameCamera
       value: 
       objectReference: {fileID: 944448740}
@@ -15469,6 +15478,10 @@ PrefabInstance:
       propertyPath: scoreTextContainer
       value: 
       objectReference: {fileID: 455923829}
+    - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
+      propertyPath: shootersTextContainer
+      value: 
+      objectReference: {fileID: 1249441348}
     - target: {fileID: 4754759345085086932, guid: 060219c7782e7ad4384497d33783037b, type: 3}
       propertyPath: velocityTextContainer
       value: 
