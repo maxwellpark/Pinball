@@ -474,7 +474,7 @@ public class GameManager : Singleton<GameManager>
         return result;
     }
 
-    public void StartMinigame(Minigame.Type type, UnityAction onEnd = null)
+    public void StartMinigame(Minigame.Type type, UnityAction onStart = null, UnityAction onEnd = null)
     {
         if (type == Minigame.Type.None)
         {
@@ -495,6 +495,7 @@ public class GameManager : Singleton<GameManager>
         highScoreTextContainer.SetActive(false);
         velocityTextContainer.SetActive(false);
         EventService.Dispatch(new MinigameStartedEvent(type, onEnd));
+        onStart?.Invoke();
     }
 
     private void EndMinigame()

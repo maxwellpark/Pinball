@@ -7,7 +7,7 @@ public class MinigameReceiver : ReceiverBase
     protected override void OnEnter(Collider2D collision)
     {
         base.OnEnter(collision);
-        GameManager.Instance.StartMinigame(minigameType, OnEnd);
+        GameManager.Instance.StartMinigame(minigameType, onEnd: OnEnd);
     }
 
     private void OnEnd()
