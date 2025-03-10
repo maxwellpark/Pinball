@@ -376,6 +376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionParticlesPrefab: {fileID: 8259806881609808571, guid: 186d078de18a6f746abb5ab9774c7673, type: 3}
   chargedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  stuckTimeInSeconds: 5
 --- !u!1001 &560452803884069508
 PrefabInstance:
   m_ObjectHideFlags: 0

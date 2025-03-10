@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class CollisionBehaviourBase : MonoBehaviour
 {
     [SerializeField] private int score;
+
+    public event UnityAction<int> OnScoreAdded;
 
     protected abstract void OnCollision(Collider2D collider);
 
@@ -18,6 +21,7 @@ public abstract class CollisionBehaviourBase : MonoBehaviour
         if (score > 0)
         {
             GameManager.AddScore(score);
+            OnScoreAdded?.Invoke(score);
         }
 
         OnCollision(collision.collider);
