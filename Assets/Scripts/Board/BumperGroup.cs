@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class BumperGroup : MonoBehaviour
 {
-    [SerializeField, Tooltip("The score accrued by hitting the child bumpers after which triggers the minigame")]
-    private int scoreMinigameTrigger;
+    [SerializeField] private int scoreMinigameTrigger;
     private int currentScore;
 
-    [SerializeField]
-    private Minigame.Type minigameType;
-
-    [SerializeField]
-    private bool isRepeatable;
+    [SerializeField] private Minigame.Type minigameType;
+    [SerializeField] private bool isRepeatable;
 
     private List<Bumper> bumpers;
+
+    public int CurrentScore => currentScore;
+    public int ScoreMinigameTrigger => scoreMinigameTrigger;
 
     private void Start()
     {
@@ -33,12 +32,15 @@ public class BumperGroup : MonoBehaviour
                 bumper.OnScoreAdded += OnScoreAdded;
             }
         }
+
+        UIManager.Instance.RegisterBumperGroup(this);
     }
 
     private void OnScoreAdded(int score)
     {
         Debug.Log($"[bumper group] {score} score added by child bumper");
         currentScore += Mathf.Max(0, score);
+        UIManager.Instance.UpdateBumperGroupText(this);
 
         if (minigameType != Minigame.Type.None && currentScore >= scoreMinigameTrigger)
         {
@@ -54,6 +56,7 @@ public class BumperGroup : MonoBehaviour
             Unsubscribe();
             // Just destroy the component, not the gameObject that has the bumpers as children 
             Destroy(this);
+            UIManager.Instance.UnregisterBumperGroup(this);
         }
     }
 
@@ -103,5 +106,6 @@ public class BumperGroup : MonoBehaviour
     private void OnDisable()
     {
         Unsubscribe();
+        UIManager.Instance.UnregisterBumperGroup(this);
     }
 }
