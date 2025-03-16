@@ -1,20 +1,16 @@
 using UnityEngine;
 
-public class Collectible : MonoBehaviour
+public class Collectible : CollisionBehaviourBase
 {
-    [SerializeField] private int score;
     [SerializeField] private GameObject particlePrefab;
+    protected override bool IncludeGhostBalls => false;
+    protected override bool UseOnCollisionEnter => false;
+    protected override bool UseOnTriggerEnter => true;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnCollision(Collider2D collider)
     {
-        if (!collision.IsBall())
-        {
-            return;
-        }
-
-        Debug.Log($"{collision.name} hit collectible {name}");
-        GameManager.AddScore(score);
-        Instantiate(particlePrefab, collision.transform.position, particlePrefab.transform.rotation);
+        // TODO: put particle spawning on the base class? 
+        Instantiate(particlePrefab, collider.transform.position, particlePrefab.transform.rotation);
         Destroy(gameObject);
     }
 }

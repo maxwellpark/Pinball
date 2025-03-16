@@ -1,4 +1,5 @@
 using Events;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using GM = GameManager;
@@ -11,15 +12,20 @@ public class Plunger : MonoBehaviour
     [SerializeField] private float inactiveTime = 2f;
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Transform launchPosition;
+    [SerializeField] private AudioClip chargeSound;
+    [SerializeField] private AudioClip launchSound;
 
     private Rigidbody2D ballRb;
+    private AudioSource audioSource;
     private float currentForce;
     private float lastChargeTime;
+    private bool isCharging;
     private bool isActive;
 
     private void Awake()
     {
         chargeSlider.gameObject.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
         GM.EventService.Add<ActivePlungerChangedEvent>(OnActivePlungerChanged);
         GM.EventService.Add<NewBallEvent>(OnNewBall);
         GM.EventService.Add<BallStuckEvent>(OnBallStuck);
@@ -44,11 +50,17 @@ public class Plunger : MonoBehaviour
             lastChargeTime = Time.time;
             chargeSlider.gameObject.SetActive(true);
             currentForce += chargeSpeed * Time.deltaTime;
+
+            if (!isCharging)
+            {
+                StartCharging();
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton0))
         {
             LaunchBall();
+            StopCharging();
         }
     }
 
@@ -132,5 +144,48 @@ public class Plunger : MonoBehaviour
     {
         //Debug.Log($"[plunger] {name} becoming inactive");
         isActive = false;
+    }
+
+    private void StartCharging()
+    {
+        if (isCharging)
+        {
+            return;
+        }
+
+        isCharging = true;
+        Debug.Log("[plunger] start charging");
+
+        if (audioSource != null)
+        {
+            audioSource.clip = chargeSound;
+            audioSource.Play();
+        }
+    }
+
+    private void StopCharging()
+    {
+        if (!isCharging)
+        {
+            return;
+        }
+
+        isCharging = false;
+        Debug.Log("[plunger] stop charging");
+
+        if (audioSource != null)
+        {
+            StartCoroutine(FadeOutChargeSound());
+        }
+    }
+
+    private IEnumerator FadeOutChargeSound()
+    {
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= Time.deltaTime * 2;
+            yield return null;
+        }
+        audioSource.Stop();
     }
 }

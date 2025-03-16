@@ -9,6 +9,9 @@ public class Bumper : BounceBehaviourBase
     [SerializeField] protected float vibrationSpeed = 40f;
 
     protected bool isVibrating;
+    protected override bool IncludeGhostBalls => true;
+    protected override bool UseOnCollisionEnter => true;
+    protected override bool UseOnTriggerEnter => false;
 
     protected override void OnCollision(Collider2D collider)
     {

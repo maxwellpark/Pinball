@@ -8,6 +8,9 @@ public class Kicker : BounceBehaviourBase
     [SerializeField] private float colorFlashDuration = 0.2f;
 
     private Color originalColor;
+    protected override bool IncludeGhostBalls => true;
+    protected override bool UseOnCollisionEnter => true;
+    protected override bool UseOnTriggerEnter => false;
 
     private void Start()
     {
