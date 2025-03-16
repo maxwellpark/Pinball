@@ -8,9 +8,12 @@ public class Ball : MonoBehaviour
     [SerializeField] private Color chargedColor = Color.yellow;
     [Tooltip("Time in seconds before the ball is considered stuck")]
     [SerializeField] private float stuckTimeInSeconds = 5f;
+    [SerializeField] private AudioClip bombSound;
+    public AudioClip BombSound => bombSound;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private AudioSource audioSource;
     private float stuckTimer;
 
     // Only used for debugging for now 
@@ -26,6 +29,7 @@ public class Ball : MonoBehaviour
         defaultColor = GetComponent<SpriteRenderer>().color;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
         flipperController = FindObjectOfType<FlipperController>();
     }
 
@@ -133,6 +137,16 @@ public class Ball : MonoBehaviour
         isCharged = false;
         sr.color = defaultColor;
         Debug.Log("[ball] discharged!");
+    }
+
+    // TODO: could listen for a OnBomb event instead or move all the bomb code into here.
+    // It at least makes sense to have the clip config on the ball prefab itself. 
+    public void PlayBombSound()
+    {
+        if (audioSource != null && bombSound != null)
+        {
+            audioSource.PlayOneShot(bombSound);
+        }
     }
 
     //private void Update()

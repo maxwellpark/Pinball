@@ -393,6 +393,11 @@ public class GameManager : Singleton<GameManager>
         }
 
         Bombs--;
+        if (Ball != null)
+        {
+            Ball.PlayBombSound();
+        }
+
         yield return new WaitForSeconds(explosionDuration);
         showExplosion = false;
         explosionPos = Vector3.zero;
