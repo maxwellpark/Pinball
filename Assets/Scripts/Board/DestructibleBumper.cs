@@ -38,8 +38,9 @@ public class DestructibleBumper : Bumper
 
     public event UnityAction<DestructibleBumper> OnDestroyed;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 

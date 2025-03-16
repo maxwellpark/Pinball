@@ -12,6 +12,8 @@ public abstract class CollisionBehaviourBase : MonoBehaviour
     //[SerializeField] private bool includeGhostBalls = true;
 
     private AudioSource audioSource;
+    protected bool onCollisionCalled;
+    protected abstract bool OnCollisionOnlyOnce { get; }
     protected abstract bool UseOnCollisionEnter { get; }
     protected abstract bool UseOnTriggerEnter { get; }
     protected abstract bool IncludeGhostBalls { get; }
@@ -19,7 +21,7 @@ public abstract class CollisionBehaviourBase : MonoBehaviour
 
     public event UnityAction<int> OnScoreAdded;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         if (audioSource != null && collisionSound == null)
@@ -51,7 +53,11 @@ public abstract class CollisionBehaviourBase : MonoBehaviour
             audioSource.Play();
         }
 
-        OnCollision(collider);
+        if (!OnCollisionOnlyOnce || !onCollisionCalled)
+        {
+            OnCollision(collider);
+            onCollisionCalled = true;
+        }
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)

@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 250
+  collisionSound: {fileID: 8300000, guid: b727805a0140e554a9a32c6aa9c3bbfb, type: 3}
   force: 10
   vibrationDuration: 0.2
   vibrationIntensity: 0.1

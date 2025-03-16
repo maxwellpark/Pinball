@@ -10,6 +10,7 @@ public class Bumper : BounceBehaviourBase
 
     protected bool isVibrating;
     protected override bool IncludeGhostBalls => true;
+    protected override bool OnCollisionOnlyOnce => false;
     protected override bool UseOnCollisionEnter => true;
     protected override bool UseOnTriggerEnter => false;
 
