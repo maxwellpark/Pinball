@@ -8,6 +8,7 @@ public abstract class ReceiverBase : MonoBehaviour
     [SerializeField] private string animationName;
     [SerializeField] private float pullSpeed = 2f;
     [SerializeField] private AudioClip onEnterSound;
+    //[SerializeField] private AudioClip onExitSound;
 
     protected bool isWaiting;
     private AudioSource audioSource;
