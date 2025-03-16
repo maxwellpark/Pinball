@@ -1,13 +1,21 @@
 using System.Collections;
 using UnityEngine;
 
+// TODO: could this inherit from CollisionBehaviourBase? 
 public abstract class ReceiverBase : MonoBehaviour
 {
     [SerializeField] private float waitTime = 0.5f;
     [SerializeField] private string animationName;
     [SerializeField] private float pullSpeed = 2f;
+    [SerializeField] private AudioClip onEnterSound;
 
     protected bool isWaiting;
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     protected virtual void OnEnter(Collider2D collision)
     {
@@ -31,6 +39,11 @@ public abstract class ReceiverBase : MonoBehaviour
             var animator = collision.GetComponentInChildren<Animator>(true);
             animator.gameObject.SetActive(true);
             animator.Play(animationName);
+        }
+
+        if (audioSource != null && onEnterSound != null)
+        {
+            audioSource.PlayOneShot(onEnterSound);
         }
     }
 

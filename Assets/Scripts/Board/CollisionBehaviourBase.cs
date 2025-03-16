@@ -48,11 +48,10 @@ public abstract class CollisionBehaviourBase : MonoBehaviour
         // Sound is optional for now 
         if (audioSource != null && collisionSound != null)
         {
-            audioSource.clip = collisionSound;
-            audioSource.Stop();
-            audioSource.Play();
+            audioSource.PlayOneShot(collisionSound);
         }
 
+        // TODO: maybe this should apply to the whole OnEnter rather than just the abstract callback? 
         if (!OnCollisionOnlyOnce || !onCollisionCalled)
         {
             OnCollision(collider);
