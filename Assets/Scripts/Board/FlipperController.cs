@@ -4,6 +4,7 @@ public class FlipperController : MonoBehaviour
 {
     [SerializeField] private HingeJoint2D leftFlipper;
     [SerializeField] private HingeJoint2D rightFlipper;
+    [SerializeField] private AudioClip sound;
 
     [SerializeField] private float speed = 2000f;
     [SerializeField] private float returnSpeed = 1000f;
@@ -19,6 +20,7 @@ public class FlipperController : MonoBehaviour
 
     private SpriteRenderer leftRenderer;
     private SpriteRenderer rightRenderer;
+    private AudioSource audioSource;
 
     private float leftChargeTime;
     private float rightChargeTime;
@@ -35,6 +37,7 @@ public class FlipperController : MonoBehaviour
         leftRenderer.color = defaultColor;
         rightRenderer = rightFlipper.GetComponent<SpriteRenderer>();
         rightRenderer.color = defaultColor;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -42,6 +45,11 @@ public class FlipperController : MonoBehaviour
         if (GameManager.MinigameActive)
         {
             return;
+        }
+
+        if ((InputManager.IsLeftDown() || InputManager.IsRightDown()) && audioSource != null && sound != null)
+        {
+            audioSource.PlayOneShot(sound);
         }
 
         UpdateFlipper(leftFlipper, InputManager.IsLeft(), -speed, returnSpeed, ref leftChargeTime, leftRenderer);

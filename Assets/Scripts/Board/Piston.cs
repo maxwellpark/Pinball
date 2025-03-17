@@ -14,10 +14,11 @@ public class Piston : MonoBehaviour
     [SerializeField] private GameObject body;
     [SerializeField] private float resetSpeed = 2f;
     [SerializeField] private ParticleSystem activationParticles;
-    //[SerializeField] private AudioSource activationSound;
+    [SerializeField] private AudioClip activationSound;
     //[SerializeField] private AudioSource resetSound;
 
     private Rigidbody2D rb;
+    private AudioSource audioSource;
     private Vector2 startPos;
     private bool canActivate = true;
     private bool isActive;
@@ -27,6 +28,7 @@ public class Piston : MonoBehaviour
     private void Start()
     {
         rb = body.GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         startPos = body.transform.position;
     }
 
@@ -94,10 +96,11 @@ public class Piston : MonoBehaviour
             activationParticles.Play();
         }
 
-        //if (activationSound != null)
-        //{
-        //    activationSound.Play();
-        //}
+        if (audioSource != null && activationSound != null)
+        {
+            audioSource.Stop();
+            audioSource.PlayOneShot(activationSound);
+        }
 
         isActive = true;
         canActivate = false;

@@ -12,6 +12,7 @@ public class Plunger : MonoBehaviour
     [SerializeField] private float inactiveTime = 2f;
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Transform launchPosition;
+    [Header("Sound")]
     [SerializeField] private AudioClip chargeSound;
     [SerializeField] private AudioClip launchSound;
 
@@ -26,6 +27,8 @@ public class Plunger : MonoBehaviour
     {
         chargeSlider.gameObject.SetActive(false);
         audioSource = GetComponent<AudioSource>();
+        audioSource.loop = true;
+
         GM.EventService.Add<ActivePlungerChangedEvent>(OnActivePlungerChanged);
         GM.EventService.Add<NewBallEvent>(OnNewBall);
         GM.EventService.Add<BallStuckEvent>(OnBallStuck);
@@ -61,6 +64,12 @@ public class Plunger : MonoBehaviour
         {
             LaunchBall();
             StopCharging();
+        }
+
+        if (isCharging)
+        {
+            // Vol proportional to charge progress 
+            audioSource.volume = Mathf.Clamp01(currentForce / maxForce);
         }
     }
 
@@ -110,6 +119,13 @@ public class Plunger : MonoBehaviour
         ballRb.isKinematic = false;
         ballRb.AddForce(launchDirection * currentForce, ForceMode2D.Impulse);
         ballRb = null;
+
+        if (audioSource != null && launchSound != null)
+        {
+            // TODO: separate audio source? 
+            audioSource.PlayOneShot(launchSound);
+        }
+
         Debug.Log("[plunger] ball launched");
     }
 
@@ -159,6 +175,7 @@ public class Plunger : MonoBehaviour
         if (audioSource != null)
         {
             audioSource.clip = chargeSound;
+            audioSource.volume = Mathf.Clamp01(currentForce / maxForce);
             audioSource.Play();
         }
     }
