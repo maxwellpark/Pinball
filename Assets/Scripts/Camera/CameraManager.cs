@@ -16,6 +16,12 @@ public class CameraManager : Singleton<CameraManager>
 
     public static void ShakeLiveCamera(CameraShakeSettings settings)
     {
+        // TODO: get rid of this guard once camera shake is fully required 
+        if (liveCameraShake == null)
+        {
+            return;
+        }
+
         liveCameraShake.Shake(settings);
     }
 

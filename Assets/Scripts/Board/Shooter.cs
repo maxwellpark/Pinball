@@ -18,18 +18,30 @@ public class Shooter : MonoBehaviour
     [SerializeField] private float laserWidth = 1f;
     [SerializeField] private float cameraShakeAmplitude = 2f;
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private AudioClip laserSound;
 
     [Header("Ghost balls")]
     [SerializeField] private float cooldownInSeconds = 0.25f;
     [SerializeField] private float force = 100f;
+    [SerializeField] private AudioClip ghostBallSound;
+
+    private AudioSource audioSource;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         GameManager.EventService.Dispatch<ShooterCreatedEvent>();
         CameraManager.ShakeLiveCamera(new CameraShakeSettings(cameraShakeAmplitude, durationInSeconds));
 
         if (type == Type.Laser)
         {
+            if (audioSource != null)
+            {
+                audioSource.loop = true;
+                audioSource.clip = laserSound;
+                audioSource.Play();
+            }
+
             StartCoroutine(ShootLaser());
         }
         else if (type == Type.GhostBalls)
@@ -104,6 +116,11 @@ public class Shooter : MonoBehaviour
             if (ghostBall != null && ghostBall.TryGetComponent<Rigidbody2D>(out var rb))
             {
                 rb.AddForce(transform.up * force, ForceMode2D.Impulse);
+            }
+
+            if (audioSource != null && ghostBallSound != null)
+            {
+                audioSource.PlayOneShot(ghostBallSound);
             }
 
             elapsedTime += cooldownInSeconds;
