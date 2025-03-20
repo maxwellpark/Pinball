@@ -49,6 +49,7 @@ public class FlipperController : MonoBehaviour
 
         if ((InputManager.IsLeftDown() || InputManager.IsRightDown()) && audioSource != null && sound != null)
         {
+            Debug.Log($"[flipper] playing {sound} clip");
             audioSource.PlayOneShot(sound);
         }
 

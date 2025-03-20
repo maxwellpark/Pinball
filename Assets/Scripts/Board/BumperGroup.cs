@@ -53,6 +53,7 @@ public class BumperGroup : MonoBehaviour
                 return;
             }
 
+            Debug.Log($"[bumper group] {name} destroying as non-repeatable");
             Unsubscribe();
             // Just destroy the component, not the gameObject that has the bumpers as children 
             Destroy(this);
