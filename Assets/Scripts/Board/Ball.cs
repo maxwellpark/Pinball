@@ -8,12 +8,16 @@ public class Ball : MonoBehaviour
     [SerializeField] private Color chargedColor = Color.yellow;
     [Tooltip("Time in seconds before the ball is considered stuck")]
     [SerializeField] private float stuckTimeInSeconds = 5f;
+    [Header("Audio")]
+    [SerializeField] private AudioSource bombSource;
     [SerializeField] private AudioClip bombSound;
+    [SerializeField] private AudioSource collisionSource;
+    [SerializeField] private AudioClip collisionSound;
+
     public AudioClip BombSound => bombSound;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
-    private AudioSource audioSource;
     private float stuckTimer;
 
     // Only used for debugging for now 
@@ -29,7 +33,6 @@ public class Ball : MonoBehaviour
         defaultColor = GetComponent<SpriteRenderer>().color;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        audioSource = GetComponent<AudioSource>();
         flipperController = FindObjectOfType<FlipperController>();
     }
 
@@ -143,15 +146,24 @@ public class Ball : MonoBehaviour
     // It at least makes sense to have the clip config on the ball prefab itself. 
     public void PlayBombSound()
     {
-        if (audioSource != null && bombSound != null)
+        if (bombSource != null && bombSound != null)
         {
-            audioSource.PlayOneShot(bombSound);
+            bombSource.PlayOneShot(bombSound);
         }
     }
 
     //private void Update()
     //{
     //    Debug.Log($"[ball] linear velocity: {rb.velocity} | angular velocity: {rb.angularVelocity}");
+    //}
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    Debug.Log("[ball] colliding with " + collision.gameObject.name);
+    //    if (collisionSource != null && collisionSound != null)
+    //    {
+    //        collisionSource.PlayOneShot(collisionSound);
+    //    }
     //}
 
     private void OnCollisionExit2D(Collision2D collision)
