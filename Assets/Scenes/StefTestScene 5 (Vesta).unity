@@ -988,6 +988,7 @@ Transform:
   - {fileID: 360929565}
   - {fileID: 990804081}
   - {fileID: 1888241160}
+  - {fileID: 805176289}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &149260718
@@ -1083,7 +1084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballCamera: {fileID: 586591201}
-  transitionCamera: {fileID: 1920687406}
+  flipperCamera: {fileID: 0}
 --- !u!61 &158133537
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3372,6 +3373,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 644235068}
     m_Modifications:
     - target: {fileID: 2505401501040077636, guid: dc4fc01d7b455f340ab9f5bbca6a614c, type: 3}
+      propertyPath: vcam
+      value: 
+      objectReference: {fileID: 1920687406}
+    - target: {fileID: 2505401501040077636, guid: dc4fc01d7b455f340ab9f5bbca6a614c, type: 3}
       propertyPath: destination
       value: 
       objectReference: {fileID: 990804081}
@@ -5436,7 +5441,6 @@ Transform:
   - {fileID: 1302964132}
   - {fileID: 649504227}
   - {fileID: 1081733419}
-  - {fileID: 805176289}
   - {fileID: 559375355}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9261,8 +9265,12 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 644235068}
+    m_TransformParent: {fileID: 147619257}
     m_Modifications:
+    - target: {fileID: 2505401501040077636, guid: dc4fc01d7b455f340ab9f5bbca6a614c, type: 3}
+      propertyPath: vcam
+      value: 
+      objectReference: {fileID: 586591201}
     - target: {fileID: 2505401501040077636, guid: dc4fc01d7b455f340ab9f5bbca6a614c, type: 3}
       propertyPath: destination
       value: 
@@ -9281,15 +9289,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5393728584454443048, guid: dc4fc01d7b455f340ab9f5bbca6a614c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.3
+      value: -8.772221
       objectReference: {fileID: 0}
     - target: {fileID: 5393728584454443048, guid: dc4fc01d7b455f340ab9f5bbca6a614c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.9
+      value: 0.09009266
       objectReference: {fileID: 0}
     - target: {fileID: 5393728584454443048, guid: dc4fc01d7b455f340ab9f5bbca6a614c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.3302028
+      value: -2718.3823
       objectReference: {fileID: 0}
     - target: {fileID: 5393728584454443048, guid: dc4fc01d7b455f340ab9f5bbca6a614c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11403,7 +11411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballCamera: {fileID: 586591201}
-  transitionCamera: {fileID: 1920687406}
+  flipperCamera: {fileID: 0}
 --- !u!61 &1332898237
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15189,6 +15197,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6462219852396858900, guid: 1f1f3b808e30759468263ae2e2b27d18, type: 3}
   m_PrefabInstance: {fileID: 830900807}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1720414339
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1385787327190967803, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_Name
+      value: CameraManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246501671800650077, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 059d11b14fbdb334fbf6deb25ebcd15d, type: 3}
 --- !u!1001 &1723756528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16362,7 +16427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballCamera: {fileID: 1920687406}
-  transitionCamera: {fileID: 586591201}
+  flipperCamera: {fileID: 0}
 --- !u!61 &1922459355
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -20130,7 +20195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6838484484997243542, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000027002932
+      value: 0.00004563251
       objectReference: {fileID: 0}
     - target: {fileID: 7405541551684139115, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
       propertyPath: m_text
@@ -21330,3 +21395,4 @@ SceneRoots:
   - {fileID: 656864858}
   - {fileID: 770640721}
   - {fileID: 1494737863}
+  - {fileID: 1720414339}

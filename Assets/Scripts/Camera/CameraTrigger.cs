@@ -8,7 +8,8 @@ public class CameraTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (Utils.IsBall(other))
+        // TODO: is flipperCamera actually still used???
+        if (Utils.IsBall(other) && flipperCamera != null)
         {
             ballCamera.Priority = 0;
             flipperCamera.Priority = 10;
@@ -17,7 +18,7 @@ public class CameraTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (Utils.IsBall(other))
+        if (Utils.IsBall(other) && flipperCamera != null)
         {
             ballCamera.Priority = 10;
             flipperCamera.Priority = 0;
