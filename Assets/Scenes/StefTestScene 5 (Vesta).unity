@@ -1251,7 +1251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b368371b76628074e97b8296577480cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vcam: {fileID: 586591201}
+  vcam: {fileID: 1920687406}
 --- !u!61 &158133537
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -21231,7 +21231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6838484484997243542, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000839944
+      value: -0.000009102693
       objectReference: {fileID: 0}
     - target: {fileID: 7405541551684139115, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
       propertyPath: m_text
