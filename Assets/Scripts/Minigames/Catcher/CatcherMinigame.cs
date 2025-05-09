@@ -116,8 +116,9 @@ public class CatcherMinigame : Minigame
         ObjectLanded(false);
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         GameManager.EventService.Remove<ObjectCaughtEvent>(ObjectCaught);
         GameManager.EventService.Remove<ObjectMissedEvent>(ObjectMissed);
     }

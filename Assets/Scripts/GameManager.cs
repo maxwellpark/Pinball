@@ -283,6 +283,7 @@ public class GameManager : Singleton<GameManager>
         ballRescue = FindObjectOfType<BallRescue>();
         ballSaver = FindObjectOfType<BallSaver>();
         UpdateMinigameCamera();
+        ResetBall();
     }
 
     private void UpdateMinigameCamera()
@@ -317,12 +318,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private void ResetBall()
+    {
+        DestroyBalls();
+        NewBall();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.JoystickButton8))
         {
-            DestroyBalls();
-            NewBall();
+            ResetBall();
         }
 
         if (Input.GetMouseButtonDown(0) && !MinigameActive)
