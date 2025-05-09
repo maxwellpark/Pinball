@@ -1,3 +1,4 @@
+using Events;
 using System.Collections;
 using UnityEngine;
 
@@ -28,6 +29,14 @@ public class Kicker : BounceBehaviourBase
         if (kickerEdgeSprite != null)
         {
             StartCoroutine(FlashColor());
+        }
+    }
+
+    protected override void OnBoardChanged(BoardChangedEvent evt)
+    {
+        if (audioSource != null && evt.Config.KickerSound)
+        {
+            collisionSound = evt.Config.KickerSound;
         }
     }
 

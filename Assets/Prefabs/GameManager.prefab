@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 8631688824603131977, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
   ghostBallPrefab: {fileID: 8497997444667861390, guid: 8b0feeba7d1541a43b1d660cae766b08, type: 3}
+  shooterPrefab: {fileID: 0}
   ballRescue: {fileID: 0}
   ballSaver: {fileID: 0}
   sidewaysForce: 2
@@ -53,6 +54,7 @@ MonoBehaviour:
   startingBalls: 3
   startingGhostBalls: 3
   startingBombs: 3
+  startingShooters: 3
   ballCamera: {fileID: 0}
   minigameCamera: {fileID: 0}
   scoreTextContainer: {fileID: 0}
@@ -61,6 +63,7 @@ MonoBehaviour:
   ballsTextContainer: {fileID: 0}
   ghostBallsTextContainer: {fileID: 0}
   bombsTextContainer: {fileID: 0}
+  shootersTextContainer: {fileID: 0}
   velocityTextContainer: {fileID: 0}
   explosionDamage: 100
   explosionRadius: 5
@@ -70,4 +73,5 @@ MonoBehaviour:
   comboDecayTime: 5
   baseCombo: 1000
   multiplierIncrement: 0.5
+  boardConfigs: {fileID: 11400000, guid: 3870bf7825ebc2b46aa6006f250dba49, type: 2}
   scoreThresholds: {fileID: 11400000, guid: ee645c5edad9ae640857e517e0f3300d, type: 2}

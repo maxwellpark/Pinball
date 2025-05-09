@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/StefTestScene 5 (Vesta).unity
+    guid: 54dd2f6c8c93841a98255d00f516408e
+  - enabled: 1
+    path: Assets/Scenes/StefTestScene 6 (Helicid).unity
+    guid: 87f60e0f4421d4f5d9ad0d4188f16fbc
   m_configObjects: {}

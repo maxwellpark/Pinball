@@ -1,17 +1,18 @@
+using Events;
 using UnityEngine;
 using UnityEngine.Events;
 
 public abstract class CollisionBehaviourBase : MonoBehaviour
 {
     [SerializeField] private int score;
-    [SerializeField] private AudioClip collisionSound;
+    [SerializeField] protected AudioClip collisionSound;
 
     // TODO: should these be configurable? 
     //[SerializeField] private bool useOnCollisionEnter = true;
     //[SerializeField] private bool useOnTriggerEnter;
     //[SerializeField] private bool includeGhostBalls = true;
 
-    private AudioSource audioSource;
+    protected AudioSource audioSource;
     protected bool onCollisionCalled;
     protected abstract bool OnCollisionOnlyOnce { get; }
     protected abstract bool UseOnCollisionEnter { get; }
@@ -28,7 +29,12 @@ public abstract class CollisionBehaviourBase : MonoBehaviour
         {
             Debug.LogWarning($"{name} has an AudioSource but no collisionSound clip assigned");
         }
+
+        GameManager.EventService.Add<BoardChangedEvent>(OnBoardChanged);
     }
+
+    // TODO: mark abstract if all eventually have to implement 
+    protected virtual void OnBoardChanged(BoardChangedEvent evt) { }
 
     private void OnEnter(Collider2D collider)
     {
@@ -73,5 +79,10 @@ public abstract class CollisionBehaviourBase : MonoBehaviour
         {
             OnEnter(collider);
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.EventService.Remove<BoardChangedEvent>(OnBoardChanged);
     }
 }

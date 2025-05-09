@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 
 public class Piston : MonoBehaviour
@@ -30,6 +31,15 @@ public class Piston : MonoBehaviour
         rb = body.GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         startPos = body.transform.position;
+        GameManager.EventService.Add<BoardChangedEvent>(OnBoardChanged);
+    }
+
+    private void OnBoardChanged(BoardChangedEvent evt)
+    {
+        if (audioSource != null && evt.Config.PistonSound != null)
+        {
+            activationSound = evt.Config.PistonSound;
+        }
     }
 
     private void Update()
@@ -116,5 +126,10 @@ public class Piston : MonoBehaviour
         }
 
         Activate();
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.EventService.Remove<BoardChangedEvent>(OnBoardChanged);
     }
 }

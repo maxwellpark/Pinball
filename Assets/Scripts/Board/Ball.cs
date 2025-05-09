@@ -81,6 +81,11 @@ public class Ball : MonoBehaviour
         {
             GameManager.EventService.Remove<ShooterCreatedEvent>(Freeze);
             GameManager.EventService.Remove<ShooterDestroyedEvent>(Unfreeze);
+
+            if (TryGetComponent<TrailRenderer>(out var trail))
+            {
+                trail.Clear();
+            }
         }
     }
 

@@ -1,3 +1,4 @@
+using Events;
 using System.Collections;
 using UnityEngine;
 
@@ -18,6 +19,14 @@ public class Bumper : BounceBehaviourBase
     {
         base.OnCollision(collider);
         StartVibrate(vibrationDuration, vibrationIntensity, vibrationSpeed);
+    }
+
+    protected override void OnBoardChanged(BoardChangedEvent evt)
+    {
+        if (audioSource != null && evt.Config.BumperSound)
+        {
+            collisionSound = evt.Config.BumperSound;
+        }
     }
 
     public void StartVibrate(float duration, float intensity, float speed)

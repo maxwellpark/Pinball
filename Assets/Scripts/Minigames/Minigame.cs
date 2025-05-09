@@ -81,4 +81,10 @@ public abstract class Minigame : MonoBehaviour
     {
         NotificationManager.Notify(won ? "Minigame won!" : "Minigame lost!");
     }
+
+    private void OnDestroy()
+    {
+        GameManager.EventService.Remove<MinigameStartedEvent>(OnMinigameStarted);
+        GameManager.EventService.Remove<MinigameCancelledEvent>(OnMinigameCancelled);
+    }
 }

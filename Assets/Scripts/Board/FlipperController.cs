@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 
 public class FlipperController : MonoBehaviour
@@ -38,6 +39,15 @@ public class FlipperController : MonoBehaviour
         rightRenderer = rightFlipper.GetComponent<SpriteRenderer>();
         rightRenderer.color = defaultColor;
         audioSource = GetComponent<AudioSource>();
+        GameManager.EventService.Add<BoardChangedEvent>(OnBoardChanged);
+    }
+
+    private void OnBoardChanged(BoardChangedEvent evt)
+    {
+        if (audioSource != null && evt.Config.FlipperSound != null)
+        {
+            sound = evt.Config.FlipperSound;
+        }
     }
 
     private void Update()
@@ -125,5 +135,10 @@ public class FlipperController : MonoBehaviour
     {
         var chargeMultiplier = Mathf.Lerp(1f, maxForceMultiplier, chargeTime / maxChargeTime);
         return baseSpeed * chargeMultiplier;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.EventService.Remove<BoardChangedEvent>(OnBoardChanged);
     }
 }

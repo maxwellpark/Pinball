@@ -1,3 +1,4 @@
+using Cinemachine;
 using Events;
 using System.Collections;
 using UnityEngine;
@@ -8,10 +9,11 @@ public class Plunger : MonoBehaviour
 {
     [SerializeField] private float maxForce = 1000f;
     [SerializeField] private float chargeSpeed = 100f;
-    [SerializeField] private Slider chargeSlider;
+    //[SerializeField] private Slider chargeSlider;
     [SerializeField] private float inactiveTime = 2f;
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Transform launchPosition;
+    [SerializeField] private CinemachineVirtualCamera vcam;
     [Header("Sound")]
     [SerializeField] private AudioClip chargeSound;
     [SerializeField] private AudioClip launchSound;
@@ -25,13 +27,27 @@ public class Plunger : MonoBehaviour
 
     private void Awake()
     {
-        chargeSlider.gameObject.SetActive(false);
+        var slider = UIManager.Instance.ChargeSlider;
+        if (slider != null)
+        {
+            slider.gameObject.SetActive(false);
+        }
+
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
 
         GM.EventService.Add<ActivePlungerChangedEvent>(OnActivePlungerChanged);
         GM.EventService.Add<NewBallEvent>(OnNewBall);
         GM.EventService.Add<BallStuckEvent>(OnBallStuck);
+        GM.EventService.Add<BoardChangedEvent>(OnBoardChanged);
+    }
+
+    private void OnBoardChanged(BoardChangedEvent evt)
+    {
+        if (audioSource != null && evt.Config.PlungerLaunchSound != null)
+        {
+            launchSound = evt.Config.PlungerLaunchSound;
+        }
     }
 
     private void Update()
@@ -41,7 +57,8 @@ public class Plunger : MonoBehaviour
             return;
         }
 
-        UpdateChargeSlider();
+        var slider = UIManager.Instance.ChargeSlider;
+        UpdateChargeSlider(slider);
 
         if (ballRb == null || GM.MinigameActive)
         {
@@ -51,7 +68,10 @@ public class Plunger : MonoBehaviour
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton0)) && currentForce < maxForce)
         {
             lastChargeTime = Time.time;
-            chargeSlider.gameObject.SetActive(true);
+            if (slider != null)
+            {
+                slider.gameObject.SetActive(true);
+            }
             currentForce += chargeSpeed * Time.deltaTime;
 
             if (!isCharging)
@@ -129,14 +149,19 @@ public class Plunger : MonoBehaviour
         Debug.Log("[plunger] ball launched");
     }
 
-    private void UpdateChargeSlider()
+    private void UpdateChargeSlider(Slider slider)
     {
-        if (Time.time - lastChargeTime > inactiveTime)
+        if (slider == null)
         {
-            chargeSlider.gameObject.SetActive(false);
+            return;
         }
 
-        chargeSlider.value = currentForce / maxForce;
+        if (Time.time - lastChargeTime > inactiveTime)
+        {
+            slider.gameObject.SetActive(false);
+        }
+
+        slider.value = currentForce / maxForce;
     }
 
     private void OnActivePlungerChanged(ActivePlungerChangedEvent evt)
@@ -145,8 +170,17 @@ public class Plunger : MonoBehaviour
 
         if (isActive && GM.IsBallAlive)
         {
+            Debug.Log("[plunger] OnActivePlungerChanged to " + name);
             ballRb = GM.BallRb;
             GM.Instance.SetBallPos(launchPosition.position);
+
+            // Keeping camera optional for now in case of boards where there's only 1 playfield
+            if (vcam != null)
+            {
+                Debug.Log($"[plunger] vcam {vcam.name} following");
+                vcam.Follow = ballRb.transform;
+                CameraManager.SetPriority(vcam);
+            }
         }
     }
 
@@ -204,5 +238,13 @@ public class Plunger : MonoBehaviour
             yield return null;
         }
         audioSource.Stop();
+    }
+
+    private void OnDestroy()
+    {
+        GM.EventService.Remove<ActivePlungerChangedEvent>(OnActivePlungerChanged);
+        GM.EventService.Remove<NewBallEvent>(OnNewBall);
+        GM.EventService.Remove<BallStuckEvent>(OnBallStuck);
+        GM.EventService.Remove<BoardChangedEvent>(OnBoardChanged);
     }
 }

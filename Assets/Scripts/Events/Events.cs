@@ -32,6 +32,14 @@ namespace Events
     public class BallDischargedEvent : IEvent { }
     public class ShooterCreatedEvent : IEvent { }
     public class ShooterDestroyedEvent : IEvent { }
+    public class BoardChangedEvent : IEvent
+    {
+        public BoardConfig Config { get; }
+        public BoardChangedEvent(BoardConfig config)
+        {
+            Config = config;
+        }
+    }
     public class ControllerEvent : IEvent
     {
         public InputManager.Controller Controller { get; }
@@ -52,4 +60,5 @@ namespace Events
         {
         }
     }
+    public class CamerasUpdatedEvent : IEvent { }
 }

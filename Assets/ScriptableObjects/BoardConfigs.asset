@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: BoardConfigs
+  m_EditorClassIdentifier: Assembly-CSharp::BoardConfigs
+  boards:
+  - UniqueName: StefTestScene 5 (Vesta)
+    BumperSound: {fileID: 8300000, guid: b727805a0140e554a9a32c6aa9c3bbfb, type: 3}
+    KickerSound: {fileID: 8300000, guid: 663ced78f29744047939cc3069333a58, type: 3}
+    FlipperSound: {fileID: 8300000, guid: cb894bed9fe187e42a8b75c87f9119ca, type: 3}
+    PistonSound: {fileID: 8300000, guid: d94a60f07c7d008479a7f134383ea9b3, type: 3}
+    PlungerSound: {fileID: 8300000, guid: 248cba0bd78c3804a81f9f767c8f81ee, type: 3}

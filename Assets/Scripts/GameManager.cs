@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 // For prototyping this is a massive class but will be split up later 
 public class GameManager : Singleton<GameManager>
@@ -16,8 +17,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private GameObject ghostBallPrefab;
     [SerializeField] private GameObject shooterPrefab;
-    [SerializeField] private BallRescue ballRescue;
-    [SerializeField] private BallSaver ballSaver;
     [SerializeField] private float sidewaysForce = 2f;
     [SerializeField] private float upwardsForce = 5f;
     [SerializeField] private int startingBalls = 3;
@@ -48,6 +47,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int baseCombo = 1000;
     [SerializeField] private float multiplierIncrement = 0.5f;
     [Header("SO's")]
+    [SerializeField] private BoardConfigs boardConfigs;
     [SerializeField] private ScoreThresholds scoreThresholds;
 
     private readonly List<ScoreThreshold> unreachedThresholds = new();
@@ -62,6 +62,8 @@ public class GameManager : Singleton<GameManager>
     private TMP_Text velocityText;
 
     private GameObject ball;
+    private BallRescue ballRescue;
+    private BallSaver ballSaver;
     private bool isBallProtected;
     private Vector3 explosionPos;
     private bool showExplosion;
@@ -241,6 +243,8 @@ public class GameManager : Singleton<GameManager>
         GhostBalls = startingGhostBalls;
         Bombs = startingBombs;
         Shooters = startingShooters;
+        ballRescue = FindObjectOfType<BallRescue>();
+        ballSaver = FindObjectOfType<BallSaver>();
 
         ball = GameObject.FindWithTag(Tags.Ball);
         minigameCamera.gameObject.SetActive(false);
@@ -250,10 +254,52 @@ public class GameManager : Singleton<GameManager>
         EventService.Add<BallDischargedEvent>(OnBallDischarged);
         EventService.Add<ShooterCreatedEvent>(() => isShooterActive = true);
         EventService.Add<ShooterDestroyedEvent>(() => isShooterActive = false);
+        EventService.Add<CamerasUpdatedEvent>(OnCamerasUpdated);
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
         Debug.Log("[game] first new ball event");
         EventService.Dispatch<NewBallEvent>();
+
+        Debug.Log("[game] board change on init");
+        ChangeBoard(SceneManager.GetActiveScene().name);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnSceneChanged;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.activeSceneChanged -= OnSceneChanged;
+    }
+
+    private void OnSceneChanged(Scene prev, Scene next)
+    {
+        Debug.Log($"[game] scene changed from {prev.name} to {next.name}");
+        // TODO: might want to decouple scene names from board names later 
+        ChangeBoard(next.name);
+
+        ballRescue = FindObjectOfType<BallRescue>();
+        ballSaver = FindObjectOfType<BallSaver>();
+    }
+
+    private void OnCamerasUpdated()
+    {
+        ballCamera = CameraManager.GetPriorityCamera();
+    }
+
+    private void ChangeBoard(string name)
+    {
+        Debug.Log("[game] changing board to " + name);
+        if (boardConfigs.TryGetBoard(name, out var config))
+        {
+            EventService.Dispatch(new BoardChangedEvent(config));
+        }
+        else
+        {
+            Debug.LogWarning("[game] no board config found for board with name " + name);
+        }
     }
 
     private void Update()
@@ -412,6 +458,12 @@ public class GameManager : Singleton<GameManager>
 
         var instance = Instantiate(ballPrefab, pos, Quaternion.identity);
         ball = instance;
+
+        // TODO: something in the order is messed up with CreateBall vs. updating cam refs 
+        if (ballCamera == null)
+        {
+            ballCamera = CameraManager.GetPriorityCamera();
+        }
         ballCamera.Follow = instance.transform;
         return instance;
     }

@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Floor : MonoBehaviour
 {
-    [SerializeField] private UnityEvent onEnter;
+    //[SerializeField] private UnityEvent onEnter;
     [SerializeField] private AudioClip onEnterSound;
     private AudioSource audioSource;
 
@@ -14,9 +13,12 @@ public class Floor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("[floor] collided with " + collision.name);
         if (collision.IsBall())
         {
-            onEnter?.Invoke();
+            //onEnter?.Invoke();
+            GameManager.Instance.LoseBall();
+
             if (audioSource != null && onEnterSound)
             {
                 audioSource.PlayOneShot(onEnterSound);

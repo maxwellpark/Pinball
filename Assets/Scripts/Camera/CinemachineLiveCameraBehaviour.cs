@@ -1,5 +1,4 @@
 using Cinemachine;
-using System.Linq;
 using UnityEngine;
 
 public abstract class CinemachineLiveCameraBehaviour : MonoBehaviour
@@ -31,5 +30,10 @@ public abstract class CinemachineLiveCameraBehaviour : MonoBehaviour
         }
 
         virtualCamera = active as CinemachineVirtualCamera;
+    }
+
+    private void OnDestroy()
+    {
+        cinemachineBrain.m_CameraActivatedEvent.RemoveListener(OnCameraActivated);
     }
 }
