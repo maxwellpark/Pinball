@@ -25,7 +25,11 @@ public class SceneSwitcherUI : MonoBehaviour
             var label = instance.GetComponentInChildren<TMP_Text>();
 
             label.text = sceneName;
-            button.onClick.AddListener(() => SceneManager.LoadScene(index));
+            button.onClick.AddListener(() =>
+            {
+                SceneManager.LoadScene(index);
+                container.gameObject.SetActive(false);
+            });
         }
 
         container.gameObject.SetActive(false);
