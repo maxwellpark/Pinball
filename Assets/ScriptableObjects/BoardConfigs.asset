@@ -18,4 +18,10 @@ MonoBehaviour:
     KickerSound: {fileID: 8300000, guid: 663ced78f29744047939cc3069333a58, type: 3}
     FlipperSound: {fileID: 8300000, guid: cb894bed9fe187e42a8b75c87f9119ca, type: 3}
     PistonSound: {fileID: 8300000, guid: d94a60f07c7d008479a7f134383ea9b3, type: 3}
-    PlungerSound: {fileID: 8300000, guid: 248cba0bd78c3804a81f9f767c8f81ee, type: 3}
+    PlungerLaunchSound: {fileID: 8300000, guid: 248cba0bd78c3804a81f9f767c8f81ee, type: 3}
+  - UniqueName: StefTestScene 6 (Helicid)
+    BumperSound: {fileID: 8300000, guid: 2c4bb89d8f313b64c8022264627048fd, type: 3}
+    KickerSound: {fileID: 8300000, guid: 5a2c8b5a772952e4c8c9abbebfa76690, type: 3}
+    FlipperSound: {fileID: 8300000, guid: 1786108109b0db14595c8e6d3e15376c, type: 3}
+    PistonSound: {fileID: 8300000, guid: 078249cce325eed4b84e5074d41fdbcc, type: 3}
+    PlungerLaunchSound: {fileID: 8300000, guid: 96df606eab706754d8fd1efc08fdd987, type: 3}
