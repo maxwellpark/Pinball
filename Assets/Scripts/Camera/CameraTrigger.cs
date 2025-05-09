@@ -3,25 +3,24 @@ using UnityEngine;
 
 public class CameraTrigger : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera ballCamera;
-    [SerializeField] private CinemachineVirtualCamera flipperCamera;
+    [SerializeField] private CinemachineVirtualCamera vcam;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // TODO: is flipperCamera actually still used???
-        if (Utils.IsBall(other) && flipperCamera != null)
+        if (Utils.IsBall(other))
         {
-            ballCamera.Priority = 0;
-            flipperCamera.Priority = 10;
+            Debug.Log("[camera] CameraTrigger OnTriggerEnter2D with " + other.name);
+            vcam.Follow = other.transform;
+            CameraManager.SetPriority(vcam);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (Utils.IsBall(other) && flipperCamera != null)
+        if (Utils.IsBall(other))
         {
-            ballCamera.Priority = 10;
-            flipperCamera.Priority = 0;
+            Debug.Log("[camera] CameraTrigger OnTriggerExit2D with " + other.name);
+            // TODO: OnExit vcam follow?
         }
     }
 }
