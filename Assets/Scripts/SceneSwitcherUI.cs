@@ -37,7 +37,7 @@ public class SceneSwitcherUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!GameManager.MinigameActive && Input.GetKeyDown(KeyCode.Escape))
         {
             container.gameObject.SetActive(!container.gameObject.activeSelf);
         }
