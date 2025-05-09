@@ -27,12 +27,6 @@ public class Plunger : MonoBehaviour
 
     private void Awake()
     {
-        var slider = UIManager.Instance.ChargeSlider;
-        if (slider != null)
-        {
-            slider.gameObject.SetActive(false);
-        }
-
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
 
@@ -40,6 +34,15 @@ public class Plunger : MonoBehaviour
         GM.EventService.Add<NewBallEvent>(OnNewBall);
         GM.EventService.Add<BallStuckEvent>(OnBallStuck);
         GM.EventService.Add<BoardChangedEvent>(OnBoardChanged);
+    }
+
+    private void Start()
+    {
+        var slider = UIManager.Instance.ChargeSlider;
+        if (slider != null)
+        {
+            slider.gameObject.SetActive(false);
+        }
     }
 
     private void OnBoardChanged(BoardChangedEvent evt)

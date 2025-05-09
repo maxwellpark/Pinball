@@ -53,4 +53,34 @@ public static class Utils
     {
         return self == null || !self.Any();
     }
+
+    // TODO: maybe just hard requirement for these objects to start active in the scene... 
+    public static List<GameObject> FindAllWithTagIncludingInactive(string tag)
+    {
+        var results = new List<GameObject>();
+        var all = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (var go in all)
+        {
+            if (go.CompareTag(tag) && go.hideFlags == HideFlags.None)
+            {
+                results.Add(go);
+            }
+        }
+        return results;
+    }
+
+    public static GameObject FindWithTagIncludingInactive(string tag)
+    {
+        var all = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (var go in all)
+        {
+            if (go.CompareTag(tag) && go.hideFlags == HideFlags.None)
+            {
+                return go;
+            }
+        }
+        return null;
+    }
 }

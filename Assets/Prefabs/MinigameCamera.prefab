@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 1363757007655447435}
   m_Layer: 6
   m_Name: MinigameCamera
-  m_TagString: Untagged
+  m_TagString: MinigameCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7743597139659822058
 Transform:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // TODO: currently this only handles BumperGroups; we should port the UI stuff in the GameManager too.
@@ -22,6 +23,20 @@ public class UIManager : Singleton<UIManager>
         base.Awake();
         bumperGroupContainer.gameObject.SetActive(false);
     }
+
+    //private void OnEnable()
+    //{
+    //    SceneManager.activeSceneChanged += OnSceneChanged;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    SceneManager.activeSceneChanged -= OnSceneChanged;
+    //}
+
+    //private void OnSceneChanged(Scene prev, Scene next)
+    //{
+    //}
 
     public void RegisterBumperGroup(BumperGroup bumperGroup)
     {

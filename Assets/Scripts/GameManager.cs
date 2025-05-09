@@ -25,7 +25,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int startingShooters = 3;
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
-    [SerializeField] private Camera minigameCamera;
     // TODO: separate script eventually 
     [Header("UI")]
     [SerializeField] private GameObject scoreTextContainer;
@@ -64,6 +63,7 @@ public class GameManager : Singleton<GameManager>
     private GameObject ball;
     private BallRescue ballRescue;
     private BallSaver ballSaver;
+    private Camera minigameCamera;
     private bool isBallProtected;
     private Vector3 explosionPos;
     private bool showExplosion;
@@ -245,9 +245,9 @@ public class GameManager : Singleton<GameManager>
         Shooters = startingShooters;
         ballRescue = FindObjectOfType<BallRescue>();
         ballSaver = FindObjectOfType<BallSaver>();
-
         ball = GameObject.FindWithTag(Tags.Ball);
-        minigameCamera.gameObject.SetActive(false);
+        UpdateMinigameCamera();
+
         EventService.Add<MinigameEndedEvent>(EndMinigame);
         EventService.Add<BallSavedEvent>(OnBallSaved);
         EventService.Add<BallChargedEvent>(OnBallCharged);
@@ -282,6 +282,21 @@ public class GameManager : Singleton<GameManager>
 
         ballRescue = FindObjectOfType<BallRescue>();
         ballSaver = FindObjectOfType<BallSaver>();
+        UpdateMinigameCamera();
+    }
+
+    private void UpdateMinigameCamera()
+    {
+        var minigameCam = Utils.FindWithTagIncludingInactive(Tags.MinigameCamera);
+        if (minigameCam == null)
+        {
+            Debug.LogWarning("[game] no minigame camera found");
+        }
+        else
+        {
+            minigameCamera = minigameCam.GetComponent<Camera>();
+            minigameCamera.gameObject.SetActive(false);
+        }
     }
 
     private void OnCamerasUpdated()
@@ -651,6 +666,7 @@ public static class Tags
     public static readonly string Flipper = "Flipper";
     public static readonly string Gap = "Gap";
     public static readonly string Finish = "Finish";
+    public static readonly string MinigameCamera = "MinigameCamera";
     public static readonly string TargetRingInner = "TargetRingInner";
     public static readonly string TargetRingOuter = "TargetRingOuter";
     public static readonly string PlayerRingInner = "PlayerRingInner";
