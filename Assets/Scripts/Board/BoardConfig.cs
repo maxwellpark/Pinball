@@ -33,6 +33,7 @@ public class BoardConfigs : ScriptableObject
 [Serializable]
 public class BoardConfig
 {
+    [Tooltip("Needs to match the scene name of the board")]
     public string UniqueName;
 
     [Header("Sound")]
