@@ -1,3 +1,4 @@
+using Events;
 using UnityEngine;
 
 public class Collectible : CollisionBehaviourBase
@@ -25,5 +26,13 @@ public class Collectible : CollisionBehaviourBase
         // TODO: we could probably move the audio source onto the player 
         spriteRenderer.enabled = false;
         Destroy(gameObject, 1.5f);
+    }
+
+    protected override void OnBoardChanged(BoardChangedEvent evt)
+    {
+        if (audioSource != null && evt.Config.CollectibleSound != null)
+        {
+            collisionSound = evt.Config.CollectibleSound;
+        }
     }
 }

@@ -9,7 +9,6 @@ public class Plunger : MonoBehaviour
 {
     [SerializeField] private float maxForce = 1000f;
     [SerializeField] private float chargeSpeed = 100f;
-    //[SerializeField] private Slider chargeSlider;
     [SerializeField] private float inactiveTime = 2f;
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Transform launchPosition;
@@ -47,9 +46,17 @@ public class Plunger : MonoBehaviour
 
     private void OnBoardChanged(BoardChangedEvent evt)
     {
-        if (audioSource != null && evt.Config.PlungerLaunchSound != null)
+        if (audioSource != null)
         {
-            launchSound = evt.Config.PlungerLaunchSound;
+            if (evt.Config.PlungerChargeSound != null)
+            {
+                chargeSound = evt.Config.PlungerChargeSound;
+            }
+
+            if (evt.Config.PlungerLaunchSound != null)
+            {
+                launchSound = evt.Config.PlungerLaunchSound;
+            }
         }
     }
 

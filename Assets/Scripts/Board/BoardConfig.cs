@@ -40,5 +40,7 @@ public class BoardConfig
     public AudioClip KickerSound;
     public AudioClip FlipperSound;
     public AudioClip PistonSound;
+    public AudioClip PlungerChargeSound;
     public AudioClip PlungerLaunchSound;
+    public AudioClip CollectibleSound;
 }
