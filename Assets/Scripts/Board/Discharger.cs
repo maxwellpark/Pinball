@@ -8,7 +8,7 @@ public class Discharger : ReceiverBase
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.IsBall() || !collision.TryGetComponent<Ball>(out var ball) || !ball.IsCharged)
+        if (IsLocked || !collision.IsBall() || !collision.TryGetComponent<Ball>(out var ball) || !ball.IsCharged)
         {
             return;
         }
