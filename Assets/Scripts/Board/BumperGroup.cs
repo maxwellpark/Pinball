@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class BumperGroup : MonoBehaviour
 {
-    [SerializeField] private int scoreMinigameTrigger;
+    [SerializeField] private int scoreReceiverTrigger;
     private int currentScore;
 
-    [SerializeField] private Minigame.Type minigameType;
+    [SerializeField] private ReceiverBase receiver;
     [SerializeField] private bool isRepeatable;
 
     private List<Bumper> bumpers;
 
     public int CurrentScore => currentScore;
-    public int ScoreMinigameTrigger => scoreMinigameTrigger;
+    public int ScoreReceiverTrigger => scoreReceiverTrigger;
 
     private void Start()
     {
@@ -42,10 +42,10 @@ public class BumperGroup : MonoBehaviour
         currentScore += Mathf.Max(0, score);
         UIManager.Instance.UpdateBumperGroupText(this);
 
-        if (minigameType != Minigame.Type.None && currentScore >= scoreMinigameTrigger)
+        if (receiver != null && receiver.IsLocked && currentScore >= scoreReceiverTrigger)
         {
-            Debug.Log($"[bumper group] triggering {minigameType} minigame as score reached");
-            GameManager.Instance.StartMinigame(minigameType, onStart: OnMinigameStart, onEnd: OnMinigameEnd);
+            Debug.Log($"[bumper group] unlocking {receiver.name} as {scoreReceiverTrigger} score reached");
+            receiver.Unlock();
 
             if (isRepeatable)
             {
@@ -59,33 +59,6 @@ public class BumperGroup : MonoBehaviour
             Destroy(this);
             UIManager.Instance.UnregisterBumperGroup(this);
         }
-    }
-
-    // TODO: should handle this elsewhere but up until now it was all done via receivers...
-    private void OnMinigameStart()
-    {
-        Debug.Log("[bumper group] OnMinigameStart");
-        var ball = GameManager.Ball;
-        if (ball == null)
-        {
-            Debug.LogWarning("[bumper group] ball was null when starting minigame");
-            return;
-        }
-
-        ball.Freeze();
-    }
-
-    private void OnMinigameEnd()
-    {
-        Debug.Log("[bumper group] OnMinigameEnd");
-        var ball = GameManager.Ball;
-        if (ball == null)
-        {
-            Debug.LogWarning("[bumper group] ball was null when ending minigame");
-            return;
-        }
-
-        ball.Unfreeze();
     }
 
     private void Unsubscribe()

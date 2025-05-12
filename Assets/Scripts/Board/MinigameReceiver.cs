@@ -6,6 +6,11 @@ public class MinigameReceiver : ReceiverBase
 
     protected override void OnEnter(Collider2D collision)
     {
+        if (IsLocked)
+        {
+            return;
+        }
+
         base.OnEnter(collision);
         GameManager.Instance.StartMinigame(minigameType, onEnd: OnEnd);
     }

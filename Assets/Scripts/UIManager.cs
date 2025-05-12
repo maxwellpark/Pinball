@@ -66,7 +66,10 @@ public class UIManager : Singleton<UIManager>
             textByBumperGroup.Remove(bumperGroup);
         }
 
-        bumperGroupContainer.gameObject.SetActive(textByBumperGroup.Any());
+        if (bumperGroupContainer != null)
+        {
+            bumperGroupContainer.gameObject.SetActive(textByBumperGroup.Any());
+        }
     }
 
     public void UpdateBumperGroupText(BumperGroup bumperGroup)
@@ -79,7 +82,7 @@ public class UIManager : Singleton<UIManager>
                 return;
             }
 
-            text.text = $"{bumperGroup.name} score: {bumperGroup.CurrentScore}/{bumperGroup.ScoreMinigameTrigger}";
+            text.text = $"{bumperGroup.name} score: {bumperGroup.CurrentScore}/{bumperGroup.ScoreReceiverTrigger}";
         }
     }
 }

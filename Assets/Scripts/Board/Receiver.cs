@@ -7,20 +7,34 @@ public abstract class ReceiverBase : MonoBehaviour
     [SerializeField] private float waitTime = 0.5f;
     [SerializeField] private string animationName;
     [SerializeField] private float pullSpeed = 2f;
+    [SerializeField] private bool startsLocked;
+    [SerializeField] private Color lockedColor = Color.red;
     [SerializeField] private AudioClip onEnterSound;
     //[SerializeField] private AudioClip onExitSound;
 
     protected bool isWaiting;
+    private bool isLocked;
+    public bool IsLocked
+    {
+        get => isLocked; set
+        {
+            isLocked = value;
+            spriteRenderer.color = isLocked ? lockedColor : Color.white;
+        }
+    }
     private AudioSource audioSource;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        IsLocked = startsLocked;
     }
 
     protected virtual void OnEnter(Collider2D collision)
     {
-        if (collision == null || collision.gameObject == null)
+        if (IsLocked || collision == null || collision.gameObject == null)
         {
             return;
         }
@@ -115,5 +129,11 @@ public abstract class ReceiverBase : MonoBehaviour
         }
 
         OnExit(collision);
+    }
+
+    public void Unlock()
+    {
+        Debug.Log("[receiver] unlocking " + name);
+        IsLocked = false;
     }
 }
