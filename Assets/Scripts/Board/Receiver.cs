@@ -134,6 +134,7 @@ public abstract class ReceiverBase : MonoBehaviour
     public void Unlock()
     {
         Debug.Log("[receiver] unlocking " + name);
+        NotificationManager.Notify("Unlocking " + name);
         IsLocked = false;
     }
 }
