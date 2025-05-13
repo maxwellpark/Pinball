@@ -12,6 +12,7 @@ public abstract class ReceiverBase : MonoBehaviour
     [SerializeField] private AudioClip onEnterSound;
     //[SerializeField] private AudioClip onExitSound;
 
+    private Color startingColor;
     protected bool isWaiting;
     private bool isLocked;
     public bool IsLocked
@@ -19,7 +20,7 @@ public abstract class ReceiverBase : MonoBehaviour
         get => isLocked; set
         {
             isLocked = value;
-            spriteRenderer.color = isLocked ? lockedColor : Color.white;
+            spriteRenderer.color = isLocked ? lockedColor : startingColor;
         }
     }
     private AudioSource audioSource;
@@ -29,6 +30,7 @@ public abstract class ReceiverBase : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        startingColor = spriteRenderer.color;
         IsLocked = startsLocked;
     }
 

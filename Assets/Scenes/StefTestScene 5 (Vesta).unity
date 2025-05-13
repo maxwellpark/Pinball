@@ -19990,6 +19990,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8162834299731815116, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
+      propertyPath: lockedColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8162834299731815116, guid: f40dfcfe67f2bbc439d523ba5887adca, type: 3}
       propertyPath: lockedColor.b
       value: 0
       objectReference: {fileID: 0}
@@ -21329,7 +21333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6838484484997243542, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030020436
+      value: 0.00067673094
       objectReference: {fileID: 0}
     - target: {fileID: 7405541551684139115, guid: 1215e1cb956c9d548a60852aff37f60d, type: 3}
       propertyPath: m_text
