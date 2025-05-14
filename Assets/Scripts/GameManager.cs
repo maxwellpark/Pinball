@@ -385,6 +385,7 @@ public class GameManager : Singleton<GameManager>
             EventService.Dispatch<MinigameCancelledEvent>();
         }
 
+        // TODO: use the latest helper functions in InputManager for controller buttons 
         if ((Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton2)) && ghostBalls > 0)
         {
             CreateGhostBall();

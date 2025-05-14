@@ -79,12 +79,41 @@ public class InputManager : Singleton<InputManager>
         //Debug.Log("Connected controller: " + ConnectedController);
     }
 
-    public static bool IsLeftTriggerOver()
+    public static bool IsButtonX()
+    {
+        return Input.GetKeyDown(KeyCode.JoystickButton0);
+    }
+
+    public static bool IsButtonA()
+    {
+        return Input.GetKeyDown(KeyCode.JoystickButton1);
+    }
+
+    public static bool IsButtonB()
+    {
+        return Input.GetKeyDown(KeyCode.JoystickButton2);
+    }
+
+    public static bool IsButtonY()
     {
         //return ConnectedController == Controller.XboxOne
         //    ? IsAxisOverThreshold(xboxLeftTriggerAxis)
         //    : ConnectedController == Controller.Ps4 && IsAxisOverThreshold(ps4LeftTriggerAxis);
+        return Input.GetKeyDown(KeyCode.JoystickButton3);
+    }
 
+    public static bool IsLeftBumper()
+    {
+        return Input.GetKeyDown(KeyCode.JoystickButton4);
+    }
+
+    public static bool IsRightBumper()
+    {
+        return Input.GetKeyDown(KeyCode.JoystickButton5);
+    }
+
+    public static bool IsLeftTriggerOver()
+    {
         return IsAxisOverThreshold(xboxLeftTriggerAxis) || IsAxisOverThreshold(ps4LeftTriggerAxis);
     }
 
