@@ -63,8 +63,56 @@ public class FlipperController : MonoBehaviour
             audioSource.PlayOneShot(sound);
         }
 
-        UpdateFlipper(leftFlipper, InputManager.IsLeft(), -speed, returnSpeed, ref leftChargeTime, leftRenderer);
-        UpdateFlipper(rightFlipper, InputManager.IsRight(), speed, -returnSpeed, ref rightChargeTime, rightRenderer);
+        // TODO: controller input for charge 
+        UpdateCharge(leftFlipper, Input.GetKey(KeyCode.X), ref leftChargeTime, leftRenderer);
+        UpdateCharge(rightFlipper, Input.GetKey(KeyCode.X), ref rightChargeTime, rightRenderer);
+
+        UpdateFlipper(leftFlipper, InputManager.IsLeft(), -speed, returnSpeed, ref leftChargeTime);
+        UpdateFlipper(rightFlipper, InputManager.IsRight(), speed, -returnSpeed, ref rightChargeTime);
+    }
+
+    private void UpdateCharge(
+        HingeJoint2D flipper,
+        bool isCharging,
+        ref float chargeTime,
+        SpriteRenderer spriteRenderer)
+    {
+        // Holding a fully extended flipper can be used for a charge attack aka the "ball tuck" 
+        //var isLeftFlipper = flipper == leftFlipper;
+        //var fullyExtended = isLeftFlipper ? Mathf.Abs(flipper.jointAngle - flipper.limits.min) < 0.5f : Mathf.Abs(flipper.jointAngle - flipper.limits.max) < 0.5f;
+
+        if (isCharging)
+        {
+            // TODO: pre/decay timers for individual flippers 
+            chargeDecayTimer = 0f;
+            preChargeTimer += Time.deltaTime;
+            if (preChargeTimer >= preChargeDelay)
+            {
+                chargeTime = Mathf.Clamp(chargeTime + Time.deltaTime, 0f, maxChargeTime);
+            }
+            //Debug.Log($"[flipper] {flipper} CHARGING | chargeTime: {chargeTime}, preChargeTimer: {preChargeTimer}, chargeDecayTimer: {chargeDecayTimer}");
+        }
+        else
+        {
+            chargeDecayTimer += Time.deltaTime;
+            if (chargeDecayTimer >= chargeDecayDelay)
+            {
+                chargeTime = Mathf.Clamp(chargeTime - Time.deltaTime, 0f, maxChargeTime);
+            }
+
+            preChargeTimer = 0f;
+            //Debug.Log($"[flipper] {flipper} NOT CHARGING | chargeTime: {chargeTime}, preChargeTimer: {preChargeTimer}, chargeDecayTimer: {chargeDecayTimer}");
+        }
+
+        if (chargeTime == 0f)
+        {
+            spriteRenderer.color = defaultColor;
+        }
+        else
+        {
+            var t = chargeTime / maxChargeTime;
+            spriteRenderer.color = Color.Lerp(chargingColor, fullyChargedColor, t);
+        }
     }
 
     private void UpdateFlipper(
@@ -72,8 +120,7 @@ public class FlipperController : MonoBehaviour
         bool isActive,
         float activeSpeed,
         float restingSpeed,
-        ref float chargeTime,
-        SpriteRenderer spriteRenderer)
+        ref float chargeTime)
     {
         var isLeftFlipper = flipper == leftFlipper;
         var motor = flipper.motor;
@@ -88,41 +135,6 @@ public class FlipperController : MonoBehaviour
         else
         {
             RightMotor = motor;
-        }
-
-        var fullyExtended = isLeftFlipper ? Mathf.Abs(flipper.jointAngle - flipper.limits.min) < 0.5f : Mathf.Abs(flipper.jointAngle - flipper.limits.max) < 0.5f;
-
-        // Holding a fully extended flipper can be used for a charge attack aka the "ball tuck" 
-        if (fullyExtended)
-        {
-            // TODO: pre/decay timers for individual flippers 
-            chargeDecayTimer = 0f;
-
-            preChargeTimer += Time.deltaTime;
-            if (preChargeTimer >= preChargeDelay)
-            {
-                chargeTime = Mathf.Clamp(chargeTime + Time.deltaTime, 0f, maxChargeTime);
-            }
-        }
-        else
-        {
-            chargeDecayTimer += Time.deltaTime;
-            if (chargeDecayTimer >= chargeDecayDelay)
-            {
-                chargeTime = Mathf.Clamp(chargeTime - Time.deltaTime, 0f, maxChargeTime);
-            }
-
-            preChargeTimer = 0f;
-        }
-
-        if (chargeTime == 0f)
-        {
-            spriteRenderer.color = defaultColor;
-        }
-        else
-        {
-            var t = chargeTime / maxChargeTime;
-            spriteRenderer.color = Color.Lerp(chargingColor, fullyChargedColor, t);
         }
 
         if (isActive)
