@@ -1,17 +1,21 @@
+using Events;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // TODO: currently this only handles BumperGroups; we should port the UI stuff in the GameManager too.
 public class UIManager : Singleton<UIManager>
 {
+    [SerializeField] private TMP_Text abilityText;
+    [SerializeField] private Image abilityImage;
+    [SerializeField] private Slider chargeSlider;
+
+    [Header("Bumper groups")]
     [SerializeField] private RectTransform bumperGroupContainer;
     [SerializeField, Tooltip("Scroll view content")] private RectTransform bumperGroupContent;
     [SerializeField] private GameObject bumperGroupPrefab;
-    [SerializeField] private Slider chargeSlider;
 
     private readonly Dictionary<BumperGroup, TMP_Text> textByBumperGroup = new();
 
@@ -21,22 +25,41 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
-        bumperGroupContainer.gameObject.SetActive(false);
+        bumperGroupContainer.gameObject.SetActive(value: false);
     }
 
-    //private void OnEnable()
-    //{
-    //    SceneManager.activeSceneChanged += OnSceneChanged;
-    //}
+    private void OnEnable()
+    {
+        //SceneManager.activeSceneChanged += OnSceneChanged;
+        GameManager.EventService.Add<AbilityChangedEvent>(OnAbilityChanged);
+        GameManager.EventService.Add<AbilityUsedEvent>(OnAbilityUsed);
+    }
 
-    //private void OnDisable()
-    //{
-    //    SceneManager.activeSceneChanged -= OnSceneChanged;
-    //}
+    private void OnDisable()
+    {
+        //SceneManager.activeSceneChanged -= OnSceneChanged;
+        GameManager.EventService.Remove<AbilityChangedEvent>(OnAbilityChanged);
+        GameManager.EventService.Remove<AbilityUsedEvent>(OnAbilityUsed);
+    }
 
     //private void OnSceneChanged(Scene prev, Scene next)
     //{
     //}
+    private void OnAbilityChanged(AbilityChangedEvent evt)
+    {
+        UpdateAbilityUI(evt.Ability, evt.Ability.Uses);
+    }
+
+    private void OnAbilityUsed(AbilityUsedEvent evt)
+    {
+        UpdateAbilityUI(evt.Ability, evt.Uses);
+    }
+
+    private void UpdateAbilityUI(Ability ability, int uses)
+    {
+        abilityText.SetText($"{ability.Name}s: {uses}");
+        abilityImage.sprite = ability.Icon;
+    }
 
     public void RegisterBumperGroup(BumperGroup bumperGroup)
     {

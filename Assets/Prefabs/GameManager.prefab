@@ -47,16 +47,10 @@ MonoBehaviour:
   ballPrefab: {fileID: 8631688824603131977, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
   ghostBallPrefab: {fileID: 8497997444667861390, guid: 8b0feeba7d1541a43b1d660cae766b08, type: 3}
   shooterPrefab: {fileID: 0}
-  ballRescue: {fileID: 0}
-  ballSaver: {fileID: 0}
   sidewaysForce: 2
   upwardsForce: 5
   startingBalls: 3
-  startingGhostBalls: 3
-  startingBombs: 3
-  startingShooters: 3
   ballCamera: {fileID: 0}
-  minigameCamera: {fileID: 0}
   scoreTextContainer: {fileID: 0}
   highScoreTextContainer: {fileID: 0}
   comboTextContainer: {fileID: 0}
@@ -65,6 +59,9 @@ MonoBehaviour:
   bombsTextContainer: {fileID: 0}
   shootersTextContainer: {fileID: 0}
   velocityTextContainer: {fileID: 0}
+  specialAbilityTextContainer: {fileID: 0}
+  specialAbilityText: {fileID: 0}
+  abilityIcon: {fileID: 0}
   explosionDamage: 100
   explosionRadius: 5
   explosionDuration: 2
@@ -73,5 +70,10 @@ MonoBehaviour:
   comboDecayTime: 5
   baseCombo: 1000
   multiplierIncrement: 0.5
+  abilities:
+  - {fileID: 11400000, guid: d78cc501a9d6fa448be7b5522a143028, type: 2}
+  - {fileID: 11400000, guid: f46ab3598f47bdc4583d55c99b472c06, type: 2}
+  - {fileID: 11400000, guid: adc2b1c1a8f1b68429d946dfa8b78657, type: 2}
   boardConfigs: {fileID: 11400000, guid: 3870bf7825ebc2b46aa6006f250dba49, type: 2}
   scoreThresholds: {fileID: 11400000, guid: ee645c5edad9ae640857e517e0f3300d, type: 2}
+  IsShooterActive: 0

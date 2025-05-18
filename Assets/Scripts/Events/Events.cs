@@ -61,4 +61,20 @@ namespace Events
         }
     }
     public class CamerasUpdatedEvent : IEvent { }
+    public class AbilityChangedEvent : IEvent
+    {
+        public Ability Ability { get; }
+        public AbilityChangedEvent(Ability ability)
+        {
+            Ability = ability;
+        }
+    }
+    public class AbilityUsedEvent : AbilityChangedEvent
+    {
+        public int Uses { get; }
+        public AbilityUsedEvent(Ability ability, int uses) : base(ability)
+        {
+            Uses = uses;
+        }
+    }
 }

@@ -2,10 +2,12 @@ using Cinemachine;
 using Events;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // For prototyping this is a massive class but will be split up later 
 public class GameManager : Singleton<GameManager>
@@ -20,9 +22,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float sidewaysForce = 2f;
     [SerializeField] private float upwardsForce = 5f;
     [SerializeField] private int startingBalls = 3;
-    [SerializeField] private int startingGhostBalls = 3;
-    [SerializeField] private int startingBombs = 3;
-    [SerializeField] private int startingShooters = 3;
     [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera ballCamera;
     // TODO: separate script eventually 
@@ -35,6 +34,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject bombsTextContainer;
     [SerializeField] private GameObject shootersTextContainer;
     [SerializeField] private GameObject velocityTextContainer;
+    [SerializeField] private GameObject specialAbilityTextContainer;
+    [SerializeField] private TMP_Text specialAbilityText;
+    [SerializeField] private Image abilityIcon;
     [Header("Explosion")]
     [SerializeField] private float explosionDamage = 100f;
     [SerializeField] private float explosionRadius = 5f;
@@ -45,6 +47,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float comboDecayTime = 5f;
     [SerializeField] private int baseCombo = 1000;
     [SerializeField] private float multiplierIncrement = 0.5f;
+    [Header("Abilities")]
+    [SerializeField] private Ability[] abilities;
     [Header("SO's")]
     [SerializeField] private BoardConfigs boardConfigs;
     [SerializeField] private ScoreThresholds scoreThresholds;
@@ -67,9 +71,11 @@ public class GameManager : Singleton<GameManager>
     private bool isBallProtected;
     private Vector3 explosionPos;
     private bool showExplosion;
-    private bool isShooterActive;
     private bool showControls = true;
+    private Ability currentAbility;
+    private int currentAbilityIndex;
 
+    public bool IsShooterActive;
     public static bool IsBallAlive => Instance.ball != null;
     public static Vector3 BallPos => IsBallAlive ? Instance.ball.transform.localPosition : Vector3.zero;
 
@@ -156,19 +162,29 @@ public class GameManager : Singleton<GameManager>
                 Instance.ballSaver.Activate();
                 break;
             case Action.AddGhostBall:
-                // TODO: probably want an abstraction for action notifications in general 
+                // TODO: probably want an abstraction for action notifications in general, then dedupe this 
                 NotificationManager.Notify("Ghost ball added!", 1);
-                Instance.GhostBalls++;
+                TriggerAbilityAction(action);
                 break;
             case Action.AddBomb:
                 NotificationManager.Notify("Bomb added!", 1);
-                Instance.Bombs++;
+                TriggerAbilityAction(action);
                 break;
             case Action.AddShooter:
                 NotificationManager.Notify("Shooter added!", 1);
-                Instance.Shooters++;
+                TriggerAbilityAction(action);
                 break;
         }
+    }
+
+    private static void TriggerAbilityAction(Action action)
+    {
+        if (!Instance.abilityByAction.TryGetValue(action, out var ability))
+        {
+            Debug.LogError("[game] no ability with action type key " + action);
+            return;
+        }
+        ability.AddUses(1);
     }
 
     // TODO: some abstraction for resouce-driven entities & UI  
@@ -183,43 +199,8 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private int ghostBalls;
-    public int GhostBalls
-    {
-        get => ghostBalls;
-        private set
-        {
-            ghostBalls = value;
-            ghostBallsText.SetText("Ghost balls: " + ghostBalls);
-        }
-    }
-
-    private int bombs;
-    public int Bombs
-    {
-        get => bombs;
-        private set
-        {
-            bombs = value;
-            bombsText.SetText("Bombs: " + bombs);
-        }
-    }
-
-    private int shooters;
-    public int Shooters
-    {
-        get => shooters;
-        private set
-        {
-            shooters = value;
-            shootersText.SetText("Shooters: " + shooters);
-        }
-    }
-
-    public static void AddScore(int score)
-    {
-        Instance.Score += Mathf.RoundToInt(Mathf.Max(score * Instance.ComboMultiplier, 0));
-    }
+    private int abilityIndex;
+    private Dictionary<Action, Ability> abilityByAction;
 
     public enum Action
     {
@@ -240,9 +221,6 @@ public class GameManager : Singleton<GameManager>
         shootersText = shootersTextContainer.GetComponentInChildren<TMP_Text>();
         velocityText = velocityTextContainer.GetComponentInChildren<TMP_Text>();
         Balls = startingBalls;
-        GhostBalls = startingGhostBalls;
-        Bombs = startingBombs;
-        Shooters = startingShooters;
         ballRescue = FindObjectOfType<BallRescue>();
         ballSaver = FindObjectOfType<BallSaver>();
         ball = GameObject.FindWithTag(Tags.Ball);
@@ -252,11 +230,14 @@ public class GameManager : Singleton<GameManager>
         EventService.Add<BallSavedEvent>(OnBallSaved);
         EventService.Add<BallChargedEvent>(OnBallCharged);
         EventService.Add<BallDischargedEvent>(OnBallDischarged);
-        EventService.Add<ShooterCreatedEvent>(() => isShooterActive = true);
-        EventService.Add<ShooterDestroyedEvent>(() => isShooterActive = false);
+        EventService.Add<ShooterCreatedEvent>(() => IsShooterActive = true);
+        EventService.Add<ShooterDestroyedEvent>(() => IsShooterActive = false);
         EventService.Add<CamerasUpdatedEvent>(OnCamerasUpdated);
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
+        abilityByAction = abilities.ToDictionary(k => k.ActionType, v => v);
+        ChangeAbility(0);
+
         Debug.Log("[game] first new ball event");
         EventService.Dispatch<NewBallEvent>();
 
@@ -284,6 +265,11 @@ public class GameManager : Singleton<GameManager>
         ballSaver = FindObjectOfType<BallSaver>();
         UpdateMinigameCamera();
         ResetBall();
+    }
+
+    public static void AddScore(int score)
+    {
+        Instance.Score += Mathf.RoundToInt(Mathf.Max(score * Instance.ComboMultiplier, 0));
     }
 
     private void UpdateMinigameCamera()
@@ -347,6 +333,16 @@ public class GameManager : Singleton<GameManager>
             ball.GetComponent<Rigidbody2D>().isKinematic = false;
         }
 
+        var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollWheel > 0)
+        {
+            CycleAbility(1);
+        }
+        else if (scrollWheel < 0)
+        {
+            CycleAbility(-1);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             showControls = !showControls;
@@ -385,12 +381,11 @@ public class GameManager : Singleton<GameManager>
             EventService.Dispatch<MinigameCancelledEvent>();
         }
 
-        // TODO: use the latest helper functions in InputManager for controller buttons 
-        if ((Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton2)) && ghostBalls > 0)
-        {
-            CreateGhostBall();
-            GhostBalls--;
-        }
+        //// TODO: use the latest helper functions in InputManager for controller buttons 
+        //if ((Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton2)) && ghostBalls > 0)
+        //{
+        //    CreateGhostBall();
+        //}
 
         var ballRb = ball.GetComponent<Rigidbody2D>();
 
@@ -412,17 +407,23 @@ public class GameManager : Singleton<GameManager>
 
         velocityText.SetText("Velocity: " + ballRb.velocity);
 
-        // 3 = triangle 
-        if (!showExplosion && Bombs > 0 && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3)))
-        {
-            StartCoroutine(TriggerExplosion());
-        }
+        //// 3 = triangle 
+        //if (!showExplosion && Bombs > 0 && (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3)))
+        //{
+        //    StartCoroutine(TriggerExplosion());
+        //}
 
-        if (!isShooterActive && Shooters > 0 && Input.GetKeyDown(KeyCode.B))
-        {
-            ball.GetComponent<Ball>().Freeze();
-            Instantiate(shooterPrefab, ball.transform.position, Quaternion.identity);
-        }
+        //if (!isShooterActive && Shooters > 0 && Input.GetKeyDown(KeyCode.B))
+        //{
+        //    ball.GetComponent<Ball>().Freeze();
+        //    Instantiate(shooterPrefab, ball.transform.position, Quaternion.identity);
+        //}
+    }
+
+    public static void CreateShooter()
+    {
+        Instance.ball.GetComponent<Ball>().Freeze();
+        Instantiate(Instance.shooterPrefab, Instance.ball.transform.position, Quaternion.identity);
     }
 
     public static GameObject CreateGhostBall()
@@ -435,14 +436,13 @@ public class GameManager : Singleton<GameManager>
         return Instantiate(Instance.ghostBallPrefab, Instance.ball.transform.position, Quaternion.identity);
     }
 
+    public void StartTriggerExplosion()
+    {
+        StartCoroutine(TriggerExplosion());
+    }
+
     private IEnumerator TriggerExplosion()
     {
-        if (Bombs < 1)
-        {
-            Debug.LogWarning("[game] tried to trigger explosion with 0 bombs");
-            yield break;
-        }
-
         explosionPos = ball.transform.position;
         showExplosion = true;
 
@@ -460,7 +460,6 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        Bombs--;
         if (Ball != null)
         {
             Ball.PlayBombSound();
@@ -661,6 +660,18 @@ public class GameManager : Singleton<GameManager>
             return;
         }
         ball.GetComponent<Ball>().Discharge();
+    }
+
+    private void ChangeAbility(int index)
+    {
+        abilityIndex = index;
+        EventService.Dispatch(new AbilityChangedEvent(abilities[abilityIndex]));
+    }
+
+    private void CycleAbility(int direction)
+    {
+        var index = (abilityIndex + direction + abilities.Length) % abilities.Length;
+        ChangeAbility(index);
     }
 }
 
