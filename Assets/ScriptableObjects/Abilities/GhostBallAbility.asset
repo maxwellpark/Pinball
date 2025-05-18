@@ -15,4 +15,4 @@ MonoBehaviour:
   Name: Ghost ball
   Icon: {fileID: -376867424, guid: bec08bdc98afcd846bdbd21f2e6405ae, type: 3}
   Uses: 3
-  StartingUses: 3
+  StartingUses: 5

@@ -11,7 +11,7 @@ public abstract class Ability : ScriptableObject
     public abstract GameManager.Action ActionType { get; }
     protected abstract void UseInternal();
 
-    private void Awake()
+    public void Init()
     {
         Uses = StartingUses;
     }

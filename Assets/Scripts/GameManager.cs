@@ -1,5 +1,6 @@
 using Cinemachine;
 using Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -236,6 +237,7 @@ public class GameManager : Singleton<GameManager>
 
         unreachedThresholds.AddRange(scoreThresholds.Thresholds);
         abilityByAction = abilities.ToDictionary(k => k.ActionType, v => v);
+        Array.ForEach(abilities, a => a.Init());
         ChangeAbility(0);
 
         Debug.Log("[game] first new ball event");

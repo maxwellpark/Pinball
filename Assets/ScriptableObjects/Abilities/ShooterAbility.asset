@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Shooter
   Icon: {fileID: 21300000, guid: 109aca5d47c8a0d46bce55cbbf1c367d, type: 3}
-  Uses: 7
-  StartingUses: 3
+  Uses: 3
+  StartingUses: 1
