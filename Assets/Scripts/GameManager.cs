@@ -343,6 +343,18 @@ public class GameManager : Singleton<GameManager>
             CycleAbility(-1);
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (abilities.Length < abilityIndex - 1)
+            {
+                Debug.LogError($"[game] ability index {abilityIndex} out of range {abilities.Length}!");
+            }
+            else
+            {
+                abilities[abilityIndex].Use();
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             showControls = !showControls;
