@@ -28,6 +28,8 @@ public class FlipperController : MonoBehaviour
     private float preChargeTimer;
     private float chargeDecayTimer;
 
+    private static readonly KeyCode[] chargeKeyCodes = new[] { KeyCode.X, KeyCode.JoystickButton2 };
+
     // Only used for debugging for now 
     public JointMotor2D LeftMotor { get; private set; }
     public JointMotor2D RightMotor { get; private set; }
@@ -63,9 +65,8 @@ public class FlipperController : MonoBehaviour
             audioSource.PlayOneShot(sound);
         }
 
-        // TODO: controller input for charge 
-        UpdateCharge(leftFlipper, Input.GetKey(KeyCode.X), ref leftChargeTime, leftRenderer);
-        UpdateCharge(rightFlipper, Input.GetKey(KeyCode.X), ref rightChargeTime, rightRenderer);
+        UpdateCharge(leftFlipper, Utils.AnyKeys(chargeKeyCodes), ref leftChargeTime, leftRenderer);
+        UpdateCharge(rightFlipper, Utils.AnyKeys(chargeKeyCodes), ref rightChargeTime, rightRenderer);
 
         UpdateFlipper(leftFlipper, InputManager.IsLeft(), -speed, returnSpeed, ref leftChargeTime);
         UpdateFlipper(rightFlipper, InputManager.IsRight(), speed, -returnSpeed, ref rightChargeTime);
