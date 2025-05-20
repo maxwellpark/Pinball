@@ -10,6 +10,7 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private TMP_Text abilityText;
     [SerializeField] private Image abilityImage;
+    [SerializeField] private Image flashFrameImage;
     [SerializeField] private Slider chargeSlider;
 
     [Header("Bumper groups")]
@@ -21,11 +22,13 @@ public class UIManager : Singleton<UIManager>
 
     // TODO: hack to avoid plungers losing reference on scene change 
     public Slider ChargeSlider => chargeSlider;
+    public Image FlashFrameImage => flashFrameImage;
 
     protected override void Awake()
     {
         base.Awake();
-        bumperGroupContainer.gameObject.SetActive(value: false);
+        bumperGroupContainer.gameObject.SetActive(false);
+        flashFrameImage.gameObject.SetActive(false);
     }
 
     private void OnEnable()

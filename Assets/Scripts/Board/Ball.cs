@@ -1,4 +1,5 @@
 using Events;
+using System.Collections;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -8,9 +9,16 @@ public class Ball : MonoBehaviour
     [SerializeField] private Color chargedColor = Color.yellow;
     [Tooltip("Time in seconds before the ball is considered stuck")]
     [SerializeField] private float stuckTimeInSeconds = 5f;
+    [Header("Flash frame")]
+    [SerializeField] private float flashTimeInSeconds = 0.2f;
+    [SerializeField] private float flashSpeedThreshold = 20f;
+    [SerializeField] private bool flashOnSpeed;
+    [SerializeField] private Color flashColor = Color.yellow;
     [Header("Audio")]
     [SerializeField] private AudioSource bombSource;
     [SerializeField] private AudioClip bombSound;
+    [SerializeField] private AudioSource flashSource;
+    [SerializeField] private AudioClip flashSound;
     [SerializeField] private AudioSource collisionSource;
     [SerializeField] private AudioClip collisionSound;
 
@@ -73,6 +81,14 @@ public class Ball : MonoBehaviour
                 NotificationManager.Notify("Ball stuck!", 1.5f);
             }
         }
+
+        // For testing 
+        if (Input.GetMouseButtonDown(2))
+        {
+            StartFlashFrame();
+        }
+
+        //Debug.Log($"[ball] linear velocity: {rb.velocity} | angular velocity: {rb.angularVelocity}");
     }
 
     private void OnDestroy()
@@ -157,19 +173,19 @@ public class Ball : MonoBehaviour
         }
     }
 
-    //private void Update()
-    //{
-    //    Debug.Log($"[ball] linear velocity: {rb.velocity} | angular velocity: {rb.angularVelocity}");
-    //}
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("[ball] colliding with " + collision.gameObject.name);
+        //if (collisionSource != null && collisionSound != null)
+        //{
+        //    collisionSource.PlayOneShot(collisionSound);
+        //}
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    Debug.Log("[ball] colliding with " + collision.gameObject.name);
-    //    if (collisionSource != null && collisionSound != null)
-    //    {
-    //        collisionSource.PlayOneShot(collisionSound);
-    //    }
-    //}
+        if (flashOnSpeed && collision.relativeVelocity.magnitude >= flashSpeedThreshold)
+        {
+            StartFlashFrame();
+        }
+    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -188,5 +204,39 @@ public class Ball : MonoBehaviour
     private void OnValidate()
     {
         stuckTimeInSeconds = Mathf.Max(0, stuckTimeInSeconds);
+    }
+
+    public void StartFlashFrame()
+    {
+        StartCoroutine(FlashFrame());
+    }
+
+    private IEnumerator FlashFrame()
+    {
+        Debug.Log("[ball] starting flash frame!");
+        Time.timeScale = 0f;
+        //CreateActionParticles();
+
+        if (flashSource != null && flashSound != null)
+        {
+            flashSource.PlayOneShot(flashSound);
+        }
+
+        var image = UIManager.Instance.FlashFrameImage;
+        if (image != null)
+        {
+            image.gameObject.SetActive(true);
+            image.color = flashColor;
+        }
+
+        yield return new WaitForSecondsRealtime(flashTimeInSeconds);
+        Time.timeScale = 1f;
+        Debug.Log("[ball] ending flash frame");
+
+        if (image != null)
+        {
+            image.gameObject.SetActive(false);
+            // TODO: restore to default color? 
+        }
     }
 }

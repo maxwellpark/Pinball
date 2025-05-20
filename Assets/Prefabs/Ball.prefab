@@ -417,8 +417,14 @@ MonoBehaviour:
   actionParticlesPrefab: {fileID: 8259806881609808571, guid: 186d078de18a6f746abb5ab9774c7673, type: 3}
   chargedColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   stuckTimeInSeconds: 5
+  flashTimeInSeconds: 0.2
+  flashSpeedThreshold: 30
+  flashOnSpeed: 0
+  flashColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0.7058824}
   bombSource: {fileID: 190513718009751371}
   bombSound: {fileID: 8300000, guid: 6e8e2f4b09e554643acf3aba58306b80, type: 3}
+  flashSource: {fileID: 0}
+  flashSound: {fileID: 0}
   collisionSource: {fileID: 1655520216575806334}
   collisionSound: {fileID: 8300000, guid: af5ab0871e61f24428098d2d4f458627, type: 3}
 --- !u!212 &4480290139955167265

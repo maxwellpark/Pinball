@@ -68,6 +68,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1773817598281603551, guid: 1f1f3b808e30759468263ae2e2b27d18, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5555456055655236542}
+    - targetCorrespondingSourceObject: {fileID: 1773817598281603551, guid: 1f1f3b808e30759468263ae2e2b27d18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 679864928240542343}
   m_SourcePrefab: {fileID: 100100000, guid: 1f1f3b808e30759468263ae2e2b27d18, type: 3}
 --- !u!1 &6529300962144772527 stripped
 GameObject:
@@ -103,3 +106,17 @@ MonoBehaviour:
   explosionEffect: {fileID: 8259806881609808571, guid: a43e1ffde62d3b9459d98c18306b3ba3, type: 3}
   fullHealthColor: {r: 1, g: 1, b: 1, a: 1}
   damagedColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &679864928240542343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6529300962144772527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc3b14245ca7f94e9dc66f73e64ed86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onCollision: 0
+  onDestroy: 1
