@@ -336,16 +336,16 @@ public class GameManager : Singleton<GameManager>
         }
 
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
-        if (scrollWheel > 0)
+        if (scrollWheel > 0 || Input.GetKeyDown(KeyCode.L) || InputManager.IsDPadUp())
         {
             CycleAbility(1);
         }
-        else if (scrollWheel < 0)
+        else if (scrollWheel < 0 || Input.GetKeyDown(KeyCode.M) || InputManager.IsDPadDown())
         {
             CycleAbility(-1);
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.K))
         {
             if (abilities.Length < abilityIndex - 1)
             {

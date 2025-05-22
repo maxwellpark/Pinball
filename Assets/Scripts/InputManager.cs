@@ -16,14 +16,18 @@ public class InputManager : Singleton<InputManager>
     private static bool xboxOneControllerConnected;
     private static bool ps4ControllerConnected;
     private static readonly float axisTreshold = 0.1f;
+    // TODO: although we have descriptive names, we should key these more intuitively
     private static readonly string xboxLeftTriggerAxis = "9";
     private static readonly string xboxRightTriggerAxis = "10";
+    private static readonly string xboxDPadVerticalAxis = "13";
+    private static readonly string xboxDPadHorizontalAxis = "14";
 
-    // https://www.reddit.com/r/Unity3D/comments/1syswe/ps4_controller_map_for_unity/
     private static readonly string ps4LeftTriggerAxis = "11";
     private static readonly string ps4RightTriggerAxis = "12";
+    private static readonly string ps4DPadVerticalAxis = "15";
+    private static readonly string ps4DPadHorizontalAxis = "16";
 
-    // Assume only 1 can be connected at 1 time for now 
+    // TODO: don't assume only 1 type of controller connected at once?
     public static Controller ConnectedController
         => xboxOneControllerConnected ? Controller.XboxOne : ps4ControllerConnected ? Controller.Ps4 : Controller.None;
 
@@ -46,128 +50,81 @@ public class InputManager : Singleton<InputManager>
         var isXboxOneControllerConnected = names.Any(n => n.Length == 33);
         var isPs4ControllerConnected = names.Any(n => n.Length == 19);
 
-        // Xbox One controller was connected last frame but not this frame 
         if (xboxOneControllerConnected && !isXboxOneControllerConnected)
         {
-            Debug.Log("Xbox One controller disconnected!");
+            Debug.Log("[input] Xbox One controller disconnected!");
             GM.EventService.Dispatch(new ControllerDisconnectedEvent(Controller.XboxOne));
         }
 
-        // Xbox One controller was not connected last frame but now it is
         if (!xboxOneControllerConnected && isXboxOneControllerConnected)
         {
-            Debug.Log("Xbox One controller connected!");
+            Debug.Log("[input] Xbox One controller connected!");
             GM.EventService.Dispatch(new ControllerConnectedEvent(Controller.XboxOne));
         }
 
-        // PS4 controller was connected last frame but not this frame 
         if (ps4ControllerConnected && !isPs4ControllerConnected)
         {
-            Debug.Log("PS4 controller disconnected!");
+            Debug.Log("[input] PS4 controller disconnected!");
             GM.EventService.Dispatch(new ControllerDisconnectedEvent(Controller.Ps4));
         }
 
-        // PS4 controller was not connected last frame but now it is
         if (!ps4ControllerConnected && isPs4ControllerConnected)
         {
-            Debug.Log("PS4 controller connected!");
+            Debug.Log("[input] PS4 controller connected!");
             GM.EventService.Dispatch(new ControllerConnectedEvent(Controller.Ps4));
         }
 
         xboxOneControllerConnected = isXboxOneControllerConnected;
         ps4ControllerConnected = isPs4ControllerConnected;
-        //Debug.Log("Connected controller: " + ConnectedController);
     }
 
-    public static bool IsButtonX()
+    public static bool IsButtonX() => Input.GetKeyDown(KeyCode.JoystickButton0);
+    public static bool IsButtonA() => Input.GetKeyDown(KeyCode.JoystickButton1);
+    public static bool IsButtonB() => Input.GetKeyDown(KeyCode.JoystickButton2);
+    public static bool IsButtonY() => Input.GetKeyDown(KeyCode.JoystickButton3);
+    public static bool IsLeftBumper() => Input.GetKeyDown(KeyCode.JoystickButton4);
+    public static bool IsRightBumper() => Input.GetKeyDown(KeyCode.JoystickButton5);
+    public static bool IsLeftTriggerOver() => IsAxisOverThreshold(xboxLeftTriggerAxis) || IsAxisOverThreshold(ps4LeftTriggerAxis);
+    public static bool IsRightTriggerOver() => IsAxisOverThreshold(xboxRightTriggerAxis) || IsAxisOverThreshold(ps4RightTriggerAxis);
+
+    public static bool IsDPadUp() => GetDPadVertical() > axisTreshold;
+    public static bool IsDPadDown() => GetDPadVertical() < -axisTreshold;
+    public static bool IsDPadLeft() => GetDPadHorizontal() < -axisTreshold;
+    public static bool IsDPadRight() => GetDPadHorizontal() > axisTreshold;
+
+    private static float GetDPadHorizontal()
     {
-        return Input.GetKeyDown(KeyCode.JoystickButton0);
+        if (ConnectedController == Controller.XboxOne)
+        {
+            return Input.GetAxis("13");
+        }
+        else if (ConnectedController == Controller.Ps4)
+        {
+            return Input.GetAxis("15");
+        }
+        return 0f;
     }
 
-    public static bool IsButtonA()
+    private static float GetDPadVertical()
     {
-        return Input.GetKeyDown(KeyCode.JoystickButton1);
+        if (ConnectedController == Controller.XboxOne)
+        {
+            return Input.GetAxis("14");
+        }
+        else if (ConnectedController == Controller.Ps4)
+        {
+            return Input.GetAxis("16");
+        }
+        return 0f;
     }
 
-    public static bool IsButtonB()
-    {
-        return Input.GetKeyDown(KeyCode.JoystickButton2);
-    }
-
-    public static bool IsButtonY()
-    {
-        //return ConnectedController == Controller.XboxOne
-        //    ? IsAxisOverThreshold(xboxLeftTriggerAxis)
-        //    : ConnectedController == Controller.Ps4 && IsAxisOverThreshold(ps4LeftTriggerAxis);
-        return Input.GetKeyDown(KeyCode.JoystickButton3);
-    }
-
-    public static bool IsLeftBumper()
-    {
-        return Input.GetKeyDown(KeyCode.JoystickButton4);
-    }
-
-    public static bool IsRightBumper()
-    {
-        return Input.GetKeyDown(KeyCode.JoystickButton5);
-    }
-
-    public static bool IsLeftTriggerOver()
-    {
-        return IsAxisOverThreshold(xboxLeftTriggerAxis) || IsAxisOverThreshold(ps4LeftTriggerAxis);
-    }
-
-    public static bool IsRightTriggerOver()
-    {
-        //return ConnectedController == Controller.XboxOne
-        //    ? IsAxisOverThreshold(xboxRightTriggerAxis)
-        //    : ConnectedController == Controller.Ps4 && IsAxisOverThreshold(ps4RightTriggerAxis);
-
-        return IsAxisOverThreshold(xboxRightTriggerAxis) || IsAxisOverThreshold(ps4RightTriggerAxis);
-    }
-
-    public static bool IsLeftKeyDown()
-    {
-        return Utils.AnyKeysDown(LeftKeys);
-    }
-
-    public static bool IsRightKeyDown()
-    {
-        return Utils.AnyKeysDown(RightKeys);
-    }
-
-    public static bool IsLeftKey()
-    {
-        return Utils.AnyKeys(LeftKeys);
-    }
-
-    public static bool IsRightKey()
-    {
-        return Utils.AnyKeys(RightKeys);
-    }
-
-    public static bool IsLeftDown()
-    {
-        return IsLeftKeyDown() || IsLeftTriggerOver();
-    }
-
-    public static bool IsRightDown()
-    {
-        return IsRightKeyDown() || IsRightTriggerOver();
-    }
-
-    public static bool IsLeft()
-    {
-        return IsLeftKey() || IsLeftTriggerOver();
-    }
-
-    public static bool IsRight()
-    {
-        return IsRightKey() || IsRightTriggerOver();
-    }
-
-    public static bool IsAxisOverThreshold(string axis)
-    {
-        return Input.GetAxis(axis) >= axisTreshold;
-    }
+    public static bool IsLeftKeyDown() => Utils.AnyKeysDown(LeftKeys);
+    public static bool IsRightKeyDown() => Utils.AnyKeysDown(RightKeys);
+    public static bool IsLeftKey() => Utils.AnyKeys(LeftKeys);
+    public static bool IsRightKey() => Utils.AnyKeys(RightKeys);
+    public static bool IsLeftDown() => IsLeftKeyDown() || IsLeftTriggerOver();
+    public static bool IsRightDown() => IsRightKeyDown() || IsRightTriggerOver();
+    public static bool IsLeft() => IsLeftKey() || IsLeftTriggerOver();
+    public static bool IsRight() => IsRightKey() || IsRightTriggerOver();
+    public static bool IsAxisOverThreshold(string axis) => Input.GetAxis(axis) >= axisTreshold;
 }
