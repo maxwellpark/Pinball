@@ -28,11 +28,9 @@ public class Ball : MonoBehaviour
     private SpriteRenderer sr;
     private float stuckTimer;
 
-    // Only used for debugging for now 
-    private FlipperController flipperController;
-
     private Color defaultColor;
     private bool isCharged;
+    private bool inFlashFrame;
 
     public bool IsCharged => isCharged;
 
@@ -41,7 +39,6 @@ public class Ball : MonoBehaviour
         defaultColor = GetComponent<SpriteRenderer>().color;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        flipperController = FindObjectOfType<FlipperController>();
     }
 
     private void Start()
@@ -52,6 +49,7 @@ public class Ball : MonoBehaviour
             // Exclude GhostBalls 
             GameManager.EventService.Add<ShooterCreatedEvent>(Freeze);
             GameManager.EventService.Add<ShooterDestroyedEvent>(Unfreeze);
+            GameManager.EventService.Add<FlipperReleasedEvent>(OnFlipperReleased);
         }
     }
 
@@ -97,6 +95,7 @@ public class Ball : MonoBehaviour
         {
             GameManager.EventService.Remove<ShooterCreatedEvent>(Freeze);
             GameManager.EventService.Remove<ShooterDestroyedEvent>(Unfreeze);
+            GameManager.EventService.Remove<FlipperReleasedEvent>(OnFlipperReleased);
 
             if (TryGetComponent<TrailRenderer>(out var trail))
             {
@@ -181,6 +180,7 @@ public class Ball : MonoBehaviour
         //    collisionSource.PlayOneShot(collisionSound);
         //}
 
+        // TODO: probably need to scope this to only certain layers 
         if (flashOnSpeed && collision.relativeVelocity.magnitude >= flashSpeedThreshold)
         {
             StartFlashFrame();
@@ -189,15 +189,31 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // Only used for debugging for now 
-        if (collision.gameObject.CompareTag(Tags.Flipper))
+        if (collision.gameObject.CompareTag(Tags.Flipper) && collision.gameObject.TryGetComponent<Flipper>(out var flipper) && flipper != null)
         {
             var vel = rb.velocity;
             var angVel = rb.angularVelocity;
-            var lms = flipperController.LeftMotor.motorSpeed;
-            var rms = flipperController.RightMotor.motorSpeed;
+            var fc = flipper.Controller;
+            var lms = fc.LeftMotor.motorSpeed;
+            var rms = fc.RightMotor.motorSpeed;
+            Debug.Log($"[flipper] EXIT lin. velocity: {vel} | ang. velocity: {angVel} | joint angle: {flipper.JointAngle} | L motor speed: {lms} | R motor speed: {rms} | L released: {fc.IsLeftReleased} | R released: {fc.IsRightReleased} | Time: {Time.time} | L charged: {fc.IsLeftCharged} | R charged: {fc.IsRightCharged} | L charge time: {fc.LeftChargeTime} | R charge time: {fc.RightChargeTime} | max charge time: {fc.MaxChargeTime}");
 
-            Debug.Log($"[ball/flipper] lin. velocity: {vel} | ang. velocity: {angVel} | L motor speed: {lms} | R motor speed: {rms}");
+            //if (flipper.IsLeft && fc.IsLeftCharged && fc.IsLeftReleased || !flipper.IsLeft && fc.IsRightCharged && fc.IsRightReleased)
+            //{
+            //    StartFlashFrame();
+            //}
+        }
+    }
+
+    private void OnFlipperReleased(FlipperReleasedEvent evt)
+    {
+        var fc = evt.Flipper.Controller;
+        var isLeft = evt.Flipper.IsLeft;
+
+        // TODO: pass isCharged in the event args; shouldn't even need to expose the controller now 
+        if (isLeft && fc.IsLeftCharged || !isLeft && fc.IsRightCharged)
+        {
+            StartFlashFrame();
         }
     }
 
@@ -208,12 +224,16 @@ public class Ball : MonoBehaviour
 
     public void StartFlashFrame()
     {
-        StartCoroutine(FlashFrame());
+        if (!inFlashFrame)
+        {
+            StartCoroutine(FlashFrame());
+        }
     }
 
     private IEnumerator FlashFrame()
     {
         Debug.Log("[ball] starting flash frame!");
+        inFlashFrame = true;
         Time.timeScale = 0f;
         //CreateActionParticles();
 
@@ -238,5 +258,6 @@ public class Ball : MonoBehaviour
             image.gameObject.SetActive(false);
             // TODO: restore to default color? 
         }
+        inFlashFrame = false;
     }
 }

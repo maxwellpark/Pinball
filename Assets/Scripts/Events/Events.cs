@@ -77,4 +77,12 @@ namespace Events
             Uses = uses;
         }
     }
+    public class FlipperReleasedEvent : IEvent
+    {
+        public Flipper Flipper { get; }
+        public FlipperReleasedEvent(Flipper flipper)
+        {
+            Flipper = flipper;
+        }
+    }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class FlipperController : MonoBehaviour
 {
-    [SerializeField] private HingeJoint2D leftFlipper;
-    [SerializeField] private HingeJoint2D rightFlipper;
+    [SerializeField] private Flipper leftFlipper;
+    [SerializeField] private Flipper rightFlipper;
     [SerializeField] private AudioClip sound;
 
     [SerializeField] private float speed = 2000f;
@@ -27,8 +27,22 @@ public class FlipperController : MonoBehaviour
     private float rightChargeTime;
     private float preChargeTimer;
     private float chargeDecayTimer;
+    private readonly float chargeBufferTime = 1f;
 
     private static readonly KeyCode[] chargeKeyCodes = new[] { KeyCode.X, KeyCode.JoystickButton2 };
+
+    private float leftReleaseTime;
+    private float rightReleaseTime;
+    private bool isLeftReleased;
+    private bool isRightReleased;
+    private readonly float releaseBufferTime = 1f;
+    public bool IsLeftReleased => /*isLeftReleased && */Time.time - leftReleaseTime <= releaseBufferTime;
+    public bool IsRightReleased => /*isRightReleased && */Time.time - rightReleaseTime <= releaseBufferTime;
+    public bool IsLeftCharged => maxChargeTime - leftChargeTime <= chargeBufferTime;
+    public bool IsRightCharged => maxChargeTime - rightChargeTime <= chargeBufferTime;
+    public float LeftChargeTime => leftChargeTime;
+    public float RightChargeTime => rightChargeTime;
+    public float MaxChargeTime => maxChargeTime;
 
     // Only used for debugging for now 
     public JointMotor2D LeftMotor { get; private set; }
@@ -68,12 +82,12 @@ public class FlipperController : MonoBehaviour
         UpdateCharge(leftFlipper, Utils.AnyKeys(chargeKeyCodes), ref leftChargeTime, leftRenderer);
         UpdateCharge(rightFlipper, Utils.AnyKeys(chargeKeyCodes), ref rightChargeTime, rightRenderer);
 
-        UpdateFlipper(leftFlipper, InputManager.IsLeft(), -speed, returnSpeed, ref leftChargeTime);
-        UpdateFlipper(rightFlipper, InputManager.IsRight(), speed, -returnSpeed, ref rightChargeTime);
+        UpdateFlipper(leftFlipper, InputManager.IsLeft(), -speed, returnSpeed, ref leftChargeTime, ref isLeftReleased, ref leftReleaseTime);
+        UpdateFlipper(rightFlipper, InputManager.IsRight(), speed, -returnSpeed, ref rightChargeTime, ref isRightReleased, ref rightReleaseTime);
     }
 
     private void UpdateCharge(
-        HingeJoint2D flipper,
+        Flipper flipper,
         bool isCharging,
         ref float chargeTime,
         SpriteRenderer spriteRenderer)
@@ -117,18 +131,20 @@ public class FlipperController : MonoBehaviour
     }
 
     private void UpdateFlipper(
-        HingeJoint2D flipper,
+        Flipper flipper,
         bool isActive,
         float activeSpeed,
         float restingSpeed,
-        ref float chargeTime)
+        ref float chargeTime,
+        ref bool isReleased,
+        ref float releaseTime)
     {
-        var isLeftFlipper = flipper == leftFlipper;
-        var motor = flipper.motor;
+        var motor = flipper.Joint.motor;
         var speed = isActive ? GetActiveMotorSpeed(activeSpeed, chargeTime) : restingSpeed;
         motor.motorSpeed = speed;
-        flipper.motor = motor;
+        flipper.Joint.motor = motor;
 
+        var isLeftFlipper = flipper == leftFlipper;
         if (isLeftFlipper)
         {
             LeftMotor = motor;
@@ -138,9 +154,21 @@ public class FlipperController : MonoBehaviour
             RightMotor = motor;
         }
 
+        //Debug.Log($"[flipper] {flipper.name} isActive: {isActive}");
         if (isActive)
         {
-            Debug.Log($"[flipper] motor speed: {speed} (charge time: {chargeTime})");
+            //Debug.Log($"[flipper] motor speed: {speed} (charge time: {chargeTime})");
+            isReleased = false;
+            Debug.Log($"[flipper] {flipper.name} isReleased set to: {isReleased}");
+        }
+
+        if (!isActive && !isReleased /* && Mathf.Abs(flipper.jointAngle) > 0.1f*/)
+        {
+            isReleased = true;
+            Debug.Log($"[flipper] {flipper.name} isReleased set to: {isReleased}");
+            releaseTime = Time.time;
+            GameManager.EventService.Dispatch(new FlipperReleasedEvent(flipper));
+            Debug.Log($"[flipper] {flipper.name} new release time: {Time.time}");
         }
     }
 
@@ -153,5 +181,10 @@ public class FlipperController : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.EventService.Remove<BoardChangedEvent>(OnBoardChanged);
+    }
+
+    public bool IsLeftFlipper(HingeJoint2D joint)
+    {
+        return joint == leftFlipper;
     }
 }
