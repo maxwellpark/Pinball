@@ -96,11 +96,11 @@ public class InputManager : Singleton<InputManager>
     {
         if (ConnectedController == Controller.XboxOne)
         {
-            return Input.GetAxis("13");
+            return Input.GetAxis(xboxDPadHorizontalAxis);
         }
         else if (ConnectedController == Controller.Ps4)
         {
-            return Input.GetAxis("15");
+            return Input.GetAxis(ps4DPadHorizontalAxis);
         }
         return 0f;
     }
@@ -109,11 +109,11 @@ public class InputManager : Singleton<InputManager>
     {
         if (ConnectedController == Controller.XboxOne)
         {
-            return Input.GetAxis("14");
+            return Input.GetAxis(xboxDPadVerticalAxis);
         }
         else if (ConnectedController == Controller.Ps4)
         {
-            return Input.GetAxis("16");
+            return Input.GetAxis(ps4DPadVerticalAxis);
         }
         return 0f;
     }
