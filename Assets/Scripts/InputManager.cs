@@ -98,7 +98,8 @@ public class InputManager : Singleton<InputManager>
         {
             return Input.GetAxis(xboxDPadHorizontalAxis);
         }
-        else if (ConnectedController == Controller.Ps4)
+        
+        if (ConnectedController == Controller.Ps4)
         {
             return Input.GetAxis(ps4DPadHorizontalAxis);
         }
@@ -111,7 +112,8 @@ public class InputManager : Singleton<InputManager>
         {
             return Input.GetAxis(xboxDPadVerticalAxis);
         }
-        else if (ConnectedController == Controller.Ps4)
+        
+        if (ConnectedController == Controller.Ps4)
         {
             return Input.GetAxis(ps4DPadVerticalAxis);
         }
