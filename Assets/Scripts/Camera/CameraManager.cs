@@ -61,9 +61,11 @@ public class CameraManager : Singleton<CameraManager>
         // TODO: get rid of this guard once camera shake is fully required 
         if (liveCameraShake == null)
         {
+            Debug.LogWarning("[camera] liveCameraShake was null when attempting to shake");
             return;
         }
 
+        Debug.Log("[camera] shaking live camera " + liveCameraShake.CameraName);
         liveCameraShake.Shake(settings);
     }
 

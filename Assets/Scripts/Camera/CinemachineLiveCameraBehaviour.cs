@@ -5,6 +5,7 @@ public abstract class CinemachineLiveCameraBehaviour : MonoBehaviour
 {
     protected CinemachineBrain cinemachineBrain;
     protected CinemachineVirtualCamera virtualCamera;
+    public string CameraName => virtualCamera.Name;
 
     protected virtual void Awake()
     {

@@ -174,10 +174,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxForce: 100
   chargeSpeed: 100
-  chargeSlider: {fileID: 0}
   inactiveTime: 2
   ballPrefab: {fileID: 8631688824603131977, guid: 81b4476e4619836458fb7eb40d7ec4d0, type: 3}
   launchPosition: {fileID: 4697257257735763777}
+  vcam: {fileID: 0}
+  camShakeDurationInSeconds: 1.5
+  camShakeMultiplier: 3
   chargeSound: {fileID: 8300000, guid: 0103f07ef581d1641845b2d797689a0e, type: 3}
   launchSound: {fileID: 8300000, guid: 248cba0bd78c3804a81f9f767c8f81ee, type: 3}
 --- !u!82 &8387577951130196516

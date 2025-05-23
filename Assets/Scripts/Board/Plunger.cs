@@ -12,7 +12,10 @@ public class Plunger : MonoBehaviour
     [SerializeField] private float inactiveTime = 2f;
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Transform launchPosition;
+    [Header("Camera")]
     [SerializeField] private CinemachineVirtualCamera vcam;
+    [SerializeField] private float camShakeDurationInSeconds = 1f;
+    [SerializeField] private float camShakeMultiplier = 3f;
     [Header("Sound")]
     [SerializeField] private AudioClip chargeSound;
     [SerializeField] private AudioClip launchSound;
@@ -156,6 +159,10 @@ public class Plunger : MonoBehaviour
             audioSource.PlayOneShot(launchSound);
         }
 
+        var normalizedForce = Mathf.Clamp01(currentForce / maxForce);
+        Debug.Log("[plunger] normalized force: " + normalizedForce);
+        var shakeSettings = new CameraShakeSettings(amplitude: normalizedForce * camShakeMultiplier, duration: camShakeDurationInSeconds);
+        CameraManager.ShakeLiveCamera(shakeSettings);
         Debug.Log("[plunger] ball launched");
     }
 
@@ -256,5 +263,11 @@ public class Plunger : MonoBehaviour
         GM.EventService.Remove<NewBallEvent>(OnNewBall);
         GM.EventService.Remove<BallStuckEvent>(OnBallStuck);
         GM.EventService.Remove<BoardChangedEvent>(OnBoardChanged);
+    }
+
+    private void OnValidate()
+    {
+        camShakeDurationInSeconds = Mathf.Max(camShakeDurationInSeconds, 0f);
+        camShakeMultiplier = Mathf.Max(camShakeMultiplier, 0f);
     }
 }
