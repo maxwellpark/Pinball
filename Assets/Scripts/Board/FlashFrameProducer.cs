@@ -1,42 +1,28 @@
 using UnityEngine;
 
-public class FlashFrameProducer : MonoBehaviour
+public class FlashFrameProducer : ProducerBase
 {
-    [SerializeField] private bool onCollision;
-    [SerializeField] private bool onDestroy;
-    [SerializeField] private float onDestroyRadius = 5f;
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected override void OnCollisionEnter2DInternal(Collision2D collision)
     {
-        if (!onCollision || !Utils.IsBall(collision) || !collision.gameObject.TryGetComponent<Ball>(out var ball))
+        if (!collision.gameObject.TryGetComponent<Ball>(out var ball))
         {
+            // TODO: this probably should be checked in the base class 
+            //Debug.LogError("[producer] - ball not found on collision " + collision.gameObject.name);
             return;
         }
+
         ball.StartFlashFrame();
     }
 
-    private void OnDestroy()
+    protected override void OnDestroyInternal()
     {
-        if (!onDestroy)
+        var ball = GameManager.Ball;
+        if (ball == null)
         {
+            //Debug.LogError("[producer] - ball not found on destroy");
             return;
         }
 
-        var ball = GameManager.Ball;
-        if (ball != null && Vector3.Distance(transform.position, ball.transform.position) <= onDestroyRadius)
-        {
-            ball.StartFlashFrame();
-        }
+        ball.StartFlashFrame();
     }
-
-    private void OnValidate()
-    {
-        onDestroyRadius = Mathf.Max(0, onDestroyRadius);
-    }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawWireSphere(transform.position, onDestroyRadius);
-    //}
 }
